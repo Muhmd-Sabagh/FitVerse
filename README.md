@@ -1,4 +1,4 @@
-# 👗 FitVerse – E-Commerce Clothing Website
+# FitVerse – E-Commerce Clothing Website
 
 **FitVerse** is a responsive e-commerce web application for clothing and accessories (Men, Women, Kids). Built with **ASP.NET Core MVC**, it offers a seamless online shopping experience with modern features and a clean UI.
 
@@ -81,29 +81,6 @@ dotnet ef database update
 # Run the project
 dotnet run
 ```
-
----
-
-## 👥 Team Members
-
-This project is developed by a 6-member team for a one-week challenge.
-
-* **محمد الصباغ** (Team Leader)
-* \[Member 2]
-* \[Member 3]
-* \[Member 4]
-* \[Member 5]
-* \[Member 6]
-
-*(You can list GitHub profiles or responsibilities here)*
-
----
-
-## 📸 Screenshots
-
-> *(Add homepage, product details, cart, admin panel, etc. once available)*
-
----
 
 ## 📄 License
 
