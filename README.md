@@ -21,7 +21,7 @@
 ## 🧑‍💻 Tech Stack
 
 * **Frontend:** HTML, CSS, Bootstrap, JavaScript, jQuery, AJAX
-* **Backend:** ASP.NET Core MVC (.NET 6/7), Entity Framework Core (Code First)
+* **Backend:** ASP.NET Core MVC (.NET 9), Entity Framework Core (Code First)
 * **Database:** Microsoft SQL Server
 * **Architecture:** MVC Pattern + SOLID Principles + IoC (Dependency Injection)
 
@@ -40,13 +40,13 @@ FitVerse/
    └️ Home/
    └️ Product/
    └️ Cart/
-   └️ Admin/
+   └️ ...
 🔝 Data/
    └️ ApplicationDbContext.cs
+   └️ SeedData.cs
 🔝 Repositories/
    └️ Interfaces/
    └️ Implementations/
-🔝 Services/
 🔝 wwwroot/
    └️ css/
    └️ js/
