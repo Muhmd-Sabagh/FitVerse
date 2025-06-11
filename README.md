@@ -4,7 +4,7 @@
 
 ---
 
-## 🛙️ Live Features
+## Live Features
 
 * 🏠 Homepage with hero slider, category highlights, new arrivals, sales, and best sellers
 * 👔 Product listing by category (Men, Women, Kids, Accessories)
