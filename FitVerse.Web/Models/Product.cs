@@ -1,9 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ﻿namespace E_commerce_Khotwa.Models
 {
     public class Product
     {
 =======
+=======
+>>>>>>> 28596a20e0bd6cddb7d675fe2468ac40f8f90f9d
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -72,6 +75,9 @@ namespace FitVerse.Web.Models
         }
 
         public bool IsOnSale => DiscountPercentage.HasValue && DiscountPercentage > 0;
+<<<<<<< HEAD
 >>>>>>> 9055257df4858dce0463bbbfdb331a9bb4cb3931
+=======
+>>>>>>> 28596a20e0bd6cddb7d675fe2468ac40f8f90f9d
     }
 }
