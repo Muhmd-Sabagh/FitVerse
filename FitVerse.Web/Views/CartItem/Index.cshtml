@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitVerse.Web.Models.Product_ViewModel>
+﻿@model IEnumerable<FitVerse.Web.Models.CartItem_ViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,20 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.ImageUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
+                @Html.DisplayNameFor(model => model.Prod_Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EffectivePrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
+            
+            
             <th></th>
         </tr>
     </thead>
@@ -34,24 +33,23 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.ImageUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prod_Name)
+                </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.EffectivePrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
+                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
+            
+            
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EffectivePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a  asp-route-id="@item.ProductId" asp-action="Increment">+</a> |
+                <a asp-route-id="@item.ProductId" asp-action="Decrement">-</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
             </td>
         </tr>
 }

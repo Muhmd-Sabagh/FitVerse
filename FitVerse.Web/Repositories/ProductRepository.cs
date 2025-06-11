@@ -1,12 +1,14 @@
 ﻿using FitVerse.Web.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories
 {
     public class ProductRepository : GenericRepository<Product>
     {
-        public ProductRepository(FitVerseContext _db) : base(_db)
+        FitVerseContext _context;
+        public ProductRepository(FitVerseContext _context) : base(_context)
         {
         }
-
+       
     }
 }
