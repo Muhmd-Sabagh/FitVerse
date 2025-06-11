@@ -5,12 +5,12 @@ namespace E_commerce_Khotwa.Repository
 {
     public class CartRepository : GenericRepository<Cart>
     {
-        public CartRepository(MarkITIContext db): base(db)
+        public CartRepository(MarkITIContext db) : base(db)
         {
-            
+
         }
-        // any additional funcationality for cart
-        public List<Product> GetUserProducts() {
+        public List<Product> GetUserProducts()
+        {
             // get User Id
             //return Db.Products.Where(prod=>prod.Id == UserId);
         }

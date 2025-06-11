@@ -1,3 +1,4 @@
+
 namespace FitVerse.Web
 {
     public class Program
@@ -10,6 +11,7 @@ namespace FitVerse.Web
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

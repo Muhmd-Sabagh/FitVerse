@@ -17,9 +17,9 @@ namespace E_commerce_Khotwa.Controllers
         public IActionResult Index()
         {
             List<Product> userProductsDB = unit.CartRepository.GetUserProducts();
-            //List<Product_ViewModel> userProductsVM = userProductsDB; // Mapping
+            List<Product_ViewModel> userProductsVM = map.Map<List<Product_ViewModel>>(userProductsDB); // Mapping
 
-            //return View(userProductsVM );
+            return View(userProductsVM);
         }
     }
 }
