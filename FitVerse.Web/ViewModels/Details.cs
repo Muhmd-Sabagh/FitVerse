@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FitVerse.Web.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitVerse.Web.ViewModels
@@ -44,5 +45,11 @@ namespace FitVerse.Web.ViewModels
 
         [Column(TypeName = "date")]
         public DateTime UpdatedAt { get; set; } = new DateTime(2024, 01, 01);
+
+
+        
+        public List<Category> Categories { get; set; }
+        public List<OrderItem> Items { get; set; }
+        public List<CartItem> CartItems { get; set; }
     }
 }
