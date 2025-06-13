@@ -7,17 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Implementations\" />
-    <Folder Include="Repositories\Interfaces\" />
-    <Folder Include="ViewModels\Home\" />
-    <Folder Include="ViewModels\Cart\" />
     <Folder Include="ViewModels\Account\" />
+    <Folder Include="ViewModels\Home\" />
     <Folder Include="ViewModels\Order\" />
-    <Folder Include="ViewModels\Product\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Order\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

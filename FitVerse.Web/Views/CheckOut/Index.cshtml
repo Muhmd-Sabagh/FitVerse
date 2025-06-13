@@ -1,0 +1,351 @@
+﻿@* @model User *@
+@* @{ *@
+@*     Layout = "_MyLayout"; *@
+@* } *@
+
+
+@* <h2>Checkout</h2> *@
+
+ 
+@* <body class="antialiased"> *@
+@*     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"> *@
+@*         <div class="max-w-4xl w-full space-y-8 p-8 bg-white rounded-lg shadow-xl"> *@
+@*             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900"> *@
+@*                 Secure Checkout *@
+@*             </h2> *@
+@*             <form id="checkoutForm" class="mt-8 space-y-6" action="#" method="POST"> *@
+@*                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> *@
+@*                     <!-- Shipping Information --> *@
+@*                     <div class="card"> *@
+@*                         <h3 class="text-xl font-semibold text-gray-800 mb-6">Shipping Information</h3> *@
+@*                         <div class="space-y-4"> *@
+@*                             <div> *@
+@*                                 <label for="FullName" class="label-text">Full Name</label> *@
+@*                                 <input type="text" id="FullName" name="FullName" autocomplete="name" required class="input-field"> *@
+@*                             </div> *@
+@*                             <div> *@
+@*                                 <label for="address" class="label-text">Address</label> *@
+@*                                 <input type="text" id="address" name="address" autocomplete="street-address" required class="input-field"> *@
+@*                             </div> *@
+@*                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4"> *@
+@*                                 <div> *@
+@*                                     <label for="city" class="label-text">City</label> *@
+@*                                     <input type="text" id="city" name="city" autocomplete="address-level2" required class="input-field"> *@
+@*                                 </div> *@
+@*                                 <div> *@
+@*                                     <label for="state" class="label-text">State / Province</label> *@
+@*                                     <input type="text" id="state" name="state" autocomplete="address-level1" required class="input-field"> *@
+@*                                 </div> *@
+@*                                 <div> *@
+@*                                     <label for="zipCode" class="label-text">Zip Code</label> *@
+@*                                     <input type="text" id="zipCode" name="zipCode" autocomplete="postal-code" required class="input-field"> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+
+@*                     <!-- Payment Information --> *@
+@*                     <div class="card"> *@
+@*                         <h3 class="text-xl font-semibold text-gray-800 mb-6">Payment Information</h3> *@
+@*                         <div class="space-y-4"> *@
+@*                             <div> *@
+@*                                 <label for="cardNumber" class="label-text">Card Number</label> *@
+@*                                 <input type="text" id="cardNumber" name="cardNumber" autocomplete="cc-number" required class="input-field" placeholder="XXXX XXXX XXXX XXXX" maxlength="19"> *@
+@*                             </div> *@
+@*                             <div class="grid grid-cols-2 gap-4"> *@
+@*                                 <div> *@
+@*                                     <label for="expirationDate" class="label-text">Expiration Date</label> *@
+@*                                     <input type="text" id="expirationDate" name="expirationDate" autocomplete="cc-exp" required class="input-field" placeholder="MM/YY" maxlength="5"> *@
+@*                                 </div> *@
+@*                                 <div> *@
+@*                                     <label for="cvv" class="label-text">CVV</label> *@
+@*                                     <input type="text" id="cvv" name="cvv" autocomplete="cc-csc" required class="input-field" placeholder="XXX" maxlength="4"> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                             <div> *@
+@*                                 <label for="cardHolderName" class="label-text">Cardholder Name</label> *@
+@*                                 <input type="text" id="cardHolderName" name="cardHolderName" autocomplete="cc-name" required class="input-field"> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+
+@*                 <!-- Order Summary --> *@
+@*                 @* <div class="card"> *@
+@*                 @*     <h3 class="text-xl font-semibold text-gray-800 mb-6">Order Summary</h3> *@
+@*                 @*     <div class="space-y-3 text-gray-600"> *@
+                       
+@*                 @*         <div class="flex justify-between"> *@
+@*                 @*             <span>Product A</span> *@
+@*                 @*             <span>$19.99</span> *@
+@*                 @*         </div> *@
+@*                 @*         <div class="flex justify-between"> *@
+@*                 @*             <span>Product B</span> *@
+@*                 @*             <span>$10.00</span> *@
+@*                 @*         </div> *@
+@*                 @*         <div class="border-t border-gray-200 pt-3 mt-3"></div> *@
+@*                 @*         <div class="flex justify-between font-medium text-gray-800"> *@
+@*                 @*             <span>Subtotal</span> *@
+@*                 @*             <span>$29.99</span> *@
+@*                 @*         </div> *@
+@*                 @*         <div class="flex justify-between font-medium text-gray-800"> *@
+@*                 @*             <span>Shipping</span> *@
+@*                 @*             <span>$5.00</span> *@
+@*                 @*         </div> *@
+@*                 @*         <div class="border-t border-gray-200 pt-3 mt-3"></div> *@
+@*                 @*         <div class="flex justify-between text-lg font-bold text-gray-900"> *@
+@*                 @*             <span>Total</span> *@
+@*                 @*             <span>$34.99</span> *@
+@*                 @*         </div> *@
+@*                 @*     </div> *@
+@*                 @* </div> *@
+
+@*                 <div class="text-center"> *@
+@*                     <button type="submit" class="btn-primary"> *@
+@*                         Place Order *@
+@*                     </button> *@
+@*                 </div> *@
+@*             </form> *@
+
+@*             <!-- Message Box (for alerts/confirmations) --> *@
+@*             <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden"> *@
+@*                 <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full"> *@
+@*                     <p id="messageBoxContent" class="text-lg font-medium text-gray-800 mb-4"></p> *@
+@*                     <button id="messageBoxClose" class="btn-primary">OK</button> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*         </div> *@
+@*     </div> *@
+
+@*     <script> *@
+@*         document.addEventListener('DOMContentLoaded', function () { *@
+@*             const checkoutForm = document.getElementById('checkoutForm'); *@
+@*             const messageBox = document.getElementById('messageBox'); *@
+@*             const messageBoxContent = document.getElementById('messageBoxContent'); *@
+@*             const messageBoxClose = document.getElementById('messageBoxClose'); *@
+
+@*             // Function to show a custom message box *@
+@*             function showMessageBox(message) { *@
+@*                 messageBoxContent.textContent = message; *@
+@*                 messageBox.classList.remove('hidden'); *@
+@*             } *@
+
+@*             // Close message box when OK is clicked *@
+@*             messageBoxClose.addEventListener('click', function () { *@
+@*                 messageBox.classList.add('hidden'); *@
+@*             }); *@
+
+@*             checkoutForm.addEventListener('submit', function (event) { *@
+@*                 event.preventDefault(); // Prevent default form submission *@
+
+@*                 // Basic client-side validation *@
+@*                 const requiredFields = checkoutForm.querySelectorAll('[required]'); *@
+@*                 let allFieldsFilled = true; *@
+@*                 requiredFields.forEach(field => { *@
+@*                     if (field.value.trim() === '') { *@
+@*                         allFieldsFilled = false; *@
+@*                         field.classList.add('border-red-500'); // Highlight empty field *@
+@*                     } else { *@
+@*                         field.classList.remove('border-red-500'); *@
+@*                     } *@
+@*                 }); *@
+
+@*                 if (!allFieldsFilled) { *@
+@*                     showMessageBox('Please fill in all required fields.'); *@
+@*                     return; *@
+@*                 } *@
+
+@*                 // Simulate order placement *@
+@*                 // In a real application, you would send this data to your backend *@
+@*                 // using Fetch API or XMLHttpRequest. *@
+@*                 console.log('Form submitted!'); *@
+@*                 const formData = new FormData(checkoutForm); *@
+@*                 const data = {}; *@
+@*                 for (let [key, value] of formData.entries()) { *@
+@*                     data[key] = value; *@
+@*                 } *@
+@*                 console.log('Collected Data:', data); *@
+
+@*                 // Simulate a successful order *@
+@*                 showMessageBox('Your order has been placed successfully! Thank you for your purchase.'); *@
+
+@*                 // Clear form after successful submission (optional) *@
+@*                 checkoutForm.reset(); *@
+@*             }); *@
+
+@*             // Input formatting for Card Number *@
+@*             document.getElementById('cardNumber').addEventListener('input', function (e) { *@
+@*                 let value = e.target.value.replace(/\D/g, ''); // Remove non-digits *@
+@*                 value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits *@
+@*                 e.target.value = value; *@
+@*             }); *@
+
+@*             // Input formatting for Expiration Date (MM/YY) *@
+@*             document.getElementById('expirationDate').addEventListener('input', function (e) { *@
+@*                 let value = e.target.value.replace(/\D/g, ''); // Remove non-digits *@
+@*                 if (value.length > 2) { *@
+@*                     value = value.substring(0, 2) + '/' + value.substring(2, 4); *@
+@*                 } *@
+@*                 e.target.value = value; *@
+@*             }); *@
+@*         }); *@
+
+        
+@*     </script> *@
+@* </body> *@
+@* </html> *@
+
+
+@model User
+@{
+    Layout = "_MyLayout";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4">
+                <h2 class="card-title text-center mb-4">Secure Checkout</h2>
+                <form id="checkoutForm" class="row g-3" action="#" method="POST">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h3 class="card-subtitle mb-3 text-muted">Shipping Information</h3>
+                                <div class="mb-3">
+                                    <label asp-for="FullName" class="form-label">Full Name</label>
+                                    <input asp-for="FullName" autocomplete="name" required class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" id="address" name="address" autocomplete="street-address" required class="form-control">
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label for="city" class="form-label">City</label>
+                                        <input type="text" id="city" name="city" autocomplete="address-level2" required class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="state" class="form-label">State / Province</label>
+                                        <input type="text" id="state" name="state" autocomplete="address-level1" required class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="zipCode" class="form-label">Zip Code</label>
+                                        <input type="text" id="zipCode" name="zipCode" autocomplete="postal-code" required class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h3 class="card-subtitle mb-3 text-muted">Payment Information</h3>
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label">Card Number</label>
+                                    <input type="text" id="cardNumber" name="cardNumber" autocomplete="cc-number" required class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="expirationDate" class="form-label">Expiration Date</label>
+                                        <input type="text" id="expirationDate" name="expirationDate" autocomplete="cc-exp" required class="form-control" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" autocomplete="cc-csc" required class="form-control" placeholder="XXX" maxlength="4">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardHolderName" class="form-label">Cardholder Name</label>
+                                    <input type="text" id="cardHolderName" name="cardHolderName" autocomplete="cc-name" required class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+                    </div>
+                </form>
+
+                <div class="modal fade" id="messageBox" tabindex="-1" aria-labelledby="messageBoxLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <p id="messageBoxContent" class="fs-5 mb-4"></p>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkoutForm = document.getElementById('checkoutForm');
+        const messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+        const messageBoxContent = document.getElementById('messageBoxContent');
+
+        function showMessageBox(message) {
+            messageBoxContent.textContent = message;
+            messageBox.show();
+        }
+
+        checkoutForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Basic client-side validation
+            const requiredFields = checkoutForm.querySelectorAll('[required]');
+            let allFieldsFilled = true;
+            requiredFields.forEach(field => {
+                if (field.value.trim() === '') {
+                    allFieldsFilled = false;
+                    field.classList.add('is-invalid'); // Bootstrap validation class
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!allFieldsFilled) {
+                showMessageBox('Please fill in all required fields.');
+                return;
+            }
+
+            // Simulate order placement
+            console.log('Form submitted!');
+            const formData = new FormData(checkoutForm);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            console.log('Collected Data:', data);
+
+            // Simulate a successful order
+            showMessageBox('Your order has been placed successfully! Thank you for your purchase.');
+
+            // Clear form after successful submission (optional)
+            checkoutForm.reset();
+        });
+
+        // Input formatting for Card Number
+        document.getElementById('cardNumber').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
+            e.target.value = value;
+        });
+
+        // Input formatting for Expiration Date (MM/YY)
+        document.getElementById('expirationDate').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+    });
+</script>

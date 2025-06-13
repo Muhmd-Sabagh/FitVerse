@@ -1,5 +1,5 @@
 ﻿using FitVerse.Web.Models;
-using FitVerse.Web.Repositories;
+using FitVerse.Web.Repositories.Implementations;
 namespace FitVerse.Web.UnitOfWorks
 {
     public class UnitOfWork

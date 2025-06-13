@@ -1,14 +1,14 @@
-﻿@model IEnumerable<FitVerse.Web.Models.CartItem_ViewModel>
+﻿
+@model IEnumerable<CartItem_ViewModel>
 
 @{
+    Layout = "_MyLayout";
     ViewData["Title"] = "Index";
 }
 
 <h1>Cart Items</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -24,8 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            
-            
             <th></th>
         </tr>
     </thead>
@@ -33,25 +31,28 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prod_Name)
-                </td>
+                <img src="@item.ImageUrl" style="width:50px" />
+            </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.EffectivePrice)
+                @Html.DisplayFor(modelItem => item.Prod_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EffectivePrice)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            
-            
             <td>
-                <a  asp-route-id="@item.ProductId" asp-action="Increment">+</a> |
-                <a asp-route-id="@item.ProductId" asp-action="Decrement">-</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                <a asp-route-id="@item.Prod_Id" asp-action="Increment" class="btn btn-primary">+</a> |
+                    <a asp-route-id="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">-</a> |
+                    <a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
+
     </tbody>
 </table>
+<div>Total Cost: @ViewBag.TotalCost</div>
+<div>
+    <a asp-controller="CheckOut" asp-action="Index"> Check Out</a>
+</div>

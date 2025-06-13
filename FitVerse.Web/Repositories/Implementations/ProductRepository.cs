@@ -1,7 +1,7 @@
 ﻿using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
     public class ProductRepository : GenericRepository<Product>
     {
@@ -9,6 +9,6 @@ namespace FitVerse.Web.Repositories
         public ProductRepository(FitVerseContext _context) : base(_context)
         {
         }
-       
+
     }
 }

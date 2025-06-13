@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.UnitOfWorks;
+using FitVerse.Web.ViewModels.Cart;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace FitVerse.Web.Controllers
 {
@@ -14,33 +16,45 @@ namespace FitVerse.Web.Controllers
             _map = map;
             _unit = unit;
         }
-        public IActionResult Index()
-        {
-            List<Product> userProductsDB = _unit.ProductRepository.GetAll();
-            //List<CartItem> userCartsDB = _unit.CartItemRepository.GetCartByUserId(userId);
-            //CartItem userCartsDB = _unit.CartItemRepository.GetCartByUserId(1);
+        
 
-            //List<Product> userProductsDB = _unit.CartItemRepository.GetUserProducts();
-            List<CartItem_ViewModel> cartVM= _map.Map<List<CartItem_ViewModel>>(userProductsDB); // Mapping
-            //return View(userProductsVM);
+         public IActionResult Index()
+         {
+            ViewBag.TotalCost = 0;
+            List<Product> userProductsDB = _unit.ProductRepository.GetAll();
+            List<CartItem> userCartItemsDB = _unit.CartItemRepository.GetUserCart();
+            List<CartItem_ViewModel> cartVM= _map.Map<List<CartItem_ViewModel>>(userCartItemsDB); // Mapping
+            for (int i = 0; i < cartVM.Count; i++)
+            {
+                var product = _unit.ProductRepository.GetById(cartVM[i].Prod_Id);
+                cartVM[i].Prod_Name = product.Name;
+                cartVM[i].Price = product.Price;
+                cartVM[i].ImageUrl= product.ImageUrl;
+                cartVM[i].EffectivePrice = product.EffectivePrice * cartVM[i].Quantity;
+                ViewBag.TotalCost += product.EffectivePrice * cartVM[i].Quantity ;
+            }
             return View(cartVM);
-            //return View();
-        }
-        public void Increment(int id)
+         }
+        public IActionResult Increment(int id)
         {
             CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(id);
+            if (cartProduct == null)
+            {
+                TempData["ErrorMessage"] = "Product not found in cart";
+                return RedirectToAction("Index");
+            }
             cartProduct.Quantity++;
             _unit.CartItemRepository.Update(cartProduct);
             _unit.Save();
-            RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
-        public void Decrement(int id)
+        public IActionResult Decrement(int id)
         {
             CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(id);
             cartProduct.Quantity--;
             _unit.CartItemRepository.Update(cartProduct);
             _unit.Save();
-            RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
         public IActionResult Delete(int PId)
         {

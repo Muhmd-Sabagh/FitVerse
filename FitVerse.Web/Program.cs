@@ -5,9 +5,9 @@ using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using FitVerse.Web.Repositories;
 
-using FitVerse.Web.MapperConfig; // Required for AutoMapper
+using FitVerse.Web.MapperConfig;
+using FitVerse.Web.Repositories.Implementations; // Required for AutoMapper
 //using FitVerse.Web.Mappers; // Your AutoMapper profile namespace
 
 var builder = WebApplication.CreateBuilder(args);

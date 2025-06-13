@@ -1,8 +1,8 @@
 ﻿using FitVerse.Web.Models;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity>:IGenericRepository<TEntity> where TEntity : class
     {
         public FitVerseContext Db { get; }
         public GenericRepository(FitVerseContext _db)
@@ -30,5 +30,7 @@ namespace FitVerse.Web.Repositories
         {
             Db.Set<TEntity>().Remove(GetById(Id));
         }
+
+       
     }
 }

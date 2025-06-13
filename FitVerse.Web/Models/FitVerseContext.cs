@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using FitVerse.Web.Models;
+using FitVerse.Web.ViewModels.Cart;
 
 namespace FitVerse.Web.Models
 {
@@ -162,6 +162,6 @@ namespace FitVerse.Web.Models
                 entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
             }
         }
-        public DbSet<FitVerse.Web.Models.CartItem_ViewModel> CartItem_ViewModel { get; set; } = default!;
+        public DbSet<CartItem_ViewModel> CartItem_ViewModel { get; set; } = default!;
     }
 }
