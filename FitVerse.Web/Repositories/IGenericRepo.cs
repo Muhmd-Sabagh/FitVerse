@@ -6,7 +6,7 @@
         public T find(int id);
 
         public T getbyname(string name);
-        public void update(T entity);
-        public void delete(int id);
+        public T update(T entity);
+        public T delete(int id);
     }
 }
