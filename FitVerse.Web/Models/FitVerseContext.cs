@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using FitVerse.Web.ViewModels.Cart;
+
 using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic; // Required for Dictionary
+
 
 namespace FitVerse.Web.Models
 {
@@ -338,5 +342,6 @@ namespace FitVerse.Web.Models
                 }
             }
         }
+        public DbSet<CartItem_ViewModel> CartItem_ViewModel { get; set; } = default!;
     }
 }

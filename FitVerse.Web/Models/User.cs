@@ -27,7 +27,7 @@ namespace FitVerse.Web.Models
         [Column(TypeName = "date")]
         public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date")] 
         public DateTime UpdatedAt { get; set; } = new DateTime(2025, 01, 01);
 
         // Navigation Properties
