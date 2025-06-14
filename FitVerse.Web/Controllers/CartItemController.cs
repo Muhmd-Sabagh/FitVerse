@@ -17,8 +17,6 @@ namespace FitVerse.Web.Controllers
             _map = map;
             _unit = unit;
         }
-        
-
          public IActionResult Index()
          {
             ViewBag.TotalCost = 0;
@@ -44,16 +42,18 @@ namespace FitVerse.Web.Controllers
                 TempData["ErrorMessage"] = "Product not found in cart";
                 return RedirectToAction("Index");
             }
-            cartProduct.Quantity++;
-            _unit.CartItemRepository.Update(cartProduct);
+            //cartProduct.Quantity++;
+            //_unit.CartItemRepository.Update(cartProduct);
+            _unit.CartItemRepository.AddToCart(PId);
             _unit.Save();
             return RedirectToAction("Index");
         }
         public IActionResult Decrement(int PId)
         {
             CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId);
-            cartProduct.Quantity--;
-            _unit.CartItemRepository.Update(cartProduct);
+            //cartProduct.Quantity--;
+            //_unit.CartItemRepository.Update(cartProduct);
+            _unit.CartItemRepository.DecrementFromCart(PId);
             _unit.Save();
             return RedirectToAction("Index");
         }
