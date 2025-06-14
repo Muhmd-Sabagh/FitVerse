@@ -63,41 +63,44 @@ namespace FitVerse.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banner");
+                    b.ToTable("Banners");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2022, 12, 17, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Up to 50% off on summer collection",
                             DisplayOrder = 1,
-                            ImageUrl = "/images/banners/summer-sale.jpg",
+                            ImageUrl = "/images/banners/slider1.jpg",
                             IsActive = true,
+                            LinkUrl = "/Product/CategoryProducts?categoryId=12",
                             Title = "Summer Sale",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2022, 12, 17, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2022, 12, 18, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Check out our latest fashion trends",
                             DisplayOrder = 2,
-                            ImageUrl = "/images/banners/new-arrivals.jpg",
+                            ImageUrl = "/images/banners/slider2.jpg",
                             IsActive = true,
+                            LinkUrl = "/Home/Index",
                             Title = "New Arrivals",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2022, 12, 18, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2022, 12, 19, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Stay warm with our winter essentials",
                             DisplayOrder = 3,
-                            ImageUrl = "/images/banners/winter-collection.jpg",
+                            ImageUrl = "/images/banners/slider3.jpg",
                             IsActive = true,
+                            LinkUrl = "/Product/CategoryProducts?categoryId=6",
                             Title = "Winter Collection",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2022, 12, 19, 12, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
@@ -131,34 +134,44 @@ namespace FitVerse.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CartItems");
-                });
 
-            modelBuilder.Entity("FitVerse.Web.Models.CartItem_ViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CartItem_ViewModel");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc),
+                            ProductId = 1,
+                            Quantity = 2,
+                            UpdatedAt = new DateTime(2023, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2023, 1, 1, 11, 0, 0, 0, DateTimeKind.Utc),
+                            ProductId = 3,
+                            Quantity = 1,
+                            UpdatedAt = new DateTime(2023, 1, 1, 11, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2023, 1, 1, 9, 0, 0, 0, DateTimeKind.Utc),
+                            ProductId = 6,
+                            Quantity = 1,
+                            UpdatedAt = new DateTime(2023, 1, 1, 9, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2023, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
+                            ProductId = 8,
+                            Quantity = 2,
+                            UpdatedAt = new DateTime(2023, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("FitVerse.Web.Models.Category", b =>
@@ -206,227 +219,273 @@ namespace FitVerse.Web.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Men's Clothing",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Men",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Women's Clothing",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Women",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Kids' Clothing",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Kids",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fashion Accessories",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Accessories",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's T-Shirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/dark-emerald-design-3868vig-zipper-squares-polo-509857.jpg?v=1747904939",
                             IsActive = true,
                             Name = "T-Shirts",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Jackets",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Jackets",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Sweatshirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/beige-hoodie-641391.jpg?v=1746659214",
                             IsActive = true,
                             Name = "Sweatshirts",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Shirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/violet-oxford-shirt-121545.jpg?v=1747153870",
                             IsActive = true,
                             Name = "Shirts",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Pullovers",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/camel-design-p2202-pf-round-pullover-369590.jpg?v=1746658721",
                             IsActive = true,
                             Name = "Pullovers",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Pants",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/cloud-soft-pant-307024.jpg?v=1749593291",
                             IsActive = true,
                             Name = "Pants",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Men's Shorts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/smoke-green-zipper-melton-short-530709.jpg?v=1748024610",
                             IsActive = true,
                             Name = "Shorts",
                             ParentCategoryId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 12,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's T-Shirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/silver-curved-long-sleeve-629162.jpg?v=1747153907",
                             IsActive = true,
                             Name = "T-Shirts",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 13,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Jackets",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/camel-velvet-vest-design-4-192959.jpg?v=1746659011",
                             IsActive = true,
                             Name = "Jackets",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 14,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Sweatshirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/web_65.jpg?v=1746658520",
                             IsActive = true,
                             Name = "Sweatshirts",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 15,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Shirts & Blouses",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/olive-linen-pocket-over-size-shirt-211139.jpg?v=1749593439",
                             IsActive = true,
                             Name = "Shirts & Blouses",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 16,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Pullovers",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/wood-hoodie-pullover-163921.jpg?v=1746658972",
                             IsActive = true,
                             Name = "Pullovers",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 17,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Cardigans",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Cardigans",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 18,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Sets & Dresses",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/dark-olive-basic-dress-328062.jpg?v=1749147053",
                             IsActive = true,
                             Name = "Sets & Dresses",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 19,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Pants",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/BeigeCrochetPant_1.jpg?v=1746657631",
                             IsActive = true,
                             Name = "Pants",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 20,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Skirts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/mist-rd-skirt-663918.jpg?v=1746660639",
                             IsActive = true,
                             Name = "Skirts",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 21,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Women's Home-wear",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/checkered-29-home-pants-w-292383.jpg?v=1746662229",
                             IsActive = true,
                             Name = "Home-wear",
                             ParentCategoryId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 22,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Boys' Clothing",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/lentil-kids-linen-shirt-904488.jpg?v=1749242051",
                             IsActive = true,
                             Name = "Boys",
                             ParentCategoryId = 3,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 23,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Girls' Clothing",
+                            ImageUrl = "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image",
                             IsActive = true,
                             Name = "Girls",
                             ParentCategoryId = 3,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 24,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Fashion Bags",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/royal-blue-waist-bag-985428.jpg?v=1746659384",
                             IsActive = true,
                             Name = "Bags",
                             ParentCategoryId = 4,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = 25,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Fashion Belts",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/lilac-design-2-belt-165538.jpg?v=1746663213",
                             IsActive = true,
                             Name = "Belts",
                             ParentCategoryId = 4,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
@@ -483,6 +542,50 @@ namespace FitVerse.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2022, 12, 22, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CustomerEmail = "test1@example.com",
+                            CustomerName = "Test User One",
+                            CustomerPhone = "555-111-2222",
+                            OrderDate = new DateTime(2022, 12, 22, 12, 0, 0, 0, DateTimeKind.Utc),
+                            ShippingAddress = "123 Main St, Anytown, Anystate 12345",
+                            Status = "Delivered",
+                            TotalAmount = 100.000m,
+                            UpdatedAt = new DateTime(2022, 12, 27, 12, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2022, 12, 29, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CustomerEmail = "test1@example.com",
+                            CustomerName = "Test User One",
+                            CustomerPhone = "555-111-2222",
+                            OrderDate = new DateTime(2022, 12, 29, 12, 0, 0, 0, DateTimeKind.Utc),
+                            ShippingAddress = "123 Main St, Anytown, Anystate 12345",
+                            Status = "Shipped",
+                            TotalAmount = 187.5000m,
+                            UpdatedAt = new DateTime(2022, 12, 30, 12, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2022, 12, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CustomerEmail = "test2@example.com",
+                            CustomerName = "Test User Two",
+                            CustomerPhone = "555-333-4444",
+                            OrderDate = new DateTime(2022, 12, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            ShippingAddress = "456 Oak Ave, Villageton, Stateland 67890",
+                            Status = "Pending",
+                            TotalAmount = 132.7500m,
+                            UpdatedAt = new DateTime(2022, 12, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("FitVerse.Web.Models.OrderItem", b =>
@@ -515,6 +618,62 @@ namespace FitVerse.Web.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2022, 12, 22, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 1,
+                            ProductId = 1,
+                            Quantity = 2,
+                            UnitPrice = 20.000m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2022, 12, 22, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 1,
+                            ProductId = 3,
+                            Quantity = 1,
+                            UnitPrice = 60.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2022, 12, 29, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 2,
+                            ProductId = 10,
+                            Quantity = 1,
+                            UnitPrice = 60.000m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2022, 12, 29, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 2,
+                            ProductId = 2,
+                            Quantity = 1,
+                            UnitPrice = 127.5000m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2022, 12, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 3,
+                            ProductId = 6,
+                            Quantity = 1,
+                            UnitPrice = 33.7500m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2022, 12, 25, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 3,
+                            ProductId = 8,
+                            Quantity = 2,
+                            UnitPrice = 49.500m
+                        });
                 });
 
             modelBuilder.Entity("FitVerse.Web.Models.Product", b =>
@@ -618,6 +777,28 @@ namespace FitVerse.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2022, 12, 2, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "test1@example.com",
+                            FullName = "Test User One",
+                            PasswordHash = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+                            Role = "Customer",
+                            UpdatedAt = new DateTime(2022, 12, 22, 12, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2022, 12, 7, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "test2@example.com",
+                            FullName = "Test User Two",
+                            PasswordHash = "fbb4a8a163ffa958b4f02bf9cabb30cfefb40de803f2c4c346a9d39b3be1b544",
+                            Role = "Customer",
+                            UpdatedAt = new DateTime(2022, 12, 27, 12, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("FitVerse.Web.Models.CartItem", b =>
