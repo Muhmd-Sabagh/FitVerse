@@ -9,9 +9,6 @@
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="Mapconfig\" />
-    <Folder Include="Repositories\Implementations\" />
-    <Folder Include="Repositories\Interfaces\" />
-    <Folder Include="ViewModels\Home\" />
     <Folder Include="ViewModels\Cart\" />
     <Folder Include="ViewModels\Account\" />
     <Folder Include="ViewModels\Order\" />

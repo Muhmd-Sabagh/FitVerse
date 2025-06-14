@@ -1,4 +1,6 @@
 using FitVerse.Web.Models; // Ensure this namespace is correct for FitVerseContext
+using FitVerse.Web.unitofworks;
+
 //using FitVerse.Web.Repositories.Implementations;
 //using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -36,7 +38,7 @@ builder.Services.AddSession(options =>
 
 
 //// Register Repositories with Dependency Injection
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<Unitofwork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
