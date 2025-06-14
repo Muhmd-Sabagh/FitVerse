@@ -12,13 +12,14 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             _context = context;
         }
-        public List<Product> GetCartByUserId(int UId)
+        public List<Product> GetUserCartItems(int UId)
         {
             return Db.Products.Where(prod => prod.Id == UId).ToList();
         }
         public CartItem GetCartItemByProdId(int PId)
         {
-            return _context.CartItems.Where(c => c.ProductId == PId).FirstOrDefault();
+            int userId = 1; // get user Id
+            return _context.CartItems.Where(c => c.ProductId == PId && c.UserId==userId).FirstOrDefault();
         }
         public void DeleteByProdId(int PId)
         {
@@ -29,6 +30,12 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             int UserId = 1;
             return _context.CartItems.Where(c => c.UserId == UserId).ToList();
+        }
+        public void RemoveAll()
+        {
+            int userId = 1; // get current user Id
+            List <CartItem> cartItems= _context.CartItems.Where(c => c.UserId == userId).ToList();
+            _context.CartItems.RemoveRange(cartItems);
         }
     }
 }

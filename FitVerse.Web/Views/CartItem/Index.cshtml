@@ -43,16 +43,16 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                <a asp-route-id="@item.Prod_Id" asp-action="Increment" class="btn btn-primary">+</a> |
-                    <a asp-route-id="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">-</a> |
+                <a asp-route-PId="@item.Prod_Id" asp-action="Increment"  class="btn btn-primary">+</a> |
+                    <a asp-route-PId="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">-</a> |
                     <a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
-}
-
+} 
     </tbody>
 </table>
 <div>Total Cost: @ViewBag.TotalCost</div>
 <div>
     <a asp-controller="CheckOut" asp-action="Index"> Check Out</a>
 </div>
+<div><a asp-action="DeleteAll" class="btn btn-danger">Clear Cart</a></div>

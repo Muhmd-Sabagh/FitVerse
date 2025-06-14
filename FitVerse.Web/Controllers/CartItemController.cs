@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AspNetCoreGeneratedDocument;
+using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
@@ -35,9 +36,9 @@ namespace FitVerse.Web.Controllers
             }
             return View(cartVM);
          }
-        public IActionResult Increment(int id)
+        public IActionResult Increment(int PId)
         {
-            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(id);
+            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId);
             if (cartProduct == null)
             {
                 TempData["ErrorMessage"] = "Product not found in cart";
@@ -48,9 +49,9 @@ namespace FitVerse.Web.Controllers
             _unit.Save();
             return RedirectToAction("Index");
         }
-        public IActionResult Decrement(int id)
+        public IActionResult Decrement(int PId)
         {
-            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(id);
+            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId);
             cartProduct.Quantity--;
             _unit.CartItemRepository.Update(cartProduct);
             _unit.Save();
@@ -59,6 +60,12 @@ namespace FitVerse.Web.Controllers
         public IActionResult Delete(int PId)
         {
             _unit.CartItemRepository.DeleteByProdId(PId);
+            _unit.Save();
+            return RedirectToAction("Index");
+        }
+        public IActionResult DeleteAll()
+        {
+            _unit.CartItemRepository.RemoveAll();
             _unit.Save();
             return RedirectToAction("Index");
         }
