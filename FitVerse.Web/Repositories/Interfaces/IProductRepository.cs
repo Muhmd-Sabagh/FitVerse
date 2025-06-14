@@ -2,7 +2,7 @@
 
 namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IProductRepository: IRepository<Product>
+    public interface IProductRepository: IGenericRepository<Product>
     {
         List<Product> GetByCategory(int pageNumber = 1, string categoryName="");
         List<Product> GetByParentCategory(string parentName, int pageNumber = 1, string childCategoryName = "");

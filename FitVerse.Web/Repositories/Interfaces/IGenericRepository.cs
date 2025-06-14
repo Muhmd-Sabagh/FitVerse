@@ -1,6 +1,6 @@
 ﻿namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IRepository<TEntity>
+    public interface IGenericRepository<TEntity>
     {
         List<TEntity> GetAll(int pageNumber = 1);
         TEntity GetById(int id);

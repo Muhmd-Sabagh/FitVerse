@@ -1,14 +1,15 @@
 ﻿using FitVerse.Web.Models;
 using FitVerse.Web.Repositories;
 using FitVerse.Web.Repositories.Implementations;
+using FitVerse.Web.Repositories.Interfaces;
 namespace FitVerse.Web.UnitOfWorks
 {
     public class UnitOfWork
     {
         CartItemRepository cartItemRepository;
-        ProductRepository productRepository;
+        IProductRepository productRepository;
         FitVerseContext _context;
-        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, ProductRepository productRepo)
+        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, IProductRepository productRepo)
         {
             cartItemRepository = cartItemRepo;
             _context = context;
@@ -23,7 +24,7 @@ namespace FitVerse.Web.UnitOfWorks
                 return cartItemRepository;
             }
         }
-        public ProductRepository ProductRepository
+        public IProductRepository ProductRepository
         {
             get
             {
