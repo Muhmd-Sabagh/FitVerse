@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitVerse.Web.ViewModels
 {
-    public class Details
+    public class DetailsViewModel
     {
         public int Id { get; set; }
 
@@ -41,10 +41,9 @@ namespace FitVerse.Web.ViewModels
         public int CategoryId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2024, 01, 01);
+       public string categoryName { get; set; }
+        public int selectedQuantity { get; set; } = 1;
 
-        [Column(TypeName = "date")]
-        public DateTime UpdatedAt { get; set; } = new DateTime(2024, 01, 01);
 
 
         
