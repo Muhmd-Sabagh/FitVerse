@@ -17,7 +17,7 @@ builder.Services.AddControllersWithViews();
 
 // Configure Entity Framework Core with FitVerseContext
 builder.Services.AddDbContext<FitVerseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Authentication (Cookie-based authentication)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -44,11 +44,11 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ProductRepository, ProductRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
-//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-//builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<OrderRepository, OrderRepository>();
+builder.Services.AddScoped<OrderItemRepository, OrderItemRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
 
 

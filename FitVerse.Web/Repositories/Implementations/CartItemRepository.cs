@@ -11,15 +11,16 @@ namespace FitVerse.Web.Repositories.Implementations
 {
     public class CartItemRepository : GenericRepository<CartItem>
     {
-        int userId = 8;
+        int userId = 9;
         FitVerseContext _context;
         public CartItemRepository(FitVerseContext context) : base(context)
         {
             _context = context;
         }
-        public List<Product> GetUserCartItems(int UId)
+        
+        public List<CartItem> GetUserCartItems()
         {
-            return Db.Products.Where(prod => prod.Id == UId).ToList();
+            return _context.CartItems.Where(c => c.UserId == userId).ToList();
         }
         public CartItem GetCartItemByProdId(int PId)
         {
@@ -30,11 +31,6 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             var c = _context.CartItems.Where(c => c.ProductId == PId).FirstOrDefault();
             _context.Remove(c);
-        }
-        public List<CartItem> GetUserCart()
-        {
-            //int userId = 8;
-            return _context.CartItems.Where(c => c.UserId == userId).ToList();
         }
         public void RemoveAll()
         {

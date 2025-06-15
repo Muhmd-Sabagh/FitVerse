@@ -21,7 +21,7 @@ namespace FitVerse.Web.Controllers
          {
             ViewBag.TotalCost = 0;
             List<Product> userProductsDB = _unit.ProductRepository.GetAll();
-            List<CartItem> userCartItemsDB = _unit.CartItemRepository.GetUserCart();
+            List<CartItem> userCartItemsDB = _unit.CartItemRepository.GetUserCartItems();
             List<CartItem_ViewModel> cartVM= _map.Map<List<CartItem_ViewModel>>(userCartItemsDB); // Mapping
             for (int i = 0; i < cartVM.Count; i++)
             {

@@ -1,15 +1,20 @@
-﻿using FitVerse.Web.Models;
+﻿using System.Reflection.Metadata.Ecma335;
+using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
 namespace FitVerse.Web.UnitOfWorks
 {
     public class UnitOfWork
     {
+        FitVerseContext _context;
         CartItemRepository cartItemRepository;
         ProductRepository productRepository;
-        FitVerseContext _context;
-        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context)
+        OrderItemRepository orderItemRepository;
+        OrderRepository order;
+        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, ProductRepository productRepo,OrderItemRepository orderItemRepo)
         {
             cartItemRepository = cartItemRepo;
+            productRepository = productRepo;
+            orderItemRepository = orderItemRepo;
             _context = context;
         }
         public CartItemRepository CartItemRepository
@@ -29,6 +34,22 @@ namespace FitVerse.Web.UnitOfWorks
                     productRepository = new ProductRepository(_context);
                 return productRepository;
             }
+        }
+        public OrderItemRepository OrderItem { 
+            get {
+                if (orderItemRepository == null)
+                    orderItemRepository = new OrderItemRepository(_context);
+                return orderItemRepository;
+            } 
+        }
+
+        public OrderRepository Order
+        {
+            get {
+                if (order == null)
+                    order = new OrderRepository(_context);
+                return order;
+            } 
         }
         public void Save()
         {

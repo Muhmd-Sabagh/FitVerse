@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model Checkout_ViewModel
 @{
     Layout = "_MyLayout";
     ViewData["Title"] = "Index";
@@ -8,31 +8,31 @@
         <div class="col-lg-8 col-md-10">
             <div class="card shadow-lg p-4">
                 <h2 class="card-title text-center mb-4">Secure Checkout</h2>
-                <form id="checkoutForm" class="row g-3" action="#" method="POST">
+                <form id="checkoutForm" class="row g-3" action="/Checkout/SaveOrder" method="POST">
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h3 class="card-subtitle mb-3 text-muted">Shipping Information</h3>
                                 <div class="mb-3">
-                                    <label asp-for="FullName" class="form-label">Full Name</label>
-                                    <input asp-for="FullName" autocomplete="name" required class="form-control">
+                                    <label asp-for="CustomerName" class="form-label">Full Name</label>
+                                    <input asp-for="CustomerName" autocomplete="name" required class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" id="address" name="address" autocomplete="street-address" required class="form-control">
+                                    <label asp-for="ShippingAddress" class="form-label">Address</label>
+                                    <input type="text" asp-for="ShippingAddress" autocomplete="street-address" required class="form-control">
                                 </div>
                                 <div class="row g-3">
+                                     <div class="col-md-4"> 
+                                         <label asp-for="CustomerPhone" class="form-label">Phone Number</label>
+                                        <input type="text" asp-for="CustomerPhone" autocomplete="PhoneNumber" required class="form-control"> 
+                                     </div> 
                                     <div class="col-md-4">
-                                        <label for="city" class="form-label">City</label>
-                                        <input type="text" id="city" name="city" autocomplete="address-level2" required class="form-control">
+                                        <label asp-for="Status" class="form-label">State / Province</label>
+                                        <input type="text" asp-for="Status" autocomplete="address-level1" required class="form-control">
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="state" class="form-label">State / Province</label>
-                                        <input type="text" id="state" name="state" autocomplete="address-level1" required class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="zipCode" class="form-label">Zip Code</label>
-                                        <input type="text" id="zipCode" name="zipCode" autocomplete="postal-code" required class="form-control">
+                                    <div class="mb-3">
+                                        <label asp-for="CustomerEmail" class="form-label">Email</label>
+                                        <input type="email" asp-for="CustomerEmail" autocomplete="email" required class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="col-12 text-center mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg" onclick="deleteAllItems()">Place Order</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
                     </div>
                 </form>
 
@@ -75,7 +75,7 @@
                         <div class="modal-content">
                             <div class="modal-body text-center">
                                 <p id="messageBoxContent" class="fs-5 mb-4"></p>
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="messageBoxOkButton">OK</button>
                             </div>
                         </div>
                     </div>
@@ -84,70 +84,143 @@
             </div>
         </div>
     </div>
+    @foreach (CartItem_ViewModel @item in Model.CartItemsViewModel)
+    {
+        <div class="card">
+            <img src=@item.ImageUrl/>
+            <div> @item.Prod_Name </div>
+            <div> @item.EffectivePrice </div>
+            <div> @item.Quantity </div>
+        </div>
+    }
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-
-        function deleteAllItems() {
-            if(confirm('Are you sure you want to clear your cart?')) {
-                fetch('/CartItem/DeleteAll', {
-                    method: 'POST',
-                    // headers: {
-                    //     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    // }
-                })
-                .then(response => {
-                    if(response.ok) {
-                        window.location.reload(); // or redirect
-                    }
-                });
-            }
-        }
         const checkoutForm = document.getElementById('checkoutForm');
         const messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
         const messageBoxContent = document.getElementById('messageBoxContent');
+        const messageBoxOkButton = document.getElementById('messageBoxOkButton');
 
-        function showMessageBox(message) {
+        function showMessageBox(message, callback = null) {
             messageBoxContent.textContent = message;
             messageBox.show();
+            // Attach callback to the OK button of the modal
+            messageBoxOkButton.onclick = () => {
+                messageBox.hide();
+                if (callback) {
+                    callback();
+                }
+            };
         }
 
-        checkoutForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
+           checkoutForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            // Basic client-side validation
-            const requiredFields = checkoutForm.querySelectorAll('[required]');
-            let allFieldsFilled = true;
-            requiredFields.forEach(field => {
-                if (field.value.trim() === '') {
-                    allFieldsFilled = false;
-                    field.classList.add('is-invalid'); // Bootstrap validation class
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
-
-            if (!allFieldsFilled) {
-                showMessageBox('Please fill in all required fields.');
-                return;
+        const requiredFields = checkoutForm.querySelectorAll('[required]');
+        let allFieldsFilled = true;
+        requiredFields.forEach(field => {
+            if (field.value.trim() === '') {
+                allFieldsFilled = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
             }
-
-            // Simulate order placement
-            console.log('Form submitted!');
-            const formData = new FormData(checkoutForm);
-            const data = {};
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-            console.log('Collected Data:', data);
-
-            // Simulate a successful order
-            showMessageBox('Your order has been placed successfully! Thank you for your purchase.');
-
-            // Clear form after successful submission (optional)
-            checkoutForm.reset();
         });
+
+        if (!allFieldsFilled) {
+            showMessageBox('Please fill in all required fields.');
+            return;
+        }
+
+        // 1. Collect basic form data
+        const formData = new FormData(checkoutForm);
+        const checkoutData = {};
+        for (let [key, value] of formData.entries()) {
+            // Exclude payment details for now as they are not in Checkout_ViewModel
+            // and should be handled by a payment gateway.
+            // Or if you temporarily need them for debugging, include them.
+            if (!['cardNumber', 'expirationDate', 'cvv', 'cardHolderName'].includes(key)) {
+                checkoutData[key] = value;
+            }
+        }
+
+        // 2. Add CartItems data from the model.CartItems
+        // This assumes the model.CartItems contains the actual data you want to send.
+        // You can embed this data into a hidden input or generate it from JavaScript.
+        // For simplicity, let's assume the model is available to JavaScript (which it is on page load).
+        // This is how you'd get the initial CartItems that were passed to the view:
+        const cartItemsFromModel = @Html.Raw(Json.Serialize(Model.CartItemsViewModel)); // Serialize the C# model to JavaScript object
+
+        // Add the CartItems to your checkoutData object
+        checkoutData.CartItems = cartItemsFromModel.map(item => ({
+            Product: { // Ensure Product has the properties you need, e.g., EffectivePrice
+                EffectivePrice: item.Product.EffectivePrice
+            },
+            Quantity: item.Quantity,
+            // Add any other properties of CartItem/Product that your backend needs
+            // e.g., Product.Id if you want to link it to an existing product
+            Product: {
+                Id: item.Product.Id, // Assuming you have Product.Id
+                EffectivePrice: item.Product.EffectivePrice
+            }
+        }));
+
+        // Handle OrderDate - you might want to set it on the server, or send current date
+        checkoutData.OrderDate = new Date().toISOString(); // Send current date/time
+
+        // IMPORTANT: Send the collected data in the fetch request body
+        fetch('/Checkout/SaveOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add Anti-Forgery Token if you use it for security
+                // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(checkoutData) // THIS IS THE KEY CHANGE
+        })
+        .then(response => {
+            if (response.ok) {
+                showMessageBox('Your order has been placed successfully! Thank you for your purchase.', () => {
+                    // Optionally, redirect to MyOrders page or reload to clear cart
+                    // window.location.href = '/Checkout/MyOrders'; // Or wherever your MyOrders action is
+                    console.log('Cart items can now be deleted on the server or reloaded.');
+                    // If you have a separate API to delete cart items:
+                    fetch('/CartItem/DeleteAll', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Include anti-forgery token if DeleteAll is also POST
+                        }
+                    })
+                    .then(deleteResponse => {
+                        if (deleteResponse.ok) {
+                            console.log('Cart items deleted successfully.');
+                            window.location.reload(); // Reload the page to reflect empty cart
+                        } else {
+                            console.error('Failed to delete cart items.');
+                        }
+                    })
+                    .catch(deleteError => {
+                        console.error('Error deleting cart items:', deleteError);
+                    });
+                });
+            } else {
+                // Handle errors from the server (e.g., bad request, validation errors)
+                response.json().then(errorData => {
+                    console.error('Order placement failed:', errorData);
+                    showMessageBox('Order placement failed. Please try again or contact support.');
+                }).catch(() => {
+                    showMessageBox('An unexpected error occurred. Please try again.');
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Network error during order placement:', error);
+            showMessageBox('A network error occurred. Please check your internet connection.');
+        });
+    });
+
 
         // Input formatting for Card Number
         document.getElementById('cardNumber').addEventListener('input', function (e) {
