@@ -24,7 +24,8 @@ namespace FitVerse.Web.MapperConfig
            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.cartItem.Quantity))
            .ForMember(dest => dest.Cart_Id, opt => opt.MapFrom(src => src.cartItem.Id))
            .ReverseMap();
-           // Map other cart item properties
+            // Map other cart item properties
+            CreateMap<CartItem, OrderItem>().ReverseMap();            
            ;
         }
     }

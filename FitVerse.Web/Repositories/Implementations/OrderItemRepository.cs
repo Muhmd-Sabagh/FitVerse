@@ -11,7 +11,7 @@ namespace FitVerse.Web.Repositories.Implementations
 {
     public class OrderItemRepository : GenericRepository<OrderItem>
     {
-        int userId = 9;
+        int userId = 1;
         FitVerseContext _context;
         public OrderItemRepository(FitVerseContext context) : base(context)
         {

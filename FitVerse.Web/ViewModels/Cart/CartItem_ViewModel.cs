@@ -7,15 +7,10 @@ namespace FitVerse.Web.ViewModels.Cart
     [NotMapped]
     public class CartItem_ViewModel
     {
-        // from Cart Model
+        // from CartItem Model
         public int Cart_Id { get; set; }
-        //public int UserId { get; set; }
         public int Quantity { get; set; }
-        //public DateTime CreatedAt { get; set; } 
-        //public DateTime UpdatedAt { get; set; }
         public decimal TotalPrice;
-
-
         // from Product Model
         public int Prod_Id { get; set; }
         [Display(Name = "Product")]

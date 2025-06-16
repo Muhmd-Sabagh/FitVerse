@@ -11,7 +11,7 @@ namespace FitVerse.Web.Repositories.Implementations
 {
     public class CartItemRepository : GenericRepository<CartItem>
     {
-        int userId = 9;
+        int userId = 1;
         FitVerseContext _context;
         public CartItemRepository(FitVerseContext context) : base(context)
         {
