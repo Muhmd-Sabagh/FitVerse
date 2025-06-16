@@ -46,7 +46,7 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
