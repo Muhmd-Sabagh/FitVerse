@@ -52,197 +52,175 @@ namespace FitVerse.Web.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "CreatedAt", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "/images/categories/men.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 2,
                 columns: new[] { "CreatedAt", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "/images/categories/women.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 3,
                 columns: new[] { "CreatedAt", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "/images/categories/kids.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 4,
                 columns: new[] { "CreatedAt", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "/images/categories/accessories.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 5,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's T-Shirts", "/images/categories/men/t-shirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's T-Shirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/dark-emerald-design-3868vig-zipper-squares-polo-509857.jpg?v=1747904939", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 6,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Jackets", "/images/categories/men/jackets.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Jackets", "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 7,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Sweatshirts", "/images/categories/men/sweatshirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Sweatshirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/beige-hoodie-641391.jpg?v=1746659214", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 8,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Shirts", "/images/categories/men/shirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Shirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/violet-oxford-shirt-121545.jpg?v=1747153870", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 9,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Pullovers", "/images/categories/men/pullovers.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Pullovers", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/camel-design-p2202-pf-round-pullover-369590.jpg?v=1746658721", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 10,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Pants", "/images/categories/men/pants.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Pants", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/cloud-soft-pant-307024.jpg?v=1749593291", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 11,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Shorts", "/images/categories/men/shorts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Men's Shorts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/smoke-green-zipper-melton-short-530709.jpg?v=1748024610", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 12,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's T-Shirts", "/images/categories/women/t-shirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's T-Shirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/silver-curved-long-sleeve-629162.jpg?v=1747153907", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 13,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Jackets", "/images/categories/women/jackets.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Jackets", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/camel-velvet-vest-design-4-192959.jpg?v=1746659011", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 14,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Sweatshirts", "/images/categories/women/sweatshirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Sweatshirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/web_65.jpg?v=1746658520", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 15,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Shirts & Blouses", "/images/categories/women/shirts-blouses.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Shirts & Blouses", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/olive-linen-pocket-over-size-shirt-211139.jpg?v=1749593439", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 16,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Pullovers", "/images/categories/women/pullovers.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Pullovers", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/wood-hoodie-pullover-163921.jpg?v=1746658972", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 17,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Cardigans", "/images/categories/women/cardigans.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Cardigans", "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 18,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Sets & Dresses", "/images/categories/women/sets-dresses.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Sets & Dresses", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/dark-olive-basic-dress-328062.jpg?v=1749147053", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 19,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Pants", "/images/categories/women/pants.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Pants", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/BeigeCrochetPant_1.jpg?v=1746657631", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 20,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Skirts", "/images/categories/women/skirts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Skirts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/mist-rd-skirt-663918.jpg?v=1746660639", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 21,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Home-wear", "/images/categories/women/home-wear.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Women's Home-wear", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/checkered-29-home-pants-w-292383.jpg?v=1746662229", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 22,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Boys' Clothing", "/images/categories/kids/boys.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Boys' Clothing", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/lentil-kids-linen-shirt-904488.jpg?v=1749242051", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 23,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Girls' Clothing", "/images/categories/kids/girls.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Girls' Clothing", "https://placehold.co/400x250/e9ecef/6c757d?text=No+Image", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 24,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Fashion Bags", "/images/categories/accessories/bags.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Fashion Bags", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/royal-blue-waist-bag-985428.jpg?v=1746659384", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 25,
                 columns: new[] { "CreatedAt", "Description", "ImageUrl", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Fashion Belts", "/images/categories/accessories/belts.jpg", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "CategoryId", "CreatedAt", "Description", "DiscountPercentage", "ImageUrl", "IsActive", "IsNewArrival", "Material", "Name", "Price", "StockQuantity", "UpdatedAt" },
-                values: new object[,]
-                {
-                    { 1, 5, new DateTime(2022, 12, 12, 12, 0, 0, 0, DateTimeKind.Utc), "Comfortable and stylish casual t-shirt for men. Perfect for everyday wear.", 20m, "/images/products/men/t-shirts/men-tshirt1.jpg", true, true, "Cotton", "Men's Casual T-Shirt", 25.00m, 50, new DateTime(2022, 12, 12, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 2, 6, new DateTime(2022, 12, 7, 12, 0, 0, 0, DateTimeKind.Utc), "Premium leather jacket for a bold look. Durable and fashionable.", 15m, "/images/products/men/jackets/men-jacket1.jpg", true, false, "Leather", "Stylish Leather Jacket", 150.00m, 20, new DateTime(2022, 12, 7, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 3, 18, new DateTime(2022, 12, 14, 12, 0, 0, 0, DateTimeKind.Utc), "Light and airy summer dress, ideal for warm weather and special occasions.", null, "/images/products/women/sets-dresses/women-dress1.jpg", true, true, "Polyester", "Elegant Summer Dress", 60.00m, 30, new DateTime(2022, 12, 14, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 4, 22, new DateTime(2022, 12, 16, 12, 0, 0, 0, DateTimeKind.Utc), "Fun graphic t-shirt for boys, soft and breathable.", 10m, "/images/products/kids/boys/kids-boys-tee1.jpg", true, true, "Cotton Blend", "Kids' Graphic Tee", 18.00m, 70, new DateTime(2022, 12, 16, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 5, 24, new DateTime(2022, 12, 10, 12, 0, 0, 0, DateTimeKind.Utc), "Chic handbag with multiple compartments, perfect for daily use.", null, "/images/products/accessories/bags/accessories-bag1.jpg", true, false, "Synthetic Leather", "Designer Handbag", 85.00m, 40, new DateTime(2022, 12, 10, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 6, 8, new DateTime(2022, 12, 13, 12, 0, 0, 0, DateTimeKind.Utc), "Classic denim shirt for a rugged yet stylish look. Versatile for any season.", 25m, "/images/products/men/shirts/men-shirt1.jpg", true, false, "Denim", "Men's Denim Shirt", 45.00m, 60, new DateTime(2022, 12, 13, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 7, 20, new DateTime(2022, 12, 15, 12, 0, 0, 0, DateTimeKind.Utc), "Flowy midi skirt with a vibrant floral print. Perfect for spring and summer.", null, "/images/products/women/skirts/women-skirt1.jpg", true, true, "Viscose", "Women's Floral Skirt", 35.00m, 55, new DateTime(2022, 12, 15, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 8, 7, new DateTime(2022, 12, 17, 12, 0, 0, 0, DateTimeKind.Utc), "Soft and warm hoodie, suitable for both men and women. Great for layering.", 10m, "/images/products/men/sweatshirts/unisex-hoodie1.jpg", true, true, "Fleece", "Unisex Fleece Hoodie", 55.00m, 45, new DateTime(2022, 12, 17, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 9, 22, new DateTime(2022, 12, 9, 12, 0, 0, 0, DateTimeKind.Utc), "Durable and warm jacket for kids, ideal for cold weather adventures.", null, "/images/products/kids/boys/kids-jacket1.jpg", true, false, "Waterproof Nylon", "Kids' Winter Jacket", 70.00m, 25, new DateTime(2022, 12, 9, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 10, 15, new DateTime(2022, 12, 11, 12, 0, 0, 0, DateTimeKind.Utc), "Luxurious silk blouse, perfect for professional or formal occasions.", 20m, "/images/products/women/shirts-blouses/women-blouse1.jpg", true, false, "Silk", "Elegant Women's Blouse", 75.00m, 35, new DateTime(2022, 12, 11, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 11, 10, new DateTime(2022, 12, 18, 12, 0, 0, 0, DateTimeKind.Utc), "Modern slim fit chino pants, comfortable and stylish for various occasions.", null, "/images/products/men/pants/men-pants1.jpg", true, true, "Cotton Twill", "Men's Slim Fit Chinos", 50.00m, 65, new DateTime(2022, 12, 18, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 12, 25, new DateTime(2022, 12, 20, 12, 0, 0, 0, DateTimeKind.Utc), "A timeless accessory, made from genuine leather for durability and style.", null, "/images/products/accessories/belts/accessories-belt1.jpg", true, true, "Genuine Leather", "Classic Leather Belt", 30.00m, 80, new DateTime(2022, 12, 20, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 13, 19, new DateTime(2022, 12, 21, 12, 0, 0, 0, DateTimeKind.Utc), "High-waist, comfortable yoga pants for all workouts.", 5m, "/images/products/women/pants/women-yogapants.jpg", true, true, "Spandex Blend", "Women's Yoga Pants", 40.00m, 90, new DateTime(2022, 12, 21, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 14, 23, new DateTime(2022, 12, 23, 12, 0, 0, 0, DateTimeKind.Utc), "Soft and fun hoodie with popular character print for kids.", null, "/images/products/kids/girls/kids-hoodie.jpg", true, false, "Cotton Fleece", "Kids' Character Hoodie", 30.00m, 110, new DateTime(2022, 12, 23, 12, 0, 0, 0, DateTimeKind.Utc) },
-                    { 15, 11, new DateTime(2022, 12, 24, 12, 0, 0, 0, DateTimeKind.Utc), "Breathable and quick-dry shorts for sports and casual wear.", 10m, "/images/products/men/shorts/men-shorts1.jpg", true, true, "Polyester", "Men's Athletic Shorts", 22.00m, 150, new DateTime(2022, 12, 24, 12, 0, 0, 0, DateTimeKind.Utc) }
-                });
+                values: new object[] { new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc), "Fashion Belts", "https://cdn.shopify.com/s/files/1/0614/4222/8407/files/lilac-design-2-belt-165538.jpg?v=1746663213", new DateTime(2023, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -346,51 +324,6 @@ namespace FitVerse.Web.Migrations
                 keyValue: 6);
 
             migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 5);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 7);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 9);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 11);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 12);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 13);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 14);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 15);
-
-            migrationBuilder.DeleteData(
                 table: "Orders",
                 keyColumn: "Id",
                 keyValue: 1);
@@ -404,36 +337,6 @@ namespace FitVerse.Web.Migrations
                 table: "Orders",
                 keyColumn: "Id",
                 keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 6);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 8);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 10);
 
             migrationBuilder.DeleteData(
                 table: "Users",
