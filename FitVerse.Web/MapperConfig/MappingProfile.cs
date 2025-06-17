@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.ViewModels.Cart;
+using FitVerse.Web.ViewModels.Checkout;
 
 namespace FitVerse.Web.MapperConfig
 {
@@ -25,8 +26,12 @@ namespace FitVerse.Web.MapperConfig
            .ForMember(dest => dest.Cart_Id, opt => opt.MapFrom(src => src.cartItem.Id))
            .ReverseMap();
             // Map other cart item properties
-            CreateMap<CartItem, OrderItem>().ReverseMap();            
-           ;
+            CreateMap<CartItem, OrderItem>()
+    .ForMember(dest => dest.Id, opt => opt.Ignore())
+    .ReverseMap()
+    .ForMember(dest => dest.Id, opt => opt.Ignore())            ;
+            CreateMap<Order_ViewModel, Order>()
+                .ReverseMap();
         }
     }
 }

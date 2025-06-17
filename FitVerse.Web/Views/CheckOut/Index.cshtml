@@ -294,54 +294,46 @@
             // The Razor engine serializes the C# List<CartItem_ViewModel> into a JavaScript array.
             const cartItemsFromModel = @Html.Raw(Json.Serialize(Model.CartItemsViewModels));
 
-            // Ensure the structure matches what your CartItem_ViewModel expects on the backend
             checkoutData.CartItems = cartItemsFromModel.map(item => ({
-                ProductId: item.ProductId, // Assuming ProductId is available and needed
+                ProductId: item.ProductId, 
                 Prod_Name: item.Prod_Name,
                 ImageUrl: item.ImageUrl,
                 EffectivePrice: item.EffectivePrice,
                 Quantity: item.Quantity
-                // Add any other properties of CartItem_ViewModel that your backend needs
             }));
 
-            // Handle OrderDate - you might want to set it on the server, or send current date
-            // Sending it from client is fine, but server-side ensures accuracy.
             checkoutData.OrderDate = new Date().toISOString();
 
-            // IMPORTANT: Send the collected data in the fetch request body as JSON
             fetch('/Checkout/SaveOrder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // If you're using ASP.NET Core's Anti-Forgery Token, include it:
-                    // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
                 },
-                body: JSON.stringify(checkoutData) // This sends the entire checkoutData object as JSON
+                body: JSON.stringify(checkoutData) 
             })
-            .then(response => {
-                if (response.ok) {
-                    showMessageBox('Your order has been placed successfully! Thank you for your purchase.', () => {
-                        // Optionally, redirect to MyOrders page or reload to clear cart
-                        fetch('/CartItem/DeleteAll', {
-                            method: 'POST', // Or DELETE, depending on your API
-                            headers: {
-                                'Content-Type': 'application/json',
-                                // Include anti-forgery token if DeleteAll is also POST
-                            }
-                        })
-                        .then(deleteResponse => {
-                            if (deleteResponse.ok) {
-                                console.log('Cart items deleted successfully.');
-                                window.location.reload(); // Reload the page to reflect empty cart
-                            } else {
-                                console.error('Failed to delete cart items.');
-                            }
-                        })
-                        .catch(deleteError => {
-                            console.error('Error deleting cart items:', deleteError);
-                        });
-                    });
-                } else {
+            // .then(response => {
+            //     if (response.ok) {
+            //         showMessageBox('Your order has been placed successfully! Thank you for your purchase.', () => {
+            //             fetch('/CartItem/DeleteAll', {
+            //                 method: 'POST', 
+            //                 headers: {
+            //                     'Content-Type': 'application/json',
+            //                 }
+            //             })
+            //             .then(deleteResponse => {
+            //                 if (deleteResponse.ok) {
+            //                     console.log('Cart items deleted successfully.');
+            //                     window.location.reload(); 
+            //                 } else {
+            //                     console.error('Failed to delete cart items.');
+            //                 }
+            //             })
+            //             .catch(deleteError => {
+            //                 console.error('Error deleting cart items:', deleteError);
+            //             });
+            //         });
+            //     }
+                else {
                     response.json().then(errorData => {
                         console.error('Order placement failed:', errorData);
                         showMessageBox('Order placement failed: ' + (errorData.message || 'Please try again or contact support.'));

@@ -10,11 +10,9 @@ namespace FitVerse.Web.UnitOfWorks
         ProductRepository productRepository;
         OrderItemRepository orderItemRepository;
         OrderRepository order;
-        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, ProductRepository productRepo,OrderItemRepository orderItemRepo)
+     
+        public UnitOfWork(FitVerseContext context)
         {
-            cartItemRepository = cartItemRepo;
-            productRepository = productRepo;
-            orderItemRepository = orderItemRepo;
             _context = context;
         }
         public CartItemRepository CartItemRepository
@@ -42,7 +40,6 @@ namespace FitVerse.Web.UnitOfWorks
                 return orderItemRepository;
             } 
         }
-
         public OrderRepository Order
         {
             get {

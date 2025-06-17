@@ -17,7 +17,7 @@ namespace FitVerse.Web.ViewModels.Checkout
         public int UserId { get; set; }
         //public User User { get; set; }
         public DateTime OrderDate { get; set; }
-        public int TotalAmount { get; set; }
+        //public int TotalAmount { get; set; }
         public string Status { get; set; }
         public string ShippingAddress { get; set; }
         public string CustomerName { get; set; }

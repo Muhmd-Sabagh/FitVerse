@@ -10,6 +10,7 @@ namespace FitVerse.Web.Controllers
 {
     public class CheckoutController : Controller
     {
+        int userId = 1;
         UnitOfWork _unit;
         IMapper _map;
         public CheckoutController(UnitOfWork unit, IMapper map)
@@ -26,10 +27,11 @@ namespace FitVerse.Web.Controllers
             return View(checkout_ViewModel);
         }
         [HttpPost]
-        public IActionResult SaveOrder([FromBody]Checkout_ViewModel checkoutVM) {
-            List<CartItem>cartItems = _unit.CartItemRepository.GetUserCartItems();
+        public IActionResult SaveOrder([FromBody] Checkout_ViewModel checkoutVM)
+        {
+            List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
-            
+
             Order order = new Order();
             order.ShippingAddress = checkoutVM.ShippingAddress;
             order.CustomerPhone = checkoutVM.CustomerPhone;
@@ -37,10 +39,24 @@ namespace FitVerse.Web.Controllers
             order.CustomerName = checkoutVM.CustomerName;
             order.OrderDate = checkoutVM.OrderDate;
             order.OrderItems = orderItems;
+            order.UserId = userId;
+            _unit.Order.Add(order);
             _unit.Save();
-            List<Order> orders = _unit.Order.GetAll();
+            Order_ViewModel orderVM = _map.Map<Order_ViewModel>(order);
+            return Ok(new
+            {
+                success = true,
+                redirectUrl = Url.Action("OrderDetails", new { id = order.Id })
+            });
+        }
 
-            return View("MyOrders", orders);
+
+
+
+        public IActionResult OrderDetails()
+        {
+
+            return View("MyOrderDetails");
         }
     }
 }
