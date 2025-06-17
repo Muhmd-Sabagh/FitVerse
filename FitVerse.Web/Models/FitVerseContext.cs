@@ -338,5 +338,6 @@ namespace FitVerse.Web.Models
                 }
             }
         }
+        public DbSet<FitVerse.Web.Models.CartItem_ViewModel> CartItem_ViewModel { get; set; } = default!;
     }
 }

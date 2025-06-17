@@ -7,13 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Implementations\" />
-    <Folder Include="Repositories\Interfaces\" />
     <Folder Include="ViewModels\Home\" />
     <Folder Include="ViewModels\Cart\" />
     <Folder Include="ViewModels\Account\" />
     <Folder Include="ViewModels\Order\" />
-    <Folder Include="ViewModels\Product\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Order\" />
@@ -29,6 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
