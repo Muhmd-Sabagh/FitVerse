@@ -8,7 +8,8 @@
         <div class="col-lg-8 col-md-10">
             <div class="card shadow-lg p-4">
                 <h2 class="card-title text-center mb-4">Secure Checkout</h2>
-                <form id="checkoutForm" class="row g-3" action="/Checkout/SaveOrder"  method="POST">
+                <form id="checkoutForm" class="row g-3">
+                    @* Remove action and method from here *@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -22,10 +23,10 @@
                                     <input type="text" asp-for="ShippingAddress" autocomplete="street-address" required class="form-control">
                                 </div>
                                 <div class="row g-3">
-                                     <div class="col-md-4"> 
-                                         <label asp-for="CustomerPhone" class="form-label">Phone Number</label>
-                                        <input type="text" asp-for="CustomerPhone" autocomplete="PhoneNumber" required class="form-control"> 
-                                     </div> 
+                                    <div class="col-md-4">
+                                        <label asp-for="CustomerPhone" class="form-label">Phone Number</label>
+                                        <input type="text" asp-for="CustomerPhone" autocomplete="tel" required class="form-control"> @* Use autocomplete="tel" for phone *@
+                                    </div>
                                     <div class="col-md-4">
                                         <label asp-for="Status" class="form-label">State / Province</label>
                                         <input type="text" asp-for="Status" autocomplete="address-level1" required class="form-control">
@@ -84,10 +85,11 @@
             </div>
         </div>
     </div>
+    @* This part seems to be for displaying cart items on the checkout page, not part of the form submission *@
     @foreach (CartItem_ViewModel @item in Model.CartItemsViewModels)
     {
         <div class="card">
-            <img src=@item.ImageUrl/>
+            <img src=@item.ImageUrl />
             <div> @item.Prod_Name </div>
             <div> @item.EffectivePrice </div>
             <div> @item.Quantity </div>
@@ -95,273 +97,92 @@
     }
 </div>
 
-@* <script> *@
-@*     document.addEventListener('DOMContentLoaded', function () { *@
-@*         const checkoutForm = document.getElementById('checkoutForm'); *@
-@*         const messageBox = new bootstrap.Modal(document.getElementById('messageBox')); *@
-@*         const messageBoxContent = document.getElementById('messageBoxContent'); *@
-@*         const messageBoxOkButton = document.getElementById('messageBoxOkButton'); *@
+@section Scripts {
+    <script>
+        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-@*         function showMessageBox(message, callback = null) { *@
-@*             messageBoxContent.textContent = message; *@
-@*             messageBox.show(); *@
-@*             // Attach callback to the OK button of the modal *@
-@*             messageBoxOkButton.onclick = () => { *@
-@*                 messageBox.hide(); *@
-@*                 if (callback) { *@
-@*                     callback(); *@
-@*                 } *@
-@*             }; *@
-@*         } *@
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {};
 
-@*            checkoutForm.addEventListener('submit', function (event) { *@
-@*         event.preventDefault(); *@
-
-@*         const requiredFields = checkoutForm.querySelectorAll('[required]'); *@
-@*         let allFieldsFilled = true; *@
-@*         requiredFields.forEach(field => { *@
-@*             if (field.value.trim() === '') { *@
-@*                 allFieldsFilled = false; *@
-@*                 field.classList.add('is-invalid'); *@
-@*             } else { *@
-@*                 field.classList.remove('is-invalid'); *@
-@*             } *@
-@*         }); *@
-
-@*         if (!allFieldsFilled) { *@
-@*             showMessageBox('Please fill in all required fields.'); *@
-@*             return; *@
-@*         } *@
-
-@*         // 1. Collect basic form data *@
-@*         const formData = new FormData(checkoutForm); *@
-@*         const checkoutData = {}; *@
-@*         for (let [key, value] of formData.entries()) { *@
-@*             // Exclude payment details for now as they are not in Checkout_ViewModel *@
-@*             // and should be handled by a payment gateway. *@
-@*             // Or if you temporarily need them for debugging, include them. *@
-@*             if (!['cardNumber', 'expirationDate', 'cvv', 'cardHolderName'].includes(key)) { *@
-@*                 checkoutData[key] = value; *@
-@*             } *@
-@*         } *@
-
-@*         // 2. Add CartItems data from the model.CartItems *@
-@*         // This assumes the model.CartItems contains the actual data you want to send. *@
-@*         // You can embed this data into a hidden input or generate it from JavaScript. *@
-@*         // For simplicity, let's assume the model is available to JavaScript (which it is on page load). *@
-@*         // This is how you'd get the initial CartItems that were passed to the view: *@
-@*         const cartItemsFromModel = @Html.Raw(Json.Serialize(Model.CartItemsViewModels)); // Serialize the C# model to JavaScript object *@
-
-@*         // Add the CartItems to your checkoutData object *@
-@*         checkoutData.CartItems = cartItemsFromModel.map(item => ({ *@
-@*             Product: { // Ensure Product has the properties you need, e.g., EffectivePrice *@
-@*                 EffectivePrice: item.Product.EffectivePrice *@
-@*             }, *@
-@*             Quantity: item.Quantity, *@
-@*             // Add any other properties of CartItem/Product that your backend needs *@
-@*             // e.g., Product.Id if you want to link it to an existing product *@
-@*             Product: { *@
-@*                 Id: item.Product.Id, // Assuming you have Product.Id *@
-@*                 EffectivePrice: item.Product.EffectivePrice *@
-@*             } *@
-@*         })); *@
-
-@*         // Handle OrderDate - you might want to set it on the server, or send current date *@
-@*         checkoutData.OrderDate = new Date().toISOString(); // Send current date/time *@
-
-@*         // IMPORTANT: Send the collected data in the fetch request body *@
-@*         fetch('/Checkout/SaveOrder', { *@
-@*             method: 'POST', *@
-@*             headers: { *@
-@*                 'Content-Type': 'application/json', *@
-@*                 // Add Anti-Forgery Token if you use it for security *@
-@*                 // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value *@
-@*             }, *@
-@*             body: JSON.stringify(checkoutData) // THIS IS THE KEY CHANGE *@
-@*         }) *@
-@*         .then(response => { *@
-@*             if (response.ok) { *@
-@*                 showMessageBox('Your order has been placed successfully! Thank you for your purchase.', () => { *@
-@*                     // Optionally, redirect to MyOrders page or reload to clear cart *@
-@*                     // window.location.href = '/Checkout/MyOrders'; // Or wherever your MyOrders action is *@
-@*                     console.log('Cart items can now be deleted on the server or reloaded.'); *@
-@*                     // If you have a separate API to delete cart items: *@
-@*                     fetch('/CartItem/DeleteAll', { *@
-@*                         method: 'POST', *@
-@*                         headers: { *@
-@*                             'Content-Type': 'application/json', *@
-@*                             // Include anti-forgery token if DeleteAll is also POST *@
-@*                         } *@
-@*                     }) *@
-@*                     .then(deleteResponse => { *@
-@*                         if (deleteResponse.ok) { *@
-@*                             console.log('Cart items deleted successfully.'); *@
-@*                             window.location.reload(); // Reload the page to reflect empty cart *@
-@*                         } else { *@
-@*                             console.error('Failed to delete cart items.'); *@
-@*                         } *@
-@*                     }) *@
-@*                     .catch(deleteError => { *@
-@*                         console.error('Error deleting cart items:', deleteError); *@
-@*                     }); *@
-@*                 }); *@
-@*             } else { *@
-@*                 // Handle errors from the server (e.g., bad request, validation errors) *@
-@*                 response.json().then(errorData => { *@
-@*                     console.error('Order placement failed:', errorData); *@
-@*                     showMessageBox('Order placement failed. Please try again or contact support.'); *@
-@*                 }).catch(() => { *@
-@*                     showMessageBox('An unexpected error occurred. Please try again.'); *@
-@*                 }); *@
-@*             } *@
-@*         }) *@
-@*         .catch(error => { *@
-@*             console.error('Network error during order placement:', error); *@
-@*             showMessageBox('A network error occurred. Please check your internet connection.'); *@
-@*         }); *@
-@*     }); *@
-
-
-@*         // Input formatting for Card Number *@
-@*         document.getElementById('cardNumber').addEventListener('input', function (e) { *@
-@*             let value = e.target.value.replace(/\D/g, ''); // Remove non-digits *@
-@*             value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits *@
-@*             e.target.value = value; *@
-@*         }); *@
-
-@*         // Input formatting for Expiration Date (MM/YY) *@
-@*         document.getElementById('expirationDate').addEventListener('input', function (e) { *@
-@*             let value = e.target.value.replace(/\D/g, ''); // Remove non-digits *@
-@*             if (value.length > 2) { *@
-@*                 value = value.substring(0, 2) + '/' + value.substring(2, 4); *@
-@*             } *@
-@*             e.target.value = value; *@
-@*         }); *@
-@*     }); *@
-@* </script> *@
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const checkoutForm = document.getElementById('checkoutForm');
-        const messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
-        const messageBoxContent = document.getElementById('messageBoxContent');
-        const messageBoxOkButton = document.getElementById('messageBoxOkButton');
-
-        function showMessageBox(message, callback = null) {
-            messageBoxContent.textContent = message;
-            messageBox.show();
-            messageBoxOkButton.onclick = () => {
-                messageBox.hide();
-                if (callback) {
-                    callback();
-                }
-            };
-        }
-
-        checkoutForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const requiredFields = checkoutForm.querySelectorAll('[required]');
-            let allFieldsFilled = true;
-            requiredFields.forEach(field => {
-                if (field.value.trim() === '') {
-                    allFieldsFilled = false;
-                    field.classList.add('is-invalid');
+            // Convert form data to a plain object
+            for (let [key, value] of formData.entries()) {
+                // Handle properties that should be numbers or dates if necessary
+                if (key === 'OrderDate') {
+                    data[key] = new Date().toISOString(); // Or get from a hidden field if it's dynamic
                 } else {
-                    field.classList.remove('is-invalid');
+                    data[key] = value;
                 }
-            });
-
-            if (!allFieldsFilled) {
-                showMessageBox('Please fill in all required fields.');
-                return;
             }
 
-            // 1. Collect basic form data (shipping information)
-            const formData = new FormData(checkoutForm);
-            const checkoutData = {};
+            // Manually add the CartItemsViewModel if it's not part of the form inputs
+            // If your Checkout_ViewModel expects CartItemsViewModel, you'll need to populate it.
+            // Based on your server-side code, it seems you are fetching CartItems separately in SaveOrder,
+            // so you might not need to send them from the client for this specific error.
+            // If you *do* need to send them, you'll need hidden inputs for each cart item's properties,
+            // or fetch them via JavaScript and add them to the data object.
+            // For now, let's assume the current structure where CartItems are fetched server-side.
 
-            // Map form fields to properties of Checkout_ViewModel
-            // Ensure these keys match the property names in your C# Checkout_ViewModel
-            checkoutData.CustomerName = formData.get('CustomerName');
-            checkoutData.ShippingAddress = formData.get('ShippingAddress');
-            checkoutData.CustomerPhone = formData.get('CustomerPhone');
-            checkoutData.Status = formData.get('Status'); // Matches 'Status' in your ViewModel
-            checkoutData.CustomerEmail = formData.get('CustomerEmail');
+            // The payment details (cardNumber, expirationDate, cvv, cardHolderName) are not part of Checkout_ViewModel.
+            // You should either add these properties to your Checkout_ViewModel or handle them separately (e.g., tokenizing them).
+            // For the sake of fixing the 415 error, I'll exclude them from the JSON for now, as your C# ViewModel doesn't have them.
+            // If they are critical, you MUST add them to Checkout_ViewModel.
 
-            // 2. Add CartItems data from the model.CartItemsViewModels
-            // This is crucial for sending the cart details back to the server.
-            // The Razor engine serializes the C# List<CartItem_ViewModel> into a JavaScript array.
-            const cartItemsFromModel = @Html.Raw(Json.Serialize(Model.CartItemsViewModels));
+            // Example of what `data` might look like based on your current Checkout_ViewModel properties:
+            // CustomerName, ShippingAddress, CustomerPhone, CustomerEmail, Status, OrderDate (if applicable)
 
-            checkoutData.CartItems = cartItemsFromModel.map(item => ({
-                ProductId: item.ProductId, 
-                Prod_Name: item.Prod_Name,
-                ImageUrl: item.ImageUrl,
-                EffectivePrice: item.EffectivePrice,
-                Quantity: item.Quantity
-            }));
+            // Let's create a simplified data object based on your C# Checkout_ViewModel:
+            const checkoutData = {
+                CustomerName: formData.get('CustomerName'),
+                ShippingAddress: formData.get('ShippingAddress'),
+                CustomerPhone: formData.get('CustomerPhone'),
+                CustomerEmail: formData.get('CustomerEmail'),
+                Status: formData.get('Status'), // Assuming 'Status' maps to a property in Checkout_ViewModel
+                OrderDate: new Date().toISOString() // Assuming OrderDate is set client-side or defaults server-side
+                // CartItemsViewModels is not coming from form inputs, so it will be null unless you explicitly add it.
+                // Since your SaveOrder fetches cart items from UnitOfWork, you likely don't need to send it from the client.
+            };
 
-            checkoutData.OrderDate = new Date().toISOString();
+            try {
+                const response = await fetch('/Checkout/SaveOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(checkoutData) // Send as JSON
+                });
 
-            fetch('/Checkout/SaveOrder', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(checkoutData) 
-            })
-            // .then(response => {
-            //     if (response.ok) {
-            //         showMessageBox('Your order has been placed successfully! Thank you for your purchase.', () => {
-            //             fetch('/CartItem/DeleteAll', {
-            //                 method: 'POST', 
-            //                 headers: {
-            //                     'Content-Type': 'application/json',
-            //                 }
-            //             })
-            //             .then(deleteResponse => {
-            //                 if (deleteResponse.ok) {
-            //                     console.log('Cart items deleted successfully.');
-            //                     window.location.reload(); 
-            //                 } else {
-            //                     console.error('Failed to delete cart items.');
-            //                 }
-            //             })
-            //             .catch(deleteError => {
-            //                 console.error('Error deleting cart items:', deleteError);
-            //             });
-            //         });
-            //     }
-                else {
-                    response.json().then(errorData => {
-                        console.error('Order placement failed:', errorData);
-                        showMessageBox('Order placement failed: ' + (errorData.message || 'Please try again or contact support.'));
-                    }).catch(() => {
-                        showMessageBox('An unexpected error occurred. Please try again.');
-                    });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        // Display success message and redirect
+                        document.getElementById('messageBoxContent').textContent = 'Order placed successfully!';
+                        var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                        messageBox.show();
+
+                        document.getElementById('messageBoxOkButton').onclick = function() {
+                            window.location.href = result.redirectUrl; // Redirect to order details
+                        };
+                    } else {
+                        // Handle server-side errors if any (e.g., validation failed)
+                        document.getElementById('messageBoxContent').textContent = result.message || 'An error occurred while placing the order.';
+                        var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                        messageBox.show();
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('HTTP error:', response.status, errorText);
+                    document.getElementById('messageBoxContent').textContent = `Error: ${response.status} - ${errorText.substring(0, 100)}...`; // Show part of the error
+                    var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                    messageBox.show();
                 }
-            })
-            .catch(error => {
-                console.error('Network error during order placement:', error);
-                showMessageBox('A network error occurred. Please check your internet connection.');
-            });
-        });
-
-        // Input formatting for Card Number
-        document.getElementById('cardNumber').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
-            value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
-            e.target.value = value;
-        });
-
-        // Input formatting for Expiration Date (MM/YY)
-        document.getElementById('expirationDate').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
-            if (value.length > 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            } catch (error) {
+                console.error('Fetch error:', error);
+                document.getElementById('messageBoxContent').textContent = 'An unexpected error occurred. Please try again.';
+                var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                messageBox.show();
             }
-            e.target.value = value;
         });
-    });
-</script>
+    </script>
+}
