@@ -24,14 +24,14 @@ namespace FitVerse.Web.Models
         [StringLength(20)]
         public string Role { get; set; } = "Customer";
 
-        [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "date")]
-        public DateTime UpdatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
 }

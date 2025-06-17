@@ -26,8 +26,8 @@ namespace FitVerse.Web.Models
 
         public bool IsActive { get; set; } = true;
 
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public DateTime UpdatedAt { get; set; } = new DateTime(2025, 01, 01);
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }
