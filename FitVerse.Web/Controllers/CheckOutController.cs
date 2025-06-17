@@ -53,10 +53,18 @@ namespace FitVerse.Web.Controllers
 
 
 
-        public IActionResult OrderDetails()
+        public IActionResult OrderDetails(int id)
         {
-
-            return View("MyOrderDetails");
+            Order order = _unit.Order.GetById(id);
+            if (order != null)
+                return View("MyOrderDetails", order);
+            else return RedirectToAction("Index");
+        }
+        public IActionResult AllOrders()
+        {
+            List<Order> orders = _unit.Order.GetAll();
+            if (orders == null) RedirectToAction("Index");
+            return View("AllOrdersView", orders);
         }
     }
 }

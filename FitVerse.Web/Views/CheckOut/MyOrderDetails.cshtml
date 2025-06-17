@@ -1,5 +1,97 @@
-﻿@page
-@model FitVerse.Web.ViewModels.Checkout.Order_ViewModel
+﻿@* @page *@
+@* @model Order *@
+
+@* @{ *@
+@*     ViewData["Title"] = "Order Details"; *@
+@* } *@
+
+@* <script src="https://cdn.tailwindcss.com"></script> *@
+@* <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> *@
+
+@* <style> *@
+@*     body { *@
+@*         font-family: 'Inter', sans-serif; *@
+@*         background-color: #f3f4f6; /* Light gray background */ *@
+@*     } *@
+@* </style> *@
+
+@* <div class="container mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen"> *@
+@*     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-lg"> *@
+@*         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Order Details</h1> *@
+@*         <hr class="mb-6 border-gray-200"> *@
+
+@*         <div class="space-y-4"> *@
+@*             <!-- UserId --> *@
+@*             <div> *@
+@*                 <label asp-for="UserId" class="block text-sm font-medium text-gray-700">User ID</label> *@
+@*                 <input asp-for="UserId" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- CustomerName --> *@
+@*             <div> *@
+@*                 <label asp-for="CustomerName" class="block text-sm font-medium text-gray-700">Customer Name</label> *@
+@*                 <input asp-for="CustomerName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- CustomerEmail --> *@
+@*             <div> *@
+@*                 <label asp-for="CustomerEmail" class="block text-sm font-medium text-gray-700">Customer Email</label> *@
+@*                 <input asp-for="CustomerEmail" type="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- CustomerPhone --> *@
+@*             <div> *@
+@*                 <label asp-for="CustomerPhone" class="block text-sm font-medium text-gray-700">Customer Phone</label> *@
+@*                 <input asp-for="CustomerPhone" type="tel" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- ShippingAddress --> *@
+@*             <div> *@
+@*                 <label asp-for="ShippingAddress" class="block text-sm font-medium text-gray-700">Shipping Address</label> *@
+@*                 <textarea asp-for="ShippingAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly></textarea> *@
+@*             </div> *@
+
+@*             <!-- TotalAmount --> *@
+@*             <div> *@
+@*                 <label asp-for="TotalAmount" class="block text-sm font-medium text-gray-700">Total Amount</label> *@
+@*                 <input asp-for="TotalAmount" type="number" step="0.01" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 cursor-default shadow-sm sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- OrderDate --> *@
+@*             <div> *@
+@*                 <label asp-for="OrderDate" class="block text-sm font-medium text-gray-700">Order Date</label> *@
+@*                 <input value="@Model.OrderDate.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- Status --> *@
+@*             <div> *@
+@*                 <label asp-for="Status" class="block text-sm font-medium text-gray-700">Status</label> *@
+@*                 <input asp-for="Status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- CreatedAt --> *@
+@*             <div> *@
+@*                 <label asp-for="CreatedAt" class="block text-sm font-medium text-gray-700">Created At</label> *@
+@*                 <input value="@Model.CreatedAt.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+@*             <!-- UpdatedAt --> *@
+@*             <div> *@
+@*                 <label asp-for="UpdatedAt" class="block text-sm font-medium text-gray-700">Updated At</label> *@
+@*                 <input value="@Model.UpdatedAt.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly /> *@
+@*             </div> *@
+
+           
+@*         </div> *@
+
+@*         <div class="mt-6 text-center"> *@
+@*             <a asp-page="./Index" class="text-indigo-600 hover:text-indigo-800 text-sm">Back to List</a> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+
+@model FitVerse.Web.Models.Order
 
 @{
     ViewData["Title"] = "Order Details";
@@ -21,91 +113,43 @@
         <hr class="mb-6 border-gray-200">
 
         <div class="space-y-4">
-            <!-- UserId -->
             <div>
                 <label asp-for="UserId" class="block text-sm font-medium text-gray-700">User ID</label>
                 <input asp-for="UserId" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
             </div>
 
-            <!-- CustomerName -->
             <div>
                 <label asp-for="CustomerName" class="block text-sm font-medium text-gray-700">Customer Name</label>
                 <input asp-for="CustomerName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
             </div>
 
-            <!-- CustomerEmail -->
             <div>
                 <label asp-for="CustomerEmail" class="block text-sm font-medium text-gray-700">Customer Email</label>
                 <input asp-for="CustomerEmail" type="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
             </div>
 
-            <!-- CustomerPhone -->
             <div>
                 <label asp-for="CustomerPhone" class="block text-sm font-medium text-gray-700">Customer Phone</label>
                 <input asp-for="CustomerPhone" type="tel" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
             </div>
 
-            <!-- ShippingAddress -->
             <div>
                 <label asp-for="ShippingAddress" class="block text-sm font-medium text-gray-700">Shipping Address</label>
                 <textarea asp-for="ShippingAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly></textarea>
             </div>
 
-            <!-- TotalAmount -->
             <div>
                 <label asp-for="TotalAmount" class="block text-sm font-medium text-gray-700">Total Amount</label>
                 <input asp-for="TotalAmount" type="number" step="0.01" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 cursor-default shadow-sm sm:text-sm" readonly />
             </div>
 
-            <!-- OrderDate -->
-            <div>
-                <label asp-for="OrderDate" class="block text-sm font-medium text-gray-700">Order Date</label>
-                <input value="@Model.OrderDate.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
-            </div>
-
-            <!-- Status -->
-            <div>
-                <label asp-for="Status" class="block text-sm font-medium text-gray-700">Status</label>
-                <input asp-for="Status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
-            </div>
-
-            <!-- CreatedAt -->
-            <div>
-                <label asp-for="CreatedAt" class="block text-sm font-medium text-gray-700">Created At</label>
-                <input value="@Model.CreatedAt.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
-            </div>
-
-            <!-- UpdatedAt -->
-            <div>
-                <label asp-for="UpdatedAt" class="block text-sm font-medium text-gray-700">Updated At</label>
-                <input value="@Model.UpdatedAt.ToShortDateString()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 cursor-default sm:text-sm" readonly />
-            </div>
-
-            <!-- You can iterate through OrderItems here if you want to display them -->
-            @* @if (Model.OrderItems != null && Model.OrderItems.Any()) *@
-            @* { *@
-            @*     <div class="mt-6"> *@
-            @*         <h2 class="text-xl font-semibold text-gray-700 mb-3">Order Items</h2> *@
-            @*         <ul class="border border-gray-200 rounded-md divide-y divide-gray-200"> *@
-            @*             @foreach (var item in Model.OrderItems) *@
-            @*             { *@
-            @*                 <li class="p-3 flex justify-between items-center text-sm text-gray-600"> *@
-            @*                     <span>@item.Product.Name (x@item.Quantity)</span> *@
-                                
-            @*                 </li> *@
-            @*             } *@
-            @*         </ul> *@
-            @*     </div> *@
-            @* } *@
-            @* else *@
-            @* { *@
-            @*     <p class="text-sm text-gray-500 mt-4">No order items to display.</p> *@
-            @* } *@
-        </div>
+        
 
         <div class="mt-6 text-center">
-            <a asp-page="./Index" class="text-indigo-600 hover:text-indigo-800 text-sm">Back to List</a>
+            @* Use asp-controller and asp-action for correct MVC linking *@
+            <a asp-controller="Checkout" asp-action="Index" class="text-indigo-600 hover:text-indigo-800 text-sm">Back to Checkout</a>
+            @* Or if you want back to a list of orders (e.g., MyOrders action) *@
+            @* <a asp-controller="Order" asp-action="MyOrders" class="text-indigo-600 hover:text-indigo-800 text-sm">Back to My Orders</a> *@
         </div>
     </div>
 </div>
-
