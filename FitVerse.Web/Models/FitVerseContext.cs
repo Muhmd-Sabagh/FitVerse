@@ -3,11 +3,13 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Collections.Generic; // Required for Dictionary
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity; // Required for Dictionary
 
 namespace FitVerse.Web.Models
 {
-    public class FitVerseContext : DbContext
+    public class FitVerseContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -2,6 +2,7 @@ using FitVerse.Web.Models; // Ensure this namespace is correct for FitVerseConte
 //using FitVerse.Web.Repositories.Implementations;
 //using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 //using AutoMapper; // Required for AutoMapper
 //using FitVerse.Web.Mappers; // Your AutoMapper profile namespace
@@ -34,6 +35,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
+// Add Identity services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+    op => {
+        op.Password.RequiredLength = 4;
+        op.Password.RequireNonAlphanumeric = false;
+        op.Password.RequireUppercase = false;
+    })
+    .AddEntityFrameworkStores<FitVerseContext>();
 
 //// Register Repositories with Dependency Injection
 //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
