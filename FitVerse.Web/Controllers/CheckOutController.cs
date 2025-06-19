@@ -28,6 +28,7 @@ namespace FitVerse.Web.Controllers
             Checkout_ViewModel checkout_ViewModel = new Checkout_ViewModel();
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<CartItem_ViewModel> cartItemVMs = _map.Map<List<CartItem_ViewModel>>(cartItems);
+            
             //checkout_ViewModel.CartItemsViewModel.AddRange(cartItems);
             return View(checkout_ViewModel);
         }
@@ -36,7 +37,9 @@ namespace FitVerse.Web.Controllers
         {
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
+
             var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   
+
 
             Order order = new Order();
             order.ShippingAddress = checkoutVM.ShippingAddress;
@@ -56,31 +59,6 @@ namespace FitVerse.Web.Controllers
                 redirectUrl = Url.Action("OrderDetails", new { id = order.Id })
             });
         }
-
-
-
-
-        //public IActionResult OrderDetails(int id)
-        //{
-
-        //    Order order = _unit.Order.GetById(id);
-        //    order.OrderItems = _unit.OrderItem.GetAll(); // take care get  only user items not all 
-
-
-        //    List<OrderViewModel>orderVM = _map.Map<List<OrderViewModel>>(order);
-        //    foreach (var item in orderVM)
-        //    {
-        //        item.ProductNames = _unit.Order.GetAllProductsNamesfromOrder(userId);
-        //        item.ProductImgUrls = _unit.Order.GetAllImgsUrlsfromOrder(userId);
-        //    }
-
-
-        //    //order.OrderItems = _unit.OrderItem.GetAllByUserId();
-
-        //    if (order != null)
-        //        return View("MyOrderDetails", orderVM);
-        //    else return RedirectToAction("Index");
-        //}
         public IActionResult OrderDetails(int id)
         {
 

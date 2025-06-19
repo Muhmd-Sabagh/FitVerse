@@ -4,6 +4,7 @@ using AspNetCoreGeneratedDocument;
 using FitVerse.Web.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
@@ -72,6 +73,7 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             List<CartItem> cartItems = GetUserCartItems();
             decimal sum = 0;
+
             foreach (CartItem item in cartItems)
             {
                 sum += item.TotalPrice;

@@ -10,6 +10,7 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             _context = context;
         }
+
         public List<string> GetAllProductsNamesfromOrder(int UId)
         {
             Order order = GetById(UId);
@@ -23,18 +24,8 @@ namespace FitVerse.Web.Repositories.Implementations
             return  productNames;
         }
         
-        public List<string> GetAllImgsUrlsfromOrder(int UId)
-        {
-            Order order = GetById(UId);
-            List<OrderItem> orderItems = _context.OrderItems.Where(o => o.Id == order.Id).ToList();
-            List<string> ImgsUrls = new List<string>();
-            foreach (OrderItem item in orderItems)
-            {
-                string ImgUrl= item.Product.ImageUrl;
-                ImgsUrls.Add(ImgUrl);
-            }
-            return ImgsUrls;
+
         }
 
     }
-}
+

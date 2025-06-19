@@ -19,26 +19,8 @@ namespace FitVerse.Web.Repositories.Implementations
         }
         public List<CartItem> GetUserCartItems(int UId)
         {
-            return Db.CartItems.Where(c=> c.UserId == UId).ToList();
+            return _context.CartItems.Where(c=> c.UserId == UId).ToList();
         }
-        //public List<OrderItem> GetUserOrderItems(int UId)
-        //{
-        //    List<CartItem> cartItems = GetUserCartItems(userId);
-        //    List<OrderItem> orderItems = new List<OrderItem>();
-        //    foreach (CartItem cartItem in cartItems)
-        //    {
-        //        OrderItem orderItem = new OrderItem()
-        //        {
-        //            //TotalPrice = cartItem.TotalPrice,
-        //            Quantity = cartItem.Quantity,
-        //            UnitPrice = cartItem.TotalPrice,
-        //            Product = cartItem.Product,
-        //        };
-        //        orderItems.Add(orderItem);
-        //    }
-        //    return orderItems;
 
-        //    //return Db.OrderItems.Where(o => o.== UId).ToList();
-        //}
     }
 }
