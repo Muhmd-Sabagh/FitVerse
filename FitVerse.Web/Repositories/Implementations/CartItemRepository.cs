@@ -4,6 +4,7 @@ using AspNetCoreGeneratedDocument;
 using FitVerse.Web.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
@@ -67,6 +68,16 @@ namespace FitVerse.Web.Repositories.Implementations
             _context.Update(cartitem);
             if(cartitem.Quantity == 0)
                 DeleteByProdId(PId);
+        }
+        public decimal getCartCost()
+        {
+            List<CartItem> cartItems  = GetUserCartItems();
+            decimal sum =0;
+            foreach (CartItem item in cartItems)
+            {
+                sum += item.TotalPrice;
+            }
+            return sum;
         }
     }
 }

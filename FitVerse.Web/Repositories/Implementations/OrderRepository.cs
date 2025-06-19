@@ -9,6 +9,18 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             _context = context;
         }
+        public decimal getTotalOrdersCost()
+        {
+            List<Order> orders = GetAll();
+            decimal TotalCost = 0;
+            foreach (var item in orders)
+            {
+                TotalCost += item.TotalAmount;
+            }
+            return TotalCost;
+
+
+        }
 
     }
 }
