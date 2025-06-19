@@ -68,5 +68,15 @@ namespace FitVerse.Web.Repositories.Implementations
             if(cartitem.Quantity == 0)
                 DeleteByProdId(PId);
         }
+        public decimal getCartCost()
+        {
+            List<CartItem> cartItems = GetUserCartItems();
+            decimal sum = 0;
+            foreach (CartItem item in cartItems)
+            {
+                sum += item.TotalPrice;
+            }
+            return sum;
+        }
     }
 }

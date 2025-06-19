@@ -1,9 +1,12 @@
-﻿using AutoMapper;
+﻿using AspNetCoreGeneratedDocument;
+using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
 using FitVerse.Web.ViewModels.Checkout;
+using FitVerse.Web.ViewModels.Order;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace FitVerse.Web.Controllers
@@ -13,8 +16,10 @@ namespace FitVerse.Web.Controllers
         int userId = 1;
         UnitOfWork _unit;
         IMapper _map;
-        public CheckoutController(UnitOfWork unit, IMapper map)
+        FitVerseContext _context;
+        public CheckoutController(UnitOfWork unit, IMapper map, FitVerseContext context)
         {
+            _context = context;
             _map = map;
             _unit = unit;
         }
@@ -31,6 +36,7 @@ namespace FitVerse.Web.Controllers
         {
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
+            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   
 
             Order order = new Order();
             order.ShippingAddress = checkoutVM.ShippingAddress;
@@ -40,6 +46,7 @@ namespace FitVerse.Web.Controllers
             order.OrderDate = checkoutVM.OrderDate;
             order.OrderItems = orderItems;
             order.UserId = userId;
+            order.TotalAmount = totalPricefromCartItems;
             _unit.Order.Add(order);
             _unit.Save();
             Order_ViewModel orderVM = _map.Map<Order_ViewModel>(order);
@@ -53,11 +60,35 @@ namespace FitVerse.Web.Controllers
 
 
 
+        //public IActionResult OrderDetails(int id)
+        //{
+
+        //    Order order = _unit.Order.GetById(id);
+        //    order.OrderItems = _unit.OrderItem.GetAll(); // take care get  only user items not all 
+
+
+        //    List<OrderViewModel>orderVM = _map.Map<List<OrderViewModel>>(order);
+        //    foreach (var item in orderVM)
+        //    {
+        //        item.ProductNames = _unit.Order.GetAllProductsNamesfromOrder(userId);
+        //        item.ProductImgUrls = _unit.Order.GetAllImgsUrlsfromOrder(userId);
+        //    }
+
+
+        //    //order.OrderItems = _unit.OrderItem.GetAllByUserId();
+
+        //    if (order != null)
+        //        return View("MyOrderDetails", orderVM);
+        //    else return RedirectToAction("Index");
+        //}
         public IActionResult OrderDetails(int id)
         {
-            Order order = _unit.Order.GetById(id);
+
+            Order order = _context.Orders.Where(o => o.Id == id).Include(o => o.OrderItems).ThenInclude(item => item.Product).FirstOrDefault();
             if (order != null)
                 return View("MyOrderDetails", order);
+            
+
             else return RedirectToAction("Index");
         }
         public IActionResult AllOrders()

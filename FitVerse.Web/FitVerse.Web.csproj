@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="ViewModels\Account\" />
     <Folder Include="ViewModels\Home\" />
-    <Folder Include="ViewModels\Order\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Order\" />

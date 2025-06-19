@@ -1,4 +1,5 @@
-﻿using FitVerse.Web.Models;
+﻿using System;
+using FitVerse.Web.Models;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
@@ -8,6 +9,31 @@ namespace FitVerse.Web.Repositories.Implementations
         public OrderRepository(FitVerseContext context) : base(context)
         {
             _context = context;
+        }
+        public List<string> GetAllProductsNamesfromOrder(int UId)
+        {
+            Order order = GetById(UId);
+            List<OrderItem> orderItems = _context.OrderItems.Where(o=>o.Id == order.Id).ToList();
+            List<string> productNames = new List<string>();
+            foreach (OrderItem item in orderItems)
+            {
+                string productName = item.Product.Name;
+                productNames.Add(productName);
+            }
+            return  productNames;
+        }
+        
+        public List<string> GetAllImgsUrlsfromOrder(int UId)
+        {
+            Order order = GetById(UId);
+            List<OrderItem> orderItems = _context.OrderItems.Where(o => o.Id == order.Id).ToList();
+            List<string> ImgsUrls = new List<string>();
+            foreach (OrderItem item in orderItems)
+            {
+                string ImgUrl= item.Product.ImageUrl;
+                ImgsUrls.Add(ImgUrl);
+            }
+            return ImgsUrls;
         }
 
     }
