@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using FitVerse.Web.ViewModels.Product;
 
 namespace FitVerse.Web.Models
 {
@@ -116,5 +117,6 @@ namespace FitVerse.Web.Models
                 }
             }
         }
+        public DbSet<FitVerse.Web.ViewModels.Product.ProductCardViewModel> ProductCardViewModel { get; set; } = default!;
     }
 }

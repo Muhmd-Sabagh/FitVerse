@@ -8,26 +8,35 @@ namespace FitVerse.Web.Controllers
 {
     public class ProductController : Controller
     {
-        UnitOfWork unitOfWork;
+        IUnitOfWork unitOfWork;
         IMapper map;
-        public ProductController(UnitOfWork _unitOfWork, IMapper _map)
+        public ProductController(IUnitOfWork _unitOfWork, IMapper _map)
         {
             unitOfWork = _unitOfWork;
             map = _map;
         }
-        public IActionResult AllProducts(int pageNumer = 1)
+        public IActionResult All(int page = 1)
         {
-            List<Product> products = unitOfWork.ProductRepository.GetAll(pageNumer);
+            List<Product> products = unitOfWork.ProductRepository.GetAll(page);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
-            return Content(productsVM.ToString());
+            return View("All", productsVM);
 
         }
 
-        public IActionResult ProductDetails(int id)
+        public IActionResult Details(int id)
         {
             Product product = unitOfWork.ProductRepository.GetById(id);
             ProductDetailsViewModel prodDetailsVM = map.Map<ProductDetailsViewModel>(product);
-            return Content(prodDetailsVM.ToString());
+            return View("Details", prodDetailsVM);
+
+        }
+
+
+        public IActionResult Delete(int id)
+        {
+            unitOfWork.ProductRepository.Delete(id);
+            unitOfWork.Save();
+            return RedirectToAction("All");
 
         }
     }

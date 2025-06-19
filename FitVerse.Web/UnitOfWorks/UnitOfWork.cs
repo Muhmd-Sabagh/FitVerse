@@ -4,7 +4,7 @@ using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 namespace FitVerse.Web.UnitOfWorks
 {
-    public class UnitOfWork
+    public class UnitOfWork: IUnitOfWork
     {
         ProductRepository productRepository;
         FitVerseContext _context;
@@ -13,7 +13,7 @@ namespace FitVerse.Web.UnitOfWorks
             _context = context;
         }
 
-        public ProductRepository ProductRepository
+        public IProductRepository ProductRepository
         {
             get
             {

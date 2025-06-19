@@ -1,4 +1,7 @@
+using FitVerse.Web.MapperConfig;
 using FitVerse.Web.Models;
+using FitVerse.Web.UnitOfWorks;
+
 //using FitVerse.Web.Repositories.Implementations;
 //using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -36,7 +39,7 @@ builder.Services.AddSession(options =>
 
 
 //// Register Repositories with Dependency Injection
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -49,7 +52,7 @@ builder.Services.AddSession(options =>
 
 //// Configure AutoMapper
 //// Scans the assembly for profiles and adds them.
-//builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 
 var app = builder.Build();
