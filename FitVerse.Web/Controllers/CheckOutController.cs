@@ -31,6 +31,7 @@ namespace FitVerse.Web.Controllers
         {
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
+            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   
 
             Order order = new Order();
             order.ShippingAddress = checkoutVM.ShippingAddress;
@@ -40,6 +41,7 @@ namespace FitVerse.Web.Controllers
             order.OrderDate = checkoutVM.OrderDate;
             order.OrderItems = orderItems;
             order.UserId = userId;
+            order.TotalAmount = totalPricefromCartItems;
             _unit.Order.Add(order);
             _unit.Save();
             Order_ViewModel orderVM = _map.Map<Order_ViewModel>(order);
