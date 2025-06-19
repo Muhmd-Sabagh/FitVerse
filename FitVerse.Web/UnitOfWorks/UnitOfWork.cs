@@ -8,11 +8,9 @@ namespace FitVerse.Web.UnitOfWorks
         CartItemRepository cartItemRepository;
         ProductRepository productRepository;
         FitVerseContext _context;
-        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, ProductRepository productRepo)
+        public UnitOfWork(FitVerseContext context)
         {
-            cartItemRepository = cartItemRepo;
             _context = context;
-            productRepository = productRepo;
         }
         public CartItemRepository CartItemRepository
         {

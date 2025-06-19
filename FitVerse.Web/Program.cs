@@ -43,7 +43,7 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 //builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
+//builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
