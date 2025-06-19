@@ -1,5 +1,4 @@
-
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Models
 {
@@ -119,4 +118,3 @@ namespace FitVerse.Web.Models
         }
     }
 }
-

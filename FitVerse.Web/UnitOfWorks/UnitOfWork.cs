@@ -1,4 +1,5 @@
 ﻿using FitVerse.Web.Models;
+using FitVerse.Web.Repositories;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 namespace FitVerse.Web.UnitOfWorks

@@ -8,15 +8,6 @@ namespace FitVerse.Web.MapperConfig
     {
         public MappingProfile()
         {
-            CreateMap<Product,CartItem_ViewModel>().ReverseMap();
-            CreateMap<Product, CartItem_ViewModel>().AfterMap((src,dest) => {
-                dest.ProductId = src.Id;
-                dest.Prod_Name = src.Name;
-            }).ReverseMap();
-            CreateMap<CartItem, CartItem_ViewModel>().AfterMap((src, dest) => {
-                dest.Cart_Id = src.Id;
-            }).ReverseMap();
-
             CreateMap<Product, ProductCardViewModel>().ReverseMap();
             CreateMap<Product, ProductDetailsViewModel>().AfterMap((src, dest) =>
             {

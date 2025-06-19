@@ -4,6 +4,8 @@
     ViewData["Title"] = Model.Name;
 }
 @section Styles{
+    <link rel="stylesheet" type="text/css" href="/css/ProductDetails.css" />
+}
 
 }
 <style>
@@ -371,6 +373,7 @@
             }
     }
 </style>
+
 <main>
 
     <div class="container product-details-container">
@@ -419,8 +422,8 @@
                                 @Html.Raw(Model.Description)
                             </div>
 
-                            <div class="stock-info @(Model.StockQuantity > 3 ? "available" : (Model.StockQuantity > 0 ? "low" : "out-of-stock"))">
-                                <i class="fas @(Model.StockQuantity > 10 ? "fa-check-circle" : (Model.StockQuantity > 0 ? "fa-exclamation-triangle" : "fa-times-circle"))"></i>
+                            <div class="stock-info @(Model.StockQuantity > 3 ? "available" : (Model.StockQuantity <= 3 ? "low" : "out-of-stock"))">
+                                <i class="fas @(Model.StockQuantity > 3 ? "fa-check-circle" : (Model.StockQuantity <=3 ? "fa-exclamation-triangle" : "fa-times-circle"))"></i>
                                 @(Model.StockQuantity > 0 ? $"{Model.StockQuantity} items available" : "Out of Stock")
                             </div>
 
