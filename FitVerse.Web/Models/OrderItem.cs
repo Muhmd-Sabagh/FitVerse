@@ -22,15 +22,15 @@ namespace FitVerse.Web.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal UnitPrice { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
         [ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
+        public virtual Order? Order { get; set; }
 
         [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
+        public virtual Product? Product { get; set; }
 
         // Calculated Properties
         public decimal TotalPrice => UnitPrice * Quantity;

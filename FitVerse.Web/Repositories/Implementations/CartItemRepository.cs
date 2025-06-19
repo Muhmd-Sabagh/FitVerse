@@ -1,7 +1,7 @@
 ﻿using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
     public class CartItemRepository: GenericRepository<CartItem>
     {

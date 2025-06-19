@@ -11,8 +11,8 @@ namespace FitVerse.Web.Models
         [Required]
         public int UserId { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime OrderDate { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -39,15 +39,15 @@ namespace FitVerse.Web.Models
         [StringLength(20)]
         public string CustomerPhone { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "date")]
-        public DateTime UpdatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual User? User { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }
