@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories
 {
-    public class CartItemRepository: GenericRepository<CartItem>
+    public class ICartItemRepository: GenericRepository<CartItem>
     {
         FitVerseContext _context;
-        public CartItemRepository(FitVerseContext _context) : base(_context)
+        public ICartItemRepository(FitVerseContext _context) : base(_context)
         {
 
         }

@@ -5,24 +5,26 @@ namespace FitVerse.Web.UnitOfWorks
 {
     public class UnitOfWork
     {
-        CartItemRepository cartItemRepository;
+        ICartItemRepository cartItemRepository;
         ProductRepository productRepository;
         FitVerseContext _context;
-        public UnitOfWork(CartItemRepository cartItemRepo,FitVerseContext context, ProductRepository productRepo)
+        CategoryRepo categoryRepo;
+        GenericRepo<Banner> bannerRepo;
+        public UnitOfWork(FitVerseContext context)
         {
-            cartItemRepository = cartItemRepo;
+            //cartItemRepository = cartItemRepo;
             _context = context;
-            productRepository = productRepo;
+            //ProductRepository = productRepo;
         }
-        public CartItemRepository CartItemRepository
-        {
-            get
-            {
-                if (cartItemRepository== null)
-                    cartItemRepository = new CartItemRepository(_context);
-                return cartItemRepository;
-            }
-        }
+        //public CartItemRepository CartItemRepository
+        //{
+        //    get
+        //    {
+        //        if (cartItemRepository== null)
+        //            cartItemRepository = new CartItemRepository(_context);
+        //        return cartItemRepository;
+        //    }
+        //}
         public ProductRepository ProductRepository
         {
             get
@@ -30,6 +32,26 @@ namespace FitVerse.Web.UnitOfWorks
                 if (productRepository == null)
                     productRepository = new ProductRepository(_context);
                 return productRepository;
+            }
+        }
+        public GenericRepo<Banner> Banner
+        {
+            get
+            {
+                if (bannerRepo == null)
+                    bannerRepo = new GenericRepo<Banner>(_context);
+                return bannerRepo;
+            }
+        }
+        public CategoryRepo CategoryRepo
+        {
+            get
+            {
+                if (categoryRepo == null)
+                {
+                    categoryRepo = new CategoryRepo(_context);
+                }
+                return categoryRepo;
             }
         }
         public void Save()

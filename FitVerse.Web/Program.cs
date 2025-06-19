@@ -1,5 +1,5 @@
 using FitVerse.Web.Models; // Ensure this namespace is correct for FitVerseContext
-using FitVerse.Web.unitofworks;
+using FitVerse.Web.UnitOfWorks;
 
 //using FitVerse.Web.Repositories.Implementations;
 //using FitVerse.Web.Repositories.Interfaces;
@@ -44,13 +44,13 @@ builder.Services.AddSession(options =>
 
 
 //// Register Repositories with Dependency Injection
-builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartItemRepository, ICartItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
