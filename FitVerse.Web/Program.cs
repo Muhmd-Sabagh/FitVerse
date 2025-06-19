@@ -1,25 +1,20 @@
-using FitVerse.Web.Models; // Ensure this namespace is correct for FitVerseContext
-//using FitVerse.Web.Repositories.Implementations;
-//using FitVerse.Web.Repositories.Interfaces;
-using FitVerse.Web.UnitOfWorks;
+using FitVerse.Web.Models;
+using FitVerse.Web.Repositories.Implementations;
+using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using FitVerse.Web.Repositories;
-
-using FitVerse.Web.MapperConfig;
-using FitVerse.Web.Repositories.Interfaces;
-using FitVerse.Web.Repositories.Implementations; // Required for AutoMapper
-//using FitVerse.Web.Mappers; // Your AutoMapper profile namespace
+//using AutoMapper;
+//using FitVerse.Web.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProduct, DetailsRepository>();
 
 // Configure Entity Framework Core with FitVerseContext
 builder.Services.AddDbContext<FitVerseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Authentication (Cookie-based authentication)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -42,21 +37,21 @@ builder.Services.AddSession(options =>
 
 
 //// Register Repositories with Dependency Injection
-builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
 
 
 //// Configure AutoMapper
 //// Scans the assembly for profiles and adds them.
-builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+//builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 
 var app = builder.Build();
@@ -65,7 +60,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -74,31 +68,26 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // Use session middleware (must be before UseAuthentication/UseAuthorization)
+app.UseSession(); // (must be before UseAuthentication/UseAuthorization)
 
-app.UseAuthentication(); // Use authentication middleware
-app.UseAuthorization();  // Use authorization middleware
+app.UseAuthentication();
+app.UseAuthorization();
 
-// Apply migrations and seed data
+// Apply migrations on application startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<FitVerseContext>(); // Use FitVerseContext
-        context.Database.Migrate(); // Apply any pending migrations
-        // SeedData is now called directly from OnModelCreating in FitVerseContext,
-        // so explicit SeedData.Initialize is not needed here anymore unless you have
-        // complex seeding logic requiring service resolution.
-        // If you had SeedData.Initialize, you'd remove it and let EF Core handle it via HasData.
+        var context = services.GetRequiredService<FitVerseContext>();
+        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred applying migrations or seeding the DB.");
+        logger.LogError(ex, "An error occurred while migrating the database.");
     }
 }
-
 
 app.MapControllerRoute(
     name: "default",
