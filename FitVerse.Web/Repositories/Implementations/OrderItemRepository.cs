@@ -19,7 +19,8 @@ namespace FitVerse.Web.Repositories.Implementations
         }
         public List<CartItem> GetUserCartItems(int UId)
         {
-            return Db.CartItems.Where(c=> c.UserId == UId).ToList();
+            return _context.CartItems.Where(c=> c.UserId == UId).ToList();
         }
+        
     }
 }

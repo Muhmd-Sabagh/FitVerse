@@ -23,6 +23,7 @@ namespace FitVerse.Web.Controllers
             Checkout_ViewModel checkout_ViewModel = new Checkout_ViewModel();
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<CartItem_ViewModel> cartItemVMs = _map.Map<List<CartItem_ViewModel>>(cartItems);
+            
             //checkout_ViewModel.CartItemsViewModel.AddRange(cartItems);
             return View(checkout_ViewModel);
         }
@@ -31,7 +32,11 @@ namespace FitVerse.Web.Controllers
         {
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
+<<<<<<< HEAD
             var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   
+=======
+            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   // getTotalPriceFromOrderItems();
+>>>>>>> 1646e831f2a7ed69abd0138f6e615d8e1c576daa
 
             Order order = new Order();
             order.ShippingAddress = checkoutVM.ShippingAddress;
