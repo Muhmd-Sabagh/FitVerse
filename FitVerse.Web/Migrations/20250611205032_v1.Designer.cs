@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitVerse.Web.Migrations
 {
     [DbContext(typeof(FitVerseContext))]
-    [Migration("20250611130201_Initial")]
-    partial class Initial
+    [Migration("20250611205032_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

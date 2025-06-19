@@ -5,7 +5,7 @@
 namespace FitVerse.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMark : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

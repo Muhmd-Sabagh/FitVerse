@@ -1,4 +1,5 @@
 ﻿using FitVerse.Web.Models;
+using FitVerse.Web.Repositories.Interfaces;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
@@ -21,16 +22,24 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             Db.Set<TEntity>().Add(entity);
         }
-        public void Update(TEntity entity)
+        public void Edit(TEntity entity)
         {
             Db.Set<TEntity>().Update(entity);
         }
 
-        public void DeleteById(int Id)
+        public void Delete(int Id)
         {
             Db.Set<TEntity>().Remove(GetById(Id));
         }
 
-       
+        public List<TEntity> GetAll(int pageNumber = 1)
+        {
+            return Db.Set<TEntity>().Take(20).ToList();
+        }
+
+        
+        
+
+
     }
 }

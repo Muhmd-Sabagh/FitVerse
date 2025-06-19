@@ -9,21 +9,20 @@ namespace FitVerse.Web.Models
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [StringLength(100)]
         public string? Material { get; set; }
 
         [Required]
         [StringLength(1000)]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         [Column(TypeName = "decimal(5,2)")]
-        [Range(0, 100, ErrorMessage = "Discount percentage must be between 0 and 100.")]
         public decimal? DiscountPercentage { get; set; }
 
         public bool IsNewArrival { get; set; } = false;
@@ -31,40 +30,41 @@ namespace FitVerse.Web.Models
         public bool IsActive { get; set; } = true;
 
         [Required]
-        [StringLength(255)]
-        public string ImageUrl { get; set; }
-
-        public int StockQuantity { get; set; } = 0;
+        [StringLength(500)]
+        public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
+        [Range(0, 255)]
+        public int StockQuantity { get; set; } = 0;
+
         public int CategoryId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2024, 01, 01);
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Column(TypeName = "date")]
-        public DateTime UpdatedAt { get; set; } = new DateTime(2024, 01, 01);
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation Properties
-        [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-
-        // Calculated Properties
         public decimal EffectivePrice
         {
             get
             {
                 if (IsOnSale)
                 {
-                    // Calculate the discounted price
                     return Price * (1 - (DiscountPercentage.GetValueOrDefault() / 100m));
                 }
-                return Price; // Return original price if no discount
+                return Price;
             }
         }
 
+        [NotMapped]
         public bool IsOnSale => DiscountPercentage.HasValue && DiscountPercentage > 0;
+
+        // Navigation Property
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; } = default!;
+
+        public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

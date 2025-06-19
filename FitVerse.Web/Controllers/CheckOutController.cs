@@ -1,13 +1,13 @@
 ﻿using AspNetCoreGeneratedDocument;
 using AutoMapper;
 using FitVerse.Web.Models;
+using Microsoft.EntityFrameworkCore;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
 using FitVerse.Web.ViewModels.Checkout;
 using FitVerse.Web.ViewModels.Order;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static NuGet.Packaging.PackagingConstants;
 
 namespace FitVerse.Web.Controllers
 {
@@ -59,14 +59,18 @@ namespace FitVerse.Web.Controllers
                 redirectUrl = Url.Action("OrderDetails", new { id = order.Id })
             });
         }
-        public IActionResult OrderDetails(int id)
+        public async Task<IActionResult> OrderDetails(int id)
         {
+            Order order = await  _context.Orders.Where(o => o.Id == id)
+                .Include(o => o.OrderItems)
+                .ThenInclude(item => item.Product)
+                .FirstOrDefaultAsync();
 
-            Order order = _context.Orders.Where(o => o.Id == id).Include(o => o.OrderItems).ThenInclude(item => item.Product).FirstOrDefault();
+            var x = order.OrderItems.FirstOrDefault().Product.EffectivePrice;
+            var y = order.OrderItems.First().Product.EffectivePrice;
+
             if (order != null)
                 return View("MyOrderDetails", order);
-            
-
             else return RedirectToAction("Index");
         }
         public IActionResult AllOrders()

@@ -75,10 +75,10 @@
                         <div class="flex-grow">
                             <h3 class="text-lg font-medium text-gray-900">@item.Product?.Name</h3>
                             <p class="text-sm text-gray-500">Quantity: @item.Quantity</p>
-                            <p class="text-sm text-gray-500">Unit Price: @item.UnitPrice.ToString("C")</p>
+                            <p class="text-sm text-gray-500">Unit Price: @item.Product.EffectivePrice.ToString("C")</p>
                         </div>
                         <div class="flex-shrink-0 text-right">
-                            <p class="text-base font-semibold text-gray-900">Total: @((item.Quantity * item.UnitPrice).ToString("C"))</p>
+                            <p class="text-base font-semibold text-gray-900">Total: @((item. Quantity * item.Product.EffectivePrice).ToString("C"))</p>
                         </div>
                     </div>
                 }

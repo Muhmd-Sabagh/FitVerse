@@ -1,18 +1,12 @@
-﻿using FitVerse.Web.Models;
 
-namespace FitVerse.Web.Repositories.Implementations
+namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IGenericRepository<TEntity> 
+    public interface IGenericRepository<TEntity>
     {
-        public List<TEntity> GetAll();
-
-        public TEntity GetById(int Id);
-
-        public void Add(TEntity entity);
-
-        public void Update(TEntity entity);
-
-        public void DeleteById(int Id);
-
+        List<TEntity> GetAll(int pageNumber = 1);
+        TEntity GetById(int id);
+        void Add(TEntity obj);
+        void Edit(TEntity obj);
+        void Delete(int id);
     }
 }

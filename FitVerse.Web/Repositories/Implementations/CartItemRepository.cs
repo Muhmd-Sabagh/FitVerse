@@ -2,7 +2,7 @@
 using System.Security.AccessControl;
 using AspNetCoreGeneratedDocument;
 using FitVerse.Web.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -41,8 +41,6 @@ namespace FitVerse.Web.Repositories.Implementations
         }
         public bool AddToCart(int PId)
         {
-            // need to check // with home controller when add to cart
-            //CartItem cartitem = _context.CartItems.Where(c => c.ProductId == PId).FirstOrDefault();
             CartItem cartitem = GetCartItemByProdId(PId);
             Product prod = _context.Products.Where(c => c.Id == PId).FirstOrDefault();
             if (cartitem == null)
@@ -52,7 +50,7 @@ namespace FitVerse.Web.Repositories.Implementations
             }
             else
             {
-                // ✅
+                
                 if (cartitem.Quantity == prod.StockQuantity)
                     return false;
                 cartitem.Quantity++;
