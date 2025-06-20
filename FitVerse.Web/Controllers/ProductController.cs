@@ -41,7 +41,7 @@ namespace FitVerse.Web.Controllers
 
         }
 
-        public IActionResult ParentCategory(string parentCategory , string category="", int page = 1)
+        public IActionResult ParentCategory(string parentCategory, string category = "", int page = 1)
         {
             List<Product> products = unitOfWork.ProductRepository.GetByParentCategory(parentCategory, page, category);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
@@ -64,7 +64,7 @@ namespace FitVerse.Web.Controllers
 
         }
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             ViewBag.ParentCategoryList = unitOfWork.CategoryRepository.GetParentCategories();
@@ -76,7 +76,7 @@ namespace FitVerse.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Add(ProductFormAddData productFromReq)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Product newProduct = map.Map<Product>(productFromReq);
                 unitOfWork.ProductRepository.Add(newProduct);
