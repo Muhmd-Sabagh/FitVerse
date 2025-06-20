@@ -1,6 +1,8 @@
 ﻿@{
+    Layout = "_MyLayout";
     ViewData["Title"] = "Home Page";
     var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value;
+    Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
 <div class="text-center">
