@@ -1,0 +1,527 @@
+﻿@model FitVerse.Web.ViewModels.Product.ProductDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/css/ProductDetails.css" />
+}
+
+<style>
+    :root {
+        --primary-color: #3a86ff;
+        --secondary-color: #8338ec;
+        --accent-color: #ff006e;
+        --light-bg: #f8f9fa;
+        --dark-text: #212529;
+        --gray-text: #6c757d;
+        --success-color: #28a745;
+        --warning-color: #ffc107;
+        --danger-color: #dc3545;
+    }
+
+    .product-details-container {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .product-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+
+    }
+
+    .product-image-section {
+        position: relative;
+        padding: 70px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+        .product-image-section img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image-section:hover img {
+            transform: scale(1.03);
+        }
+
+    .product-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: var(--accent-color);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-info-section {
+        padding: 40px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .breadcrumb-custom {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb-item a {
+        color: var(--gray-text);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary-color);
+        }
+
+    .breadcrumb-item.active {
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+
+    .product-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--dark-text);
+        line-height: 1.2;
+    }
+
+    .product-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+
+
+    .product-material {
+        color: var(--gray-text);
+        font-size: 0.95rem;
+    }
+
+    .price-section {
+        margin: 20px 0;
+    }
+
+    .current-price {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    .original-price {
+        font-size: 1.5rem;
+        color: var(--gray-text);
+        text-decoration: line-through;
+        display: inline-block;
+    }
+
+    .discount-badge {
+        background: linear-gradient(45deg, var(--accent-color), #fb5607);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .product-description {
+        margin: 25px 0;
+        color: var(--dark-text);
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+
+    .stock-info {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+        .stock-info.available {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .stock-info.low {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .stock-info.out-of-stock {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .stock-info i {
+            margin-right: 8px;
+        }
+
+    .add-to-cart-card {
+        background: var(--light-bg);
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .add-to-cart-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: var(--dark-text);
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .quantity-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #dee2e6;
+        background: white;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .quantity-btn:hover {
+            background: #e9ecef;
+        }
+
+        .quantity-btn:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .quantity-btn:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+    .quantity-input {
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        border-top: 1px solid #dee2e6;
+        border-bottom: 1px solid #dee2e6;
+        border-left: none;
+        border-right: none;
+        font-weight: 500;
+    }
+
+    .btn-add-to-cart {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .btn-add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+
+        .btn-add-to-cart:disabled {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+    .product-features {
+        margin-top: 30px;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .feature-icon {
+        width: 24px;
+        height: 24px;
+        background: rgba(58, 134, 255, 0.1);
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        font-size: 0.8rem;
+    }
+
+    .feature-text {
+        color: var(--dark-text);
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .product-details-container {
+            padding: 20px 0;
+        }
+
+        .product-image-section, .product-info-section {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 2rem;
+        }
+    }
+
+    .badge-new-arrival {
+        background-color: var(--secondary-color); 
+        color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        position: absolute; 
+        top: 20px;
+        left: 160px; 
+        z-index: 10;
+    }
+
+    .badge-on-sale {
+        background-color: var(--success-color);
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        position: absolute;
+        top: 55px;
+        left: 20px;
+        z-index: 10;
+    }
+   
+    .product-badge {
+        background: var(--accent-color); 
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+    }
+
+
+    @@media (max-width: 767.98px) {
+        .badge-new-arrival {
+            top: 15px;
+            left: 20px;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+        }
+
+        .product-badge, .badge-on-sale {
+            top: 15px;
+            left: 15px;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+        }
+
+            .badge-on-sale:not(.product-badge) {
+                top: 45px;
+            }
+    }
+</style>
+
+<main>
+
+    <div class="container product-details-container">
+
+        <div class="product-card h-100 p-3">
+            <div class="product-image-section">
+                @if (Model.IsNewArrival)
+                {
+                    <span class="badge-new-arrival">NEW ARRIVAL</span>
+                }
+                @if (Model.IsOnSale && !(Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0))
+                {
+                    <span class="badge-on-sale">ON SALE!</span>
+                }
+                @if (Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0)
+                {
+                    <span class="product-badge">@Model.DiscountPercentage.Value% OFF</span>
+                }
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" />
+
+                <div class="col-lg-6">
+                    <div class="product-card h-100">
+                        <div class="product-info-section">
+                            <nav aria-label="breadcrumb" class="breadcrumb-custom">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">@Model.ParentCategoryName</a></li>
+                                    <li class="breadcrumb-item"><a href="#">@Model.CategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                                </ol>
+                            </nav>
+
+                            <h1 class="product-title">@Model.Name</h1>
+
+
+
+                            <div class="price-section">
+                                <span class="current-price">EGP @Model.EffectivePrice.ToString()</span>
+                                @if (Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0)
+                                {
+                                    <span class="original-price">Was EGP @Model.Price.ToString()</span>
+                                    <span class="discount-badge">Save EGP @((Model.Price - Model.EffectivePrice).ToString())</span>
+                                }
+                            </div>
+
+                            <div class="product-description">
+                                @Html.Raw(Model.Description)
+                            </div>
+
+                            <div class="stock-info @(Model.StockQuantity > 3 ? "available" : (Model.StockQuantity <= 3 ? "low" : "out-of-stock"))">
+                                <i class="fas @(Model.StockQuantity > 3 ? "fa-check-circle" : (Model.StockQuantity <=3 ? "fa-exclamation-triangle" : "fa-times-circle"))"></i>
+                                @(Model.StockQuantity > 0 ? $"{Model.StockQuantity} items available" : "Out of Stock")
+                            </div>
+
+                            <div class="product-features">
+                                <div class="feature-item">
+                                    <span class="feature-icon">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                    <span class="feature-text">Premium @Model.Material material for durability</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                    <span class="feature-text">Designed for optimal performance</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                    <span class="feature-text">Free shipping on orders over EGP50</span>
+                                </div>
+
+                            </div>
+
+                            <div class="add-to-cart-card">
+                                <h4 class="add-to-cart-title">Add to Cart</h4>
+                                @if (Model.StockQuantity > 0)
+                                {
+                                    <form asp-controller="ProductDetails" asp-action="AddToCart" method="post">
+                                        <input type="hidden" asp-for="Id" name="productId" />
+
+                                        <div class="quantity-selector">
+                                            <button type="button" class="quantity-btn minus" onclick="decrementQuantity()">-</button>
+                                            <input type="text" asp-for="SelectedQuantity" class="form-control quantity-input"
+                                                   min="1" max="@Model.StockQuantity" value="1" id="quantityInput" />
+                                            <button type="button" class="quantity-btn plus" onclick="incrementQuantity()">+</button>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-add-to-cart">
+                                            <i class="fas fa-shopping-cart"></i> Add to Cart - EGP @Model.EffectivePrice.ToString()
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="fas fa-exclamation-circle me-2"></i> This product is currently out of stock.
+                                    </div>
+                                    <button type="button" class="btn btn-add-to-cart" disabled>
+                                        <i class="fas fa-bell"></i> Notify Me When Available
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function incrementQuantity() {
+            const input = document.getElementById('quantityInput');
+            const max = parseInt(input.max);
+            let value = parseInt(input.value);
+            if (value < max) {
+                input.value = value + 1;
+            }
+        }
+
+        function decrementQuantity() {
+            const input = document.getElementById('quantityInput');
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+
+        // Validate quantity input
+        document.getElementById('quantityInput').addEventListener('change', function() {
+            let value = parseInt(this.value);
+            const max = parseInt(this.max);
+            const min = parseInt(this.min);
+
+            if (isNaN(value) || value < min) {
+                this.value = min;
+            } else if (value > max) {
+                this.value = max;
+            }
+        });
+    </script>
+}

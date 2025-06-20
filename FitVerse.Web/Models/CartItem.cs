@@ -9,7 +9,7 @@ namespace FitVerse.Web.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Required]
         public int ProductId { get; set; }
@@ -18,18 +18,18 @@ namespace FitVerse.Web.Models
         [Range(1, 10)]
         public int Quantity { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "date")]
-        public DateTime UpdatedAt { get; set; } = new DateTime(2025, 01, 01);
+        [Column(TypeName = "datetime2")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
         [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
+        public virtual Product? Product { get; set; }
 
         // Calculated Properties
         public decimal TotalPrice => Product?.EffectivePrice * Quantity ?? 0;

@@ -1,0 +1,106 @@
+﻿@model FitVerse.Web.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    .form-container {
+        margin-top: 80px;
+        background-color: #ffffff;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+    }
+
+    .form-control {
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        color: #333;
+        border-radius: 8px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #ff6f61;
+            box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.25);
+            background-color: #fff;
+            color: #000;
+        }
+
+    .btn-primary {
+        background-color: #ff6f61;
+        border: none;
+        padding: 0.75rem;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #e85c50;
+        }
+
+    a {
+        color: #ff6f61;
+        font-weight: 500;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    h2 {
+        color: #444;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container d-flex justify-content-center pb-5">
+    <div class="col-md-6 form-container">
+        <h2 class="text-center mb-4">Login</h2>
+        <form asp-action="Login">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="RememberMe" />
+                <label class="form-check-label" asp-for="RememberMe"></label>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+
+        <div class="mt-3 text-center">
+            <span>Don't have an account? </span>
+            <a asp-action="Register" class="fs-5">Register here</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,83 +1,72 @@
-﻿using FitVerse.Web.Models;
-using FitVerse.Web.GenericRepos;
+using FitVerse.Web.Models;
+using FitVerse.Web.Repositories.Implementations;
+using FitVerse.Web.Repositories.Interfaces;
 
-namespace FitVerse.Web.unitofworks
+namespace FitVerse.Web.UnitOfWorks
 {
-    public class Unitofwork 
+    public class UnitOfWork : IUnitOfWork
     {
-        GenericRepo<Banner> banner;
-        GenericRepo<CartItem> cartItem;
-        GenericRepo<Category> category;
-        GenericRepo<Order> order;
-        GenericRepo<OrderItem> orderItem;
-        GenericRepo<Product> product;
-        GenericRepo<User> user;
+        FitVerseContext _context;
+        CartItemRepository cartItemRepository;
+        ProductRepository productRepository;
+        CategoryRepository categoryRepository;
+        OrderItemRepository orderItemRepository;
+        OrderRepository order;
 
-
-
-        public Unitofwork(FitVerseContext fit) {
-            Fit = fit;
+        public UnitOfWork(FitVerseContext context)
+        {
+            _context = context;
         }
-        public GenericRepo<Banner> Banner {
-            get {
-                if (banner == null)
-                    banner = new GenericRepo<Banner>();
-                return banner;    
-                        } }
-        public GenericRepo<CartItem> CartItem
+        public CartItemRepository CartItemRepository
         {
             get
             {
-                if (cartItem == null)
-                    cartItem = new GenericRepo<CartItem>();
-                return cartItem;
+                if (cartItemRepository == null)
+                    cartItemRepository = new CartItemRepository(_context);
+                return cartItemRepository;
             }
         }
-        public GenericRepo<Category> Category
+
+        public IProductRepository ProductRepository
         {
             get
             {
-                if (category == null)
-                    category = new GenericRepo<Category>();
-                return category;
+                if (productRepository == null)
+                    productRepository = new ProductRepository(_context);
+                return productRepository;
             }
         }
-        public GenericRepo<Order> Order
+        public OrderItemRepository OrderItem
+        {
+            get
+            {
+                if (orderItemRepository == null)
+                    orderItemRepository = new OrderItemRepository(_context);
+                return orderItemRepository;
+            }
+        }
+        public OrderRepository Order
         {
             get
             {
                 if (order == null)
-                    order = new GenericRepo<Order>();
+                    order = new OrderRepository(_context);
                 return order;
             }
         }
-        public GenericRepo<OrderItem> OrderItem
+        public ICategoryRepository CategoryRepository
         {
             get
             {
-                if (orderItem == null)
-                    orderItem = new GenericRepo<OrderItem>();
-                return orderItem;
+                if (categoryRepository == null)
+                    categoryRepository = new CategoryRepository(_context);
+                return categoryRepository;
             }
         }
-        public GenericRepo<Product> Product
+
+        public void Save()
         {
-            get
-            {
-                if (product == null)
-                    product = new GenericRepo<Product>();
-                return product;
-            }
+            _context.SaveChanges();
         }
-        public GenericRepo<User> User
-        {
-            get
-            {
-                if (user == null)
-                    user = new GenericRepo<User>();
-                return user;
-            }
-        }
-        public FitVerseContext Fit { get; }
     }
 }
