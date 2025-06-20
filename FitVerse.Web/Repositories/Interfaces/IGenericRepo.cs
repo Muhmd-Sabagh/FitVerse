@@ -1,11 +1,11 @@
-﻿namespace FitVerse.Web.Repositories
+﻿namespace FitVerse.Web.Repositories.Interfaces
 {
     public interface IGenericRepo<T>
     {
-        public T getall();
+        public List<T> getall();
         public T find(int id);
 
-        public T getbyname(string name);
+        //public T getbyname(string name);
         public T update(T entity);
         public T delete(int id);
     }
