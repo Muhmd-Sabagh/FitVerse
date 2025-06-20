@@ -1,8 +1,8 @@
-﻿using FitVerse.Web.Interfaces;
+﻿using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
     public class BannerRepository : IBannerRepository
     {
