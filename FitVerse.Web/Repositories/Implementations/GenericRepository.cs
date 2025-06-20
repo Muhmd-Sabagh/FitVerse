@@ -25,14 +25,14 @@ namespace FitVerse.Web.Repositories.Implementations
             _dbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(int pageNumber = 1)
-        {
+        //public async Task<IEnumerable<T>> GetAllAsync(int pageNumber = 1)
+        //{
             
-        }
-        public void Edit(TEntity entity)
-        {
-            Db.Set<TEntity>().Update(entity);
-        }
+        //}
+        //public void Edit(TEntity entity)
+        //{
+        //    Db.Set<TEntity>().Update(entity);
+        //}
 
         public async Task<T> GetByIdAsync(int id)
         {
@@ -44,9 +44,29 @@ namespace FitVerse.Web.Repositories.Implementations
             _dbSet.Update(entity);
         }
 
-        
-        
+        public List<T> GetAll(int pageNumber = 1)
+        {
+            throw new NotImplementedException();
+        }
 
+        public T GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void Add(T obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit(T obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

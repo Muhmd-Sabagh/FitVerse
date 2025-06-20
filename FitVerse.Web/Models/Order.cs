@@ -9,7 +9,7 @@ namespace FitVerse.Web.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Column(TypeName = "datetime2")]
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
@@ -20,7 +20,7 @@ namespace FitVerse.Web.Models
 
         [Required]
         [StringLength(50)]
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; } = "Pending"; // e.g., Pending, Processing, Shipped, Delivered, Cancelled
 
         [Required]
         [StringLength(500)]
@@ -47,7 +47,12 @@ namespace FitVerse.Web.Models
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public virtual User? User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+        public Order()
+        {
+            OrderItems = new HashSet<OrderItem>();
+        }
     }
 }

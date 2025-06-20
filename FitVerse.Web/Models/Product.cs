@@ -39,10 +39,10 @@ namespace FitVerse.Web.Models
 
         public int CategoryId { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public decimal EffectivePrice

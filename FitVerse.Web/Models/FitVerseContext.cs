@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FitVerse.Web.Models
 {
-    public class FitVerseContext : DbContext
+    public class FitVerseContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -16,9 +17,10 @@ namespace FitVerse.Web.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Call base.OnModelCreating for IdentityDbContext to configure Identity tables
             base.OnModelCreating(modelBuilder);
 
-            // Configure relationships
+            // Configure relationships for your custom models
             modelBuilder.Entity<Category>()
                 .HasOne(c => c.ParentCategory)
                 .WithMany(c => c.SubCategories)
@@ -31,6 +33,7 @@ namespace FitVerse.Web.Models
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Configure CartItem and Order to link to ApplicationUser (IdentityUser)
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.User)
                 .WithMany(u => u.CartItems)
@@ -62,10 +65,7 @@ namespace FitVerse.Web.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure indexes for performance
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-
+            // IdentityDbContext already handles unique index for Email (UserName is also email by default)
             modelBuilder.Entity<Category>()
                 .HasIndex(c => c.Name);
 
@@ -91,9 +91,12 @@ namespace FitVerse.Web.Models
 
         private void UpdateTimestamps()
         {
+            // Only update timestamps for entities that have these properties and are not Identity entities
+            // Identity entities have their own timestamping mechanisms or are handled internally.
             var entries = ChangeTracker.Entries()
-                .Where(e => e.Entity is User || e.Entity is Category || e.Entity is Product ||
-                            e.Entity is CartItem || e.Entity is Order || e.Entity is OrderItem || e.Entity is Banner)
+                .Where(e => e.Entity is Category || e.Entity is Product ||
+                            e.Entity is CartItem || e.Entity is Order || e.Entity is OrderItem || e.Entity is Banner ||
+                            e.Entity is ApplicationUser)
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
             foreach (var entry in entries)
@@ -102,7 +105,7 @@ namespace FitVerse.Web.Models
                 if (entry.State == EntityState.Added)
                 {
                     var createdAtProperty = entry.Entity.GetType().GetProperty("CreatedAt");
-                    if (createdAtProperty != null && createdAtProperty.PropertyType == typeof(DateTime))
+                    if (createdAtProperty != null && createdAtProperty.PropertyType == typeof(DateTime) && createdAtProperty.CanWrite)
                     {
                         createdAtProperty.SetValue(entry.Entity, DateTime.UtcNow);
                     }
@@ -110,7 +113,7 @@ namespace FitVerse.Web.Models
 
                 // Set UpdatedAt for both added and modified entities
                 var updatedAtProperty = entry.Entity.GetType().GetProperty("UpdatedAt");
-                if (updatedAtProperty != null && updatedAtProperty.PropertyType == typeof(DateTime))
+                if (updatedAtProperty != null && updatedAtProperty.PropertyType == typeof(DateTime) && updatedAtProperty.CanWrite)
                 {
                     updatedAtProperty.SetValue(entry.Entity, DateTime.UtcNow);
                 }
