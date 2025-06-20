@@ -200,22 +200,22 @@ namespace FitVerse.DataSeeder
                     {
                         new User
                         {
-                            FullName = "Admin1", Email = "admin1@example.com", PasswordHash = HashPassword("Admin1Password"),
+                            FullName = "Admin1", Email = "admin1@fitverse.com", PasswordHash = HashPassword("Admin1Password"),
                             Role = "Admin", CreatedAt = fixedUtcDateBase.AddDays(-30), UpdatedAt = fixedUtcDateBase.AddDays(-10)
                         },
                         new User
                         {
-                            FullName = "Admin2", Email = "admin2@example.com", PasswordHash = HashPassword("Admin2Password"),
+                            FullName = "Admin2", Email = "admin2@fitverse.com", PasswordHash = HashPassword("Admin2Password"),
                             Role = "Admin", CreatedAt = fixedUtcDateBase.AddDays(-25), UpdatedAt = fixedUtcDateBase.AddDays(-5)
                         },
                         new User
                         {
-                            FullName = "Test User One", Email = "test1@example.com", PasswordHash = HashPassword("password123"),
+                            FullName = "Test User One", Email = "test1@fitverse.com", PasswordHash = HashPassword("password123"),
                             Role = "Customer", CreatedAt = fixedUtcDateBase.AddDays(-30), UpdatedAt = fixedUtcDateBase.AddDays(-10)
                         },
                         new User
                         {
-                            FullName = "Test User Two", Email = "test2@example.com", PasswordHash = HashPassword("securepass"),
+                            FullName = "Test User Two", Email = "test2@fitverse.com", PasswordHash = HashPassword("securepass"),
                             Role = "Customer", CreatedAt = fixedUtcDateBase.AddDays(-25), UpdatedAt = fixedUtcDateBase.AddDays(-5)
                         }
                     };

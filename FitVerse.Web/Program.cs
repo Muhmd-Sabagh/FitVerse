@@ -6,6 +6,7 @@ using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 //using AutoMapper;
 //using FitVerse.Web.Mappers;
 
@@ -13,35 +14,50 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IProduct, DetailsRepository>();
 
 // Configure Entity Framework Core with FitVerseContext
 builder.Services.AddDbContext<FitVerseContext>(options =>
 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// --- Configure ASP.NET Core Identity ---
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<FitVerseContext>()
+    .AddDefaultTokenProviders(); // Used for password resets, email confirmations etc.
+
 // Add Authentication (Cookie-based authentication)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login"; // Path to your login action
-        options.LogoutPath = "/Account/Logout"; // Path to your logout action
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Path if user tries to access unauthorized resource
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
-        options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
-    });
-
+   .AddCookie(options =>
+   {
+       options.LoginPath = "/Account/Login"; // Path to your login action
+       options.LogoutPath = "/Account/Logout"; // Path to your logout action
+       options.AccessDeniedPath = "/Account/AccessDenied"; // Path if user tries to access unauthorized resource
+       options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
+       options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
+   });
+                            
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Account/AccessDenied"; // <-- your view
 });
 
-
 // Add Session services
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true; // Make the session cookie essential
+   options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+   options.Cookie.HttpOnly = true;
+   options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
 // Add Identity services
@@ -58,6 +74,7 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProduct, DetailsRepository>();
 builder.Services.AddScoped<ProductRepository, ProductRepository>();
 builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
@@ -88,9 +105,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // (must be before UseAuthentication/UseAuthorization)
+app.UseSession(); // Must be before UseAuthentication/UseAuthorization
 
-app.UseAuthentication();
+app.UseAuthentication(); // Must be before UseAuthorization
 app.UseAuthorization();
 
 // Apply migrations on application startup
