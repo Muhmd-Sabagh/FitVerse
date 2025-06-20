@@ -14,6 +14,8 @@ namespace FitVerse.Web.MapperConfig
                 dest.ParentCategoryName = src.Category.ParentCategory.Name;
                 dest.CategoryName = src.Category.Name;
             });
+            CreateMap<ProductFormAddData, Product>().ReverseMap();
+            CreateMap<ProductFormEditData, Product>().ReverseMap();
         }
     }
 }

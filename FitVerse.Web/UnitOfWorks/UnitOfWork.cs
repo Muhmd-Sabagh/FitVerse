@@ -7,6 +7,7 @@ namespace FitVerse.Web.UnitOfWorks
     public class UnitOfWork: IUnitOfWork
     {
         ProductRepository productRepository;
+        CategoryRepository categoryRepository;
         FitVerseContext _context;
         public UnitOfWork(FitVerseContext context)
         {
@@ -20,6 +21,16 @@ namespace FitVerse.Web.UnitOfWorks
                 if (productRepository == null)
                     productRepository = new ProductRepository(_context);
                 return productRepository;
+            }
+        }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get
+            {
+                if (categoryRepository == null)
+                    categoryRepository = new CategoryRepository(_context);
+                return categoryRepository;
             }
         }
         public void Save()
