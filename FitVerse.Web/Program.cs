@@ -1,7 +1,5 @@
-using FitVerse.Web.Interfaces;
 using FitVerse.Web.MapperConfig;
 using FitVerse.Web.Models;
-using FitVerse.Web.Repositories;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.UnitOfWorks;
@@ -61,24 +59,13 @@ builder.Services.AddSession(options =>
    options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
-// Add Identity services
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-    op => {
-        op.Password.RequiredLength = 4;
-        op.Password.RequireNonAlphanumeric = false;
-        op.Password.RequireUppercase = false;
-    })
-    .AddEntityFrameworkStores<FitVerseContext>();
-
 //// Register Repositories with Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
-//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProduct, DetailsRepository>();
-builder.Services.AddScoped<ProductRepository, ProductRepository>();
 builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<OrderRepository, OrderRepository>();

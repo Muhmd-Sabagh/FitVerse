@@ -1,8 +1,8 @@
-using FitVerse.Web.Interfaces;
+using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
     public class CategoryRepository : ICategoryRepository
     {
@@ -44,6 +44,20 @@ namespace FitVerse.Web.Repositories
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public List<Category> GetParentCategories()
+        {
+            return _context.Categories.Where(c => c.ParentCategory == null)
+                .Include(c => c.SubCategories)
+                .ToList();
+        }
+
+        public List<Category> GetChildCategories(int parentCategoryId)
+        {
+            return _context.Categories.Where(c => c.ParentCategoryId == parentCategoryId)
+                .Include(c => c.ParentCategory)
+                .ToList();
         }
 
         public List<Category> GetParentCategories()

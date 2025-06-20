@@ -1,6 +1,6 @@
 ﻿using FitVerse.Web.Models;
 
-namespace FitVerse.Web.Interfaces
+namespace FitVerse.Web.Repositories.Interfaces
 {
     public interface IBannerRepository
     {
