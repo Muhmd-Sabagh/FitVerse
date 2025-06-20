@@ -6,47 +6,62 @@
 
 <style>
     body {
-        background-color: #121212;
-        color: #f1f1f1;
+        background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
     }
 
     .form-container {
         margin-top: 80px;
-        background-color: #1e1e1e;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        background-color: #ffffff;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
     }
 
     .form-control {
-        background-color: #2c2c2c;
-        border: none;
-        color: #fff;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        color: #333;
+        border-radius: 8px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
     }
 
         .form-control:focus {
-            background-color: #3a3a3a;
-            color: #fff;
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            border-color: #ff6f61;
+            box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.25);
+            background-color: #fff;
+            color: #000;
         }
 
     .btn-primary {
-        background-color: #007bff;
+        background-color: #ff6f61;
         border: none;
+        padding: 0.75rem;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
     }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #e85c50;
         }
 
     a {
-        color: #0dcaf0; 
+        color: #ff6f61;
+        font-weight: 500;
     }
 
         a:hover {
             text-decoration: underline;
         }
+
+    h2 {
+        color: #444;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container d-flex justify-content-center pb-5">
@@ -79,7 +94,7 @@
 
         <div class="mt-3 text-center">
             <span>Don't have an account? </span>
-            <a asp-action="Register">Register here</a>
+            <a asp-action="Register" class="fs-5">Register here</a>
         </div>
     </div>
 </div>

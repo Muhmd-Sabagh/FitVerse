@@ -47,9 +47,9 @@ namespace FitVerse.Web.Controllers
                     //redirect any action need to authorized
                     return RedirectToAction("Index", "Home");    
                 }
-                foreach (var item in result.Errors)
+                foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError("", item.Description); //div (asp-validation-summary)
+                    ModelState.AddModelError("password", error.Description);
                 }
 
             }
@@ -79,8 +79,15 @@ namespace FitVerse.Web.Controllers
                     bool found =await userManager.CheckPasswordAsync(userFromDb, userFromReq.Password);
                     if (found)
                     {
+                        // Create the FullName claim
+                        var claims = new List<Claim>
+                            {
+                                new Claim("FullName", userFromDb.FullName ?? userFromDb.UserName)
+                            };
+                        // Sign in with claims
+                        await signInManager.SignInWithClaimsAsync(userFromDb, userFromReq.RememberMe, claims);
                         //create cookie 
-                        await signInManager.SignInAsync(userFromDb,userFromReq.RememberMe); //create cookie and data can get from 'User.Identity'
+                       // await signInManager.SignInAsync(userFromDb,userFromReq.RememberMe); //create cookie and data can get from 'User.Identity'
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -100,6 +107,23 @@ namespace FitVerse.Web.Controllers
         }
         #endregion
 
+        // this controller if U want to great Welcome (user name)
+        #region Welcome
+
+        public IActionResult Welcome()
+        {
+            if (User.Identity.IsAuthenticated == true)
+            { 
+                string name = User.Identity.Name;
+                // this step for U 'Mark' ==> get id from claims
+                Claim idClaim=User.Claims.FirstOrDefault(c=>c.Type==ClaimTypes.NameIdentifier);
+                return Content($"Welcome : {name} \t id={idClaim}");
+            }
+            //Guest
+            return Content("Welcome Guest");
+        }
+
+        #endregion
 
     }
 }
