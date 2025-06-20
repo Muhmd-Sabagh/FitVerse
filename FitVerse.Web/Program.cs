@@ -1,7 +1,5 @@
-using FitVerse.Web.Interfaces;
 using FitVerse.Web.MapperConfig;
 using FitVerse.Web.Models;
-using FitVerse.Web.Repositories;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.UnitOfWorks;
@@ -67,9 +65,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
-//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProduct, DetailsRepository>();
-builder.Services.AddScoped<ProductRepository, ProductRepository>();
 builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<OrderRepository, OrderRepository>();
@@ -104,20 +100,20 @@ app.UseAuthentication(); // Must be before UseAuthorization
 app.UseAuthorization();
 
 // Apply migrations on application startup
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    try
-//    {
-//        var context = services.GetRequiredService<FitVerseContext>();
-//        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
-//    }
-//    catch (Exception ex)
-//    {
-//        var logger = services.GetRequiredService<ILogger<Program>>();
-//        logger.LogError(ex, "An error occurred while migrating the database.");
-//    }
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<FitVerseContext>();
+        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 app.MapControllerRoute(
     name: "default",
