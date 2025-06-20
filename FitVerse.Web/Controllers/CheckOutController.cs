@@ -1,11 +1,8 @@
-﻿using AspNetCoreGeneratedDocument;
-using AutoMapper;
+﻿using AutoMapper;
 using FitVerse.Web.Models;
-using Microsoft.EntityFrameworkCore;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
 using FitVerse.Web.ViewModels.Checkout;
-using FitVerse.Web.ViewModels.Order;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +10,7 @@ namespace FitVerse.Web.Controllers
 {
     public class CheckoutController : Controller
     {
-        int userId = 1;
+        string userId = "1";
         UnitOfWork _unit;
         IMapper _map;
         FitVerseContext _context;
@@ -28,7 +25,7 @@ namespace FitVerse.Web.Controllers
             Checkout_ViewModel checkout_ViewModel = new Checkout_ViewModel();
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<CartItem_ViewModel> cartItemVMs = _map.Map<List<CartItem_ViewModel>>(cartItems);
-            
+
             //checkout_ViewModel.CartItemsViewModel.AddRange(cartItems);
             return View(checkout_ViewModel);
         }
@@ -38,7 +35,7 @@ namespace FitVerse.Web.Controllers
             List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
 
-            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();   
+            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();
 
 
             Order order = new Order();
@@ -61,7 +58,7 @@ namespace FitVerse.Web.Controllers
         }
         public async Task<IActionResult> OrderDetails(int id)
         {
-            Order order = await  _context.Orders.Where(o => o.Id == id)
+            Order order = await _context.Orders.Where(o => o.Id == id)
                 .Include(o => o.OrderItems)
                 .ThenInclude(item => item.Product)
                 .FirstOrDefaultAsync();

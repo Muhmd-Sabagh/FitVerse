@@ -1,12 +1,13 @@
+using FitVerse.Web.Interfaces;
 using FitVerse.Web.MapperConfig;
 using FitVerse.Web.Models;
+using FitVerse.Web.Repositories;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 //using AutoMapper;
 //using FitVerse.Web.Mappers;
 
@@ -72,7 +73,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
 //// Register Repositories with Dependency Injection
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IBannerRepository, BannerRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProduct, DetailsRepository>();
 builder.Services.AddScoped<ProductRepository, ProductRepository>();

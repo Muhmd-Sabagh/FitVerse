@@ -8,12 +8,12 @@ namespace FitVerse.Web.Controllers
     {
         private readonly RoleManager<IdentityRole> roleManager;
 
-       public RoleController(RoleManager<IdentityRole> roleManager) 
+        public RoleController(RoleManager<IdentityRole> roleManager)
         {
             this.roleManager = roleManager;
         }
         public IActionResult Create()
-        { 
+        {
             return View();
         }
         [HttpPost]
@@ -21,11 +21,11 @@ namespace FitVerse.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityRole role=new IdentityRole()
-                { 
-                    Name=roleFromReq.RoleName,
+                IdentityRole role = new IdentityRole()
+                {
+                    Name = roleFromReq.RoleName,
                 };
-               IdentityResult result= await roleManager.CreateAsync(role);
+                IdentityResult result = await roleManager.CreateAsync(role);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("index", "Home");
