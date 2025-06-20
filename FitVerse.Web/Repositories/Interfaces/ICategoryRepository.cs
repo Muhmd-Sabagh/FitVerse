@@ -1,4 +1,4 @@
-﻿using FitVerse.Web.Models;
+using FitVerse.Web.Models;
 
 namespace FitVerse.Web.Interfaces
 {
@@ -9,5 +9,7 @@ namespace FitVerse.Web.Interfaces
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(int id);
+        List<Category> GetParentCategories();
+        List<Category> GetChildCategories(int parentCategoryId);
     }
 }

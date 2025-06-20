@@ -1,142 +1,153 @@
-﻿using FitVerse.Web.Models;
+using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Interfaces;
-
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories.Implementations;
-
-
-public class ProductRepository : IProductRepository
+namespace FitVerse.Web.Repositories.Implementations
 {
-    FitVerseContext db;
-    int pageSize = 20;
-    public ProductRepository(FitVerseContext _db)
+    public class ProductRepository : IProductRepository
     {
-        db = _db;
-    }
-    public List<Product> GetUserProducts(int UId)
-    {
-        return db.Products.Where(prod => prod.Id == UId).ToList();
-    }
-    public void Add(Product obj)
-    {
-        db.Products.Add(obj);
-    }
+        FitVerseContext db;
+        int pageSize = 20;
+        public ProductRepository(FitVerseContext _db)
+        {
+            db = _db;
+        }
 
-    public void Delete(int id)
-    {
-        var product = GetById(id);
-        if (product != null)
-            db.Products.Remove(product);
-    }
+        public void Add(Product obj)
+        {
+            db.Products.Add(obj);
+        }
 
-    public void Edit(Product obj)
-    {
-        db.Entry(obj).State = EntityState.Modified;
-    }
+        public void Delete(int id)
+        {
+            var product = GetById(id);
+            if (product != null)
+                db.Products.Remove(product);
+        }
 
-    public List<Product> GetAll(int pageNumber = 1)
-    {
-        return db.Products
-                  .Include(p => p.Category)
+        public void Edit(Product obj)
+        {
+            db.Entry(obj).State = EntityState.Modified;
+        }
+
+        public List<Product> GetAll(int pageNumber = 1)
+        {
+            return db.Products
+                      .Include(p => p.Category)
+                      .ThenInclude(c => c.ParentCategory)
+                      .OrderBy(p => p.Id)
+                      .Skip((pageNumber - 1) * pageSize)
+                      .Take(pageSize)
+                      .ToList();
+        }
+
+        public List<Product> GetByCategory(int pageNumber = 1, string categoryName = "")
+        {
+            var query = db.Products
+                .Include(p => p.Category)
                   .ThenInclude(c => c.ParentCategory)
-                  .OrderBy(p => p.Id)
-                  .Skip((pageNumber - 1) * pageSize)
-                  .Take(pageSize)
-                  .ToList();
-    }
+                .AsQueryable();
 
-    public List<Product> GetByCategory(int pageNumber = 1, string categoryName = "")
-    {
-        var query = db.Products
-            .Include(p => p.Category)
-              .ThenInclude(c => c.ParentCategory)
-            .AsQueryable();
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                var lowerCat = categoryName.ToLower();
+                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            }
 
-        if (!string.IsNullOrWhiteSpace(categoryName))
-        {
-            var lowerCat = categoryName.ToLower();
-            query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            return query
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
-        return query
-            .OrderBy(p => p.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-    }
-
-    public Product GetById(int id)
-    {
-        return db.Products
-             .Include(p => p.Category)
-               .ThenInclude(c => c.ParentCategory)
-             .SingleOrDefault(p => p.Id == id);
-    }
-
-    public List<Product> GetByParentCategory(
-        string parentName,
-        int pageNumber = 1,
-        string childCategoryName = "")
-    {
-        var query = db.Products
-            .Include(p => p.Category)
-              .ThenInclude(c => c.ParentCategory)
-            .Where(p => p.Category.ParentCategory.Name == parentName);
-
-        if (!string.IsNullOrWhiteSpace(childCategoryName))
+        public Product GetById(int id)
         {
-            var lowerChild = childCategoryName.ToLower();
-            query = query.Where(p => p.Category.Name.ToLower() == lowerChild);
+            return db.Products
+                 .Include(p => p.Category)
+                   .ThenInclude(c => c.ParentCategory)
+                 .SingleOrDefault(p => p.Id == id);
         }
 
-        return query
-            .OrderBy(p => p.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-    }
-
-    public List<Product> SearchByName(int pageNumber = 1, string ProductName = "", string categoryName = "")
-    {
-        var query = db.Products
-            .Include(p => p.Category)
-              .ThenInclude(c => c.ParentCategory)
-            .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(ProductName))
+        public List<Product> GetByParentCategory(
+            string parentName,
+            int pageNumber = 1,
+            string childCategoryName = "")
         {
-            var lowerName = ProductName.ToLower();
-            query = query.Where(p => p.Name.ToLower().Contains(lowerName));
+            var query = db.Products
+                .Include(p => p.Category)
+                  .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.Category.ParentCategory.Name == parentName);
+
+            if (!string.IsNullOrWhiteSpace(childCategoryName))
+            {
+                var lowerChild = childCategoryName.ToLower();
+                query = query.Where(p => p.Category.Name.ToLower() == lowerChild);
+            }
+
+            return query
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
-        if (!string.IsNullOrWhiteSpace(categoryName))
+        public List<Product> SearchByName(int pageNumber = 1, string ProductName = "",string categoryName = "")
         {
-            var lowerCat = categoryName.ToLower();
-            query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            var query = db.Products
+                .Include(p => p.Category)
+                  .ThenInclude(c => c.ParentCategory)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(ProductName))
+            {
+                var lowerName = ProductName.ToLower();
+                query = query.Where(p => p.Name.ToLower().Contains(lowerName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                var lowerCat = categoryName.ToLower();
+                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            }
+
+            return query
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
-        return query
-            .OrderBy(p => p.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+        public List<Product> Filter(int pageNumber = 1, decimal maxPrice = 0, string parentName = "", string categoryName = "", string ProductName = "")
+        {
+            var query = db.Products
+                .Include(p => p.Category)
+                  .ThenInclude(c => c.ParentCategory)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(parentName))
+            {
+                var lowerParentCat = parentName.ToLower();
+                query = query.Where(p => p.Category.ParentCategory != null && p.Category.ParentCategory.Name.ToLower() == lowerParentCat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                var lowerCat = categoryName.ToLower();
+                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ProductName))
+            {
+                var lowerName = ProductName.ToLower();
+                query = query.Where(p => p.Name.ToLower().Contains(lowerName));
+            }
+            return query
+                .Where(p=> p.Price <= maxPrice)
+                .OrderBy(p => p.Price)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
     }
-
-    public List<Product> FilterByPrice(int pageNumber = 1, decimal maxPrice = 0)
-    {
-        var query = db.Products
-            .Include(p => p.Category)
-              .ThenInclude(c => c.ParentCategory)
-            .AsQueryable();
-
-        return query
-            .Where(p => p.Price <= maxPrice)
-            .OrderBy(p => p.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-    }
-
 }
-

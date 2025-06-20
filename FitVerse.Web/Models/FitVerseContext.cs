@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using FitVerse.Web.ViewModels.Product;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 

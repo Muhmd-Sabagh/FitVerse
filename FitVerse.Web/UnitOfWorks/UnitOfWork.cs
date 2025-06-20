@@ -1,4 +1,3 @@
-
 using System.Reflection.Metadata.Ecma335;
 using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
@@ -10,11 +9,12 @@ using FitVerse.Web.Repositories.Interfaces;
 
 namespace FitVerse.Web.UnitOfWorks
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         FitVerseContext _context;
         CartItemRepository cartItemRepository;
         ProductRepository productRepository;
+        CategoryRepository categoryRepository;
         OrderItemRepository orderItemRepository;
         OrderRepository order;
 
@@ -32,7 +32,7 @@ namespace FitVerse.Web.UnitOfWorks
             }
         }
 
-        public ProductRepository ProductRepository
+        public IProductRepository ProductRepository
         {
             get
             {
@@ -57,6 +57,15 @@ namespace FitVerse.Web.UnitOfWorks
                 if (order == null)
                     order = new OrderRepository(_context);
                 return order;
+            }
+        }
+        public ICategoryRepository CategoryRepository
+        {
+            get
+            {
+                if (categoryRepository == null)
+                    categoryRepository = new CategoryRepository(_context);
+                return categoryRepository;
             }
         }
         public void Save()

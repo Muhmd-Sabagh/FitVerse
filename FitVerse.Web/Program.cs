@@ -71,7 +71,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
     .AddEntityFrameworkStores<FitVerseContext>();
 
 //// Register Repositories with Dependency Injection
-builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -92,7 +92,6 @@ builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
 //// Configure AutoMapper
 //// Scans the assembly for profiles and adds them.
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-
 
 var app = builder.Build();
 

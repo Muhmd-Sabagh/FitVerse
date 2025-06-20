@@ -23,8 +23,8 @@ namespace FitVerse.Web.ViewModels.Product
 
         public string ParentCategoryName { get; set; }
         public string CategoryName { get; set; }
-
         public decimal EffectivePrice { get; set; }
         public bool IsOnSale { get; set; }
+        public int SelectedQuantity { get; set; } = 1;
     }
 }
