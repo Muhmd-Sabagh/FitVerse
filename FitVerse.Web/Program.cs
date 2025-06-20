@@ -4,6 +4,7 @@ using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 //using AutoMapper;
@@ -35,25 +36,38 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<FitVerseContext>()
     .AddDefaultTokenProviders(); // Used for password resets, email confirmations etc.
 
-//// Add Authentication (Cookie-based authentication)
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/Account/Login"; // Path to your login action
-//        options.LogoutPath = "/Account/Logout"; // Path to your logout action
-//        options.AccessDeniedPath = "/Account/AccessDenied"; // Path if user tries to access unauthorized resource
-//        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
-//        options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
-//    });
+// Add Authentication (Cookie-based authentication)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+   .AddCookie(options =>
+   {
+       options.LoginPath = "/Account/Login"; // Path to your login action
+       options.LogoutPath = "/Account/Logout"; // Path to your logout action
+       options.AccessDeniedPath = "/Account/AccessDenied"; // Path if user tries to access unauthorized resource
+       options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
+       options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
+   });
+                            
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied"; // <-- your view
+});
 
-//// Add Session services
-//builder.Services.AddSession(options =>
-//{
-//    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
-//    options.Cookie.HttpOnly = true;
-//    options.Cookie.IsEssential = true; // Make the session cookie essential
-//});
+// Add Session services
+builder.Services.AddSession(options =>
+{
+   options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+   options.Cookie.HttpOnly = true;
+   options.Cookie.IsEssential = true; // Make the session cookie essential
+});
 
+// Add Identity services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+    op => {
+        op.Password.RequiredLength = 4;
+        op.Password.RequireNonAlphanumeric = false;
+        op.Password.RequireUppercase = false;
+    })
+    .AddEntityFrameworkStores<FitVerseContext>();
 
 //// Register Repositories with Dependency Injection
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();

@@ -1,10 +1,16 @@
 ﻿@{
     Layout = "_MyLayout";
     ViewData["Title"] = "Home Page";
+    var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value;
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">
+        Welcome <span class="text-primary fw-bold">@fullName</span>
+    </h1>
+    <p>
+        Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.
+    </p>
 </div>
+

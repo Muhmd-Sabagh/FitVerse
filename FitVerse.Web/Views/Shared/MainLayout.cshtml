@@ -166,6 +166,10 @@
 
     <div class="search-popup">
         <div class="search-popup-container">
+            @if (User.IsInRole("admin"))
+            {
+                <p class="text-success">You are an Admin</p>
+            }
 
             <form role="search" method="get" class="form-group" action="">
                 <input type="search" id="search-form" class="form-control border-0 border-bottom"
@@ -375,6 +379,28 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Contact</a>
                                 </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">Account</a>
+                                    <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Account" asp-action="Logout">Sign Out</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Account" asp-action="Register">Sign Up</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -421,6 +447,13 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <div class="alert alert-success d-inline-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span>You are logged in as <strong>Admin</strong>.</span>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

@@ -1,0 +1,122 @@
+﻿@model FitVerse.Web.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f8f8, #ffffff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #444;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        font-weight: bold;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    h4 {
+        text-align: center;
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        margin-top: 40px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .form-control {
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 0.75rem;
+        border-radius: 8px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #ff6f61;
+            box-shadow: 0 0 0 0.2rem rgba(255, 111, 97, 0.25);
+            color: #000;
+        }
+
+    .btn-primary {
+        background-color: #ff6f61;
+        border-color: #ff6f61;
+        font-weight: bold;
+        padding: 0.75rem;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #e85c50;
+            border-color: #e85c50;
+            transform: scale(1.02);
+        }
+
+    a {
+        color: #ff6f61;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<h1>Register</h1>
+<h4>Create a New Account</h4>
+<hr />
+
+<div class="row justify-content-center pb-5">
+    <div class="col-md-6 form-container">
+        <form asp-action="Register">
+            <div class="form-group mb-3">
+                <label asp-for="FullName" class="control-label mb-1"></label>
+                <input asp-for="FullName" class="form-control" type="text" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label mb-1"></label>
+                <input asp-for="Email" class="form-control" type="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="control-label mb-1"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="ConfirmPassword" class="control-label mb-1"></label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Create Account" class="btn btn-primary w-100" />
+            </div>
+        </form>
+        <div class="text-center mt-3">
+            <span>Already have an account?</span>
+            <a asp-action="Login" class="fs-5">Login</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
