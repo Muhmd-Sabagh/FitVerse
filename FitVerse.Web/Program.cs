@@ -61,15 +61,6 @@ builder.Services.AddSession(options =>
    options.Cookie.IsEssential = true; // Make the session cookie essential
 });
 
-// Add Identity services
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-    op => {
-        op.Password.RequiredLength = 4;
-        op.Password.RequireNonAlphanumeric = false;
-        op.Password.RequireUppercase = false;
-    })
-    .AddEntityFrameworkStores<FitVerseContext>();
-
 //// Register Repositories with Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
@@ -113,20 +104,20 @@ app.UseAuthentication(); // Must be before UseAuthorization
 app.UseAuthorization();
 
 // Apply migrations on application startup
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<FitVerseContext>();
-        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating the database.");
-    }
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    try
+//    {
+//        var context = services.GetRequiredService<FitVerseContext>();
+//        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
+//    }
+//    catch (Exception ex)
+//    {
+//        var logger = services.GetRequiredService<ILogger<Program>>();
+//        logger.LogError(ex, "An error occurred while migrating the database.");
+//    }
+//}
 
 app.MapControllerRoute(
     name: "default",

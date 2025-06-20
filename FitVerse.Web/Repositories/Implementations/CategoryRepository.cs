@@ -1,8 +1,8 @@
-using FitVerse.Web.Interfaces;
+using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitVerse.Web.Repositories
+namespace FitVerse.Web.Repositories.Implementations
 {
     public class CategoryRepository : ICategoryRepository
     {
@@ -48,14 +48,14 @@ namespace FitVerse.Web.Repositories
 
         public List<Category> GetParentCategories()
         {
-            return db.Categories.Where(c => c.ParentCategory == null)
+            return _context.Categories.Where(c => c.ParentCategory == null)
                 .Include(c => c.SubCategories)
                 .ToList();
         }
 
         public List<Category> GetChildCategories(int parentCategoryId)
         {
-            return db.Categories.Where(c => c.ParentCategoryId == parentCategoryId)
+            return _context.Categories.Where(c => c.ParentCategoryId == parentCategoryId)
                 .Include(c => c.ParentCategory)
                 .ToList();
         }

@@ -77,7 +77,7 @@ namespace FitVerse.DataSeeder
             string currentDirectory = Directory.GetCurrentDirectory();
 
             // Navigate up to the solution root.
-            string solutionRootDirectory = Path.GetFullPath(Path.Combine(currentDirectory, "..", "..", ".."));
+            string solutionRootDirectory = Path.GetFullPath(Path.Combine(currentDirectory, "..", "..", "..", ".."));
             string webAppsettingsPath = Path.Combine(solutionRootDirectory, "FitVerse.Web", "appsettings.json");
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(webAppsettingsPath, optional: false, reloadOnChange: true)
@@ -113,6 +113,8 @@ namespace FitVerse.DataSeeder
             })
                 .AddEntityFrameworkStores<FitVerseContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddLogging();
 
             // Build the service provider
             using var serviceProvider = services.BuildServiceProvider();
