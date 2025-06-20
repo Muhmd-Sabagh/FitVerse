@@ -1,17 +1,51 @@
-﻿using FitVerse.Web.Models;
-using FitVerse.Web.Repositories.Interfaces;
+using FitVerse.Web.Interfaces;
+using FitVerse.Web.Models;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace FitVerse.Web.Repositories.Implementations
+namespace FitVerse.Web.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        FitVerseContext db;
-        public CategoryRepository(FitVerseContext _db)
+        private readonly FitVerseContext _context;
+
+        public CategoryRepository(FitVerseContext context)
         {
-            db = _db;
+            _context = context;
         }
+
+        public async Task<Category> GetCategoryByIdAsync(int id)
+        {
+            return await _context.Categories.Include(c => c.ParentCategory).FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        {
+            // Include ParentCategory to avoid lazy loading issues if used
+            return await _context.Categories.Include(c => c.ParentCategory).OrderBy(c => c.Name).ToListAsync();
+        }
+
+        public async Task AddCategoryAsync(Category category)
+        {
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateCategoryAsync(Category category)
+        {
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public List<Category> GetParentCategories()
         {
             return db.Categories.Where(c => c.ParentCategory == null)
@@ -24,30 +58,6 @@ namespace FitVerse.Web.Repositories.Implementations
             return db.Categories.Where(c => c.ParentCategoryId == parentCategoryId)
                 .Include(c => c.ParentCategory)
                 .ToList();
-        }
-        public void Add(Category obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Edit(Category obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Category> GetAll(int pageNumber = 1)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category GetById(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model FitVerse.Web.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container text-center py-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <h1 class="display-4 text-danger fw-bold mb-3">Access Denied</h1>
+            <p class="lead">You do not have permission to view this page.</p>
+            <a asp-action="index" asp-controller="Home" class="btn btn-primary mt-3">Return to Home</a>
+        </div>
+    </div>
+</div>

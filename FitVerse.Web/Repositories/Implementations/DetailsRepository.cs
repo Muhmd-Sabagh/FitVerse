@@ -1,6 +1,5 @@
 ﻿using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
@@ -8,7 +7,7 @@ namespace FitVerse.Web.Repositories.Implementations
     public class DetailsRepository : IProduct
     {
         private readonly FitVerseContext context;
-        
+
         public DetailsRepository(FitVerseContext context)
         {
             this.context = context;
@@ -19,9 +18,9 @@ namespace FitVerse.Web.Repositories.Implementations
             return context.Products.Include(p => p.Category)
                 .Include(p => p.CartItems)
                 .Include(p => p.OrderItems)
-                .Include(p=>p.Category)
+                .Include(p => p.Category)
                 .FirstOrDefault(p => p.Id == id);
-                
+
         }
         public void Add(Product obj)
         {
@@ -43,11 +42,11 @@ namespace FitVerse.Web.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-       public string GetParentCategoryByChildId(int prodId)
+        public string GetParentCategoryByChildId(int prodId)
         {
-            Product product = context.Products.Where(p=>p.Id == prodId).FirstOrDefault(); 
+            Product product = context.Products.Where(p => p.Id == prodId).FirstOrDefault();
             Category category = context.Categories.Where(c => c.Id == product.CategoryId).FirstOrDefault();
-            
+
             return category.ParentCategory.Name;
         }
 

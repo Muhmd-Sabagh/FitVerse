@@ -1,4 +1,4 @@
-﻿using FitVerse.Web.Models;
+using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

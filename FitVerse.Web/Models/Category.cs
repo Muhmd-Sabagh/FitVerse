@@ -22,10 +22,10 @@ namespace FitVerse.Web.Models
 
         public bool IsActive { get; set; } = true;
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
