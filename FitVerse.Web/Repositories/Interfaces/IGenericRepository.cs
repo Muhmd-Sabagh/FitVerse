@@ -1,4 +1,5 @@
-﻿namespace FitVerse.Web.Repositories.Interfaces
+
+namespace FitVerse.Web.Repositories.Interfaces
 {
     public interface IGenericRepository<TEntity>
     {
@@ -7,6 +8,5 @@
         void Add(TEntity obj);
         void Edit(TEntity obj);
         void Delete(int id);
-
     }
 }

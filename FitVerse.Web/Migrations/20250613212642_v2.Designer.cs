@@ -12,13 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitVerse.Web.Migrations
 {
     [DbContext(typeof(FitVerseContext))]
-    [Migration("20250611205032_v1")]
-    partial class v1
+    [Migration("20250613212642_v2")]
+    partial class v2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
-            #pragma warning disable 612, 618
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);

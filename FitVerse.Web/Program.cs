@@ -1,10 +1,12 @@
+using FitVerse.Web.MapperConfig;
 using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
+
 using FitVerse.Web.Repositories.Interfaces;
+using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-//using AutoMapper;
-//using FitVerse.Web.Mappers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,9 @@ builder.Services.AddScoped<IProduct, DetailsRepository>();
 
 // Configure Entity Framework Core with FitVerseContext
 builder.Services.AddDbContext<FitVerseContext>(options =>
+
 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add Authentication (Cookie-based authentication)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -37,21 +41,27 @@ builder.Services.AddSession(options =>
 
 
 //// Register Repositories with Dependency Injection
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ProductRepository, ProductRepository>();
+builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
+
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<OrderRepository, OrderRepository>();
+builder.Services.AddScoped<OrderItemRepository, OrderItemRepository>();
+
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
+
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
 
 
 //// Configure AutoMapper
 //// Scans the assembly for profiles and adds them.
-//builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 
 var app = builder.Build();

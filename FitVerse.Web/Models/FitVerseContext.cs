@@ -1,4 +1,17 @@
+
 using Microsoft.EntityFrameworkCore;
+
+using FitVerse.Web.ViewModels.Cart;
+
+using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Collections.Generic; // Required for Dictionary
+
+
+using Microsoft.EntityFrameworkCore;
+
 
 namespace FitVerse.Web.Models
 {
@@ -116,5 +129,6 @@ namespace FitVerse.Web.Models
                 }
             }
         }
+
     }
 }

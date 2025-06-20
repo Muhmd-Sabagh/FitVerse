@@ -1,0 +1,188 @@
+﻿    @model Checkout_ViewModel
+@{
+    // Layout = "_MyLayout";
+    ViewData["Title"] = "Index";
+}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4">
+                <h2 class="card-title text-center mb-4">Secure Checkout</h2>
+                <form id="checkoutForm" class="row g-3">
+                    @* Remove action and method from here *@
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h3 class="card-subtitle mb-3 text-muted">Shipping Information</h3>
+                                <div class="mb-3">
+                                    <label asp-for="CustomerName" class="form-label">Full Name</label>
+                                    <input asp-for="CustomerName" autocomplete="name" required class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ShippingAddress" class="form-label">Address</label>
+                                    <input type="text" asp-for="ShippingAddress" autocomplete="street-address" required class="form-control">
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label asp-for="CustomerPhone" class="form-label">Phone Number</label>
+                                        <input type="text" asp-for="CustomerPhone" autocomplete="tel" required class="form-control"> @* Use autocomplete="tel" for phone *@
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Status" class="form-label">State / Province</label>
+                                        <input type="text" asp-for="Status" autocomplete="address-level1" required class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label asp-for="CustomerEmail" class="form-label">Email</label>
+                                        <input type="email" asp-for="CustomerEmail" autocomplete="email" required class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h3 class="card-subtitle mb-3 text-muted">Payment Information</h3>
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label">Card Number</label>
+                                    <input type="text" id="cardNumber" name="cardNumber" autocomplete="cc-number" required class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="expirationDate" class="form-label">Expiration Date</label>
+                                        <input type="text" id="expirationDate" name="expirationDate" autocomplete="cc-exp" required class="form-control" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" autocomplete="cc-csc" required class="form-control" placeholder="XXX" maxlength="4">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardHolderName" class="form-label">Cardholder Name</label>
+                                    <input type="text" id="cardHolderName" name="cardHolderName" autocomplete="cc-name" required class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+                    </div>
+                </form>
+
+                <div class="modal fade" id="messageBox" tabindex="-1" aria-labelledby="messageBoxLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <p id="messageBoxContent" class="fs-5 mb-4"></p>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="messageBoxOkButton">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @* This part seems to be for displaying cart items on the checkout page, not part of the form submission *@
+    @foreach (CartItem_ViewModel @item in Model.CartItemsViewModels)
+    {
+        <div class="card">
+            <img src=@item.ImageUrl />
+            <div> @item.Prod_Name </div>
+            <div> @item.EffectivePrice </div>
+            <div> @item.Quantity </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {};
+
+            // Convert form data to a plain object
+            for (let [key, value] of formData.entries()) {
+                // Handle properties that should be numbers or dates if necessary
+                if (key === 'OrderDate') {
+                    data[key] = new Date().toISOString(); // Or get from a hidden field if it's dynamic
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Manually add the CartItemsViewModel if it's not part of the form inputs
+            // If your Checkout_ViewModel expects CartItemsViewModel, you'll need to populate it.
+            // Based on your server-side code, it seems you are fetching CartItems separately in SaveOrder,
+            // so you might not need to send them from the client for this specific error.
+            // If you *do* need to send them, you'll need hidden inputs for each cart item's properties,
+            // or fetch them via JavaScript and add them to the data object.
+            // For now, let's assume the current structure where CartItems are fetched server-side.
+
+            // The payment details (cardNumber, expirationDate, cvv, cardHolderName) are not part of Checkout_ViewModel.
+            // You should either add these properties to your Checkout_ViewModel or handle them separately (e.g., tokenizing them).
+            // For the sake of fixing the 415 error, I'll exclude them from the JSON for now, as your C# ViewModel doesn't have them.
+            // If they are critical, you MUST add them to Checkout_ViewModel.
+
+            // Example of what `data` might look like based on your current Checkout_ViewModel properties:
+            // CustomerName, ShippingAddress, CustomerPhone, CustomerEmail, Status, OrderDate (if applicable)
+
+            // Let's create a simplified data object based on your C# Checkout_ViewModel:
+            const checkoutData = {
+                CustomerName: formData.get('CustomerName'),
+                ShippingAddress: formData.get('ShippingAddress'),
+                CustomerPhone: formData.get('CustomerPhone'),
+                CustomerEmail: formData.get('CustomerEmail'),
+                Status: formData.get('Status'), // Assuming 'Status' maps to a property in Checkout_ViewModel
+                OrderDate: new Date().toISOString() // Assuming OrderDate is set client-side or defaults server-side
+                // CartItemsViewModels is not coming from form inputs, so it will be null unless you explicitly add it.
+                // Since your SaveOrder fetches cart items from UnitOfWork, you likely don't need to send it from the client.
+            };
+
+            try {
+                const response = await fetch('/Checkout/SaveOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(checkoutData) // Send as JSON
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        // Display success message and redirect
+                        document.getElementById('messageBoxContent').textContent = 'Order placed successfully!';
+                        var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                        messageBox.show();
+
+                        document.getElementById('messageBoxOkButton').onclick = function() {
+                            window.location.href = result.redirectUrl; // Redirect to order details
+                        };
+                    } else {
+                        // Handle server-side errors if any (e.g., validation failed)
+                        document.getElementById('messageBoxContent').textContent = result.message || 'An error occurred while placing the order.';
+                        var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                        messageBox.show();
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('HTTP error:', response.status, errorText);
+                    document.getElementById('messageBoxContent').textContent = `Error: ${response.status} - ${errorText.substring(0, 100)}...`; // Show part of the error
+                    var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                    messageBox.show();
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                document.getElementById('messageBoxContent').textContent = 'An unexpected error occurred. Please try again.';
+                var messageBox = new bootstrap.Modal(document.getElementById('messageBox'));
+                messageBox.show();
+            }
+        });
+    </script>
+}
