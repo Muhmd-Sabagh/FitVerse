@@ -29,6 +29,10 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             
         }
+        public void Edit(TEntity entity)
+        {
+            Db.Set<TEntity>().Update(entity);
+        }
 
         public async Task<T> GetByIdAsync(int id)
         {
@@ -39,5 +43,10 @@ namespace FitVerse.Web.Repositories.Implementations
         {
             _dbSet.Update(entity);
         }
+
+        
+        
+
+
     }
 }
