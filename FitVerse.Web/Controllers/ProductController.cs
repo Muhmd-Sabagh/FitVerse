@@ -31,7 +31,30 @@ namespace FitVerse.Web.Controllers
 
         }
 
+        public IActionResult Category(string category, int page = 1)
+        {
+            List<Product> products = unitOfWork.ProductRepository.GetByCategory(page, category);
+            List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            return View("All", productsVM);
 
+        }
+
+        public IActionResult ParentCategory(string parentCategory , string category="", int page = 1)
+        {
+            List<Product> products = unitOfWork.ProductRepository.GetByParentCategory(parentCategory, page, category);
+            List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            return View("All", productsVM);
+
+        }
+
+
+        public IActionResult Filter(string name, string parentCategory = "", string category = "", int price = 0, int page = 1)
+        {
+            List<Product> products = unitOfWork.ProductRepository.Filter(page, price, parentCategory, category, name);
+            List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            return View("All", productsVM);
+
+        }
         public IActionResult Delete(int id)
         {
             unitOfWork.ProductRepository.Delete(id);

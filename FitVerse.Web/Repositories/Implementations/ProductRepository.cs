@@ -92,7 +92,7 @@ namespace FitVerse.Web.Repositories.Implementations
                 .ToList();
         }
 
-        public List<Product> SearchByName(int pageNumber = 1, string ProductName = "", string categoryName = "")
+        public List<Product> SearchByName(int pageNumber = 1, string ProductName = "",string categoryName = "")
         {
             var query = db.Products
                 .Include(p => p.Category)
@@ -118,16 +118,33 @@ namespace FitVerse.Web.Repositories.Implementations
                 .ToList();
         }
 
-        public List<Product> FilterByPrice(int pageNumber = 1, decimal maxPrice = 0)
+        public List<Product> Filter(int pageNumber = 1, decimal maxPrice = 0, string parentName = "", string categoryName = "", string ProductName = "")
         {
             var query = db.Products
                 .Include(p => p.Category)
                   .ThenInclude(c => c.ParentCategory)
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parentName))
+            {
+                var lowerParentCat = parentName.ToLower();
+                query = query.Where(p => p.Category.ParentCategory != null && p.Category.ParentCategory.Name.ToLower() == lowerParentCat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                var lowerCat = categoryName.ToLower();
+                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ProductName))
+            {
+                var lowerName = ProductName.ToLower();
+                query = query.Where(p => p.Name.ToLower().Contains(lowerName));
+            }
             return query
                 .Where(p=> p.Price <= maxPrice)
-                .OrderBy(p => p.Id)
+                .OrderBy(p => p.Price)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
