@@ -2,6 +2,7 @@
 using FitVerse.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FitVerse.Web.Controllers
@@ -79,12 +80,12 @@ namespace FitVerse.Web.Controllers
                     if (found)
                     {
                         //create cookie 
-                        await signInManager.SignInAsync(userFromDb,userFromReq.RememberMe);
+                        await signInManager.SignInAsync(userFromDb,userFromReq.RememberMe); //create cookie and data can get from 'User.Identity'
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 ModelState.AddModelError("", "Invalid Account");
-                
+            
             }
             return View(userFromReq);
         }

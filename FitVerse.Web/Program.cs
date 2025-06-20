@@ -1,6 +1,6 @@
 using FitVerse.Web.Models;
-//using FitVerse.Web.Repositories.Implementations;
-//using FitVerse.Web.Repositories.Interfaces;
+using FitVerse.Web.Repositories.Implementations;
+using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProduct, DetailsRepository>();
 
 // Configure Entity Framework Core with FitVerseContext
 builder.Services.AddDbContext<FitVerseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Authentication (Cookie-based authentication)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -53,6 +54,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
 
 
