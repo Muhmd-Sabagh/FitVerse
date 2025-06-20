@@ -158,6 +158,10 @@
 
     <div class="search-popup">
         <div class="search-popup-container">
+            @if (User.IsInRole("admin"))
+            {
+                <p class="text-success">You are an Admin</p>
+            }
 
             <form role="search" method="get" class="form-group" action="">
                 <input type="search" id="search-form" class="form-control border-0 border-bottom"
@@ -433,6 +437,13 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <div class="alert alert-success d-inline-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span>You are logged in as <strong>Admin</strong>.</span>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

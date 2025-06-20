@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitVerse.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

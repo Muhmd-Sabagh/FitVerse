@@ -18,4 +18,7 @@
         ==>     List<Claim> claims=new List<Claim>();
                 claims.Add(new Claim('type',value));
                 signInManager.SignInWithClaimsAsync(userFromDb,userFromReq.RememberMe,)
-                        
+    =======================================================================================
+    //assign user to role
+    code:
+    ==> await userManager.AddToRoleAsync(user, "admin2");

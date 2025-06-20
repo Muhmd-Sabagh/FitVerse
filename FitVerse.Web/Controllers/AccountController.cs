@@ -45,7 +45,7 @@ namespace FitVerse.Web.Controllers
                     //Create Cookie
                      await signInManager.SignInAsync(user,false); //take data from user and save it in cookie -- ispresistent :false = session
                     //redirect any action need to authorized
-                    return RedirectToAction("Index", "Home");    
+                    return RedirectToAction("login", "Account");    
                 }
                 foreach (var error in result.Errors)
                 {
@@ -107,6 +107,10 @@ namespace FitVerse.Web.Controllers
         }
         #endregion
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         // this controller if U want to great Welcome (user name)
         #region Welcome
 

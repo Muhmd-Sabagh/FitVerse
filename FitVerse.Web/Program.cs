@@ -28,6 +28,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
     });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied"; // <-- your view
+});
+
+
 // Add Session services
 builder.Services.AddSession(options =>
 {
