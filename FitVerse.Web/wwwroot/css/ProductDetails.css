@@ -1,5 +1,4 @@
-﻿
-:root {
+﻿:root {
     --primary-color: #3a86ff;
     --secondary-color: #8338ec;
     --accent-color: #ff006e;
@@ -16,7 +15,6 @@
     align-items: center;
     justify-content: center;
 }
-
 
 .product-card {
     background: white;
@@ -288,8 +286,9 @@
 .feature-text {
     color: var(--dark-text);
 }
+
 /* Responsive adjustments */
-@@media (max-width: 768px) {
+@media (max-width: 768px) {
     .product-details-container {
         padding: 20px 0;
     }
@@ -343,7 +342,7 @@
 }
 
 
-@@media (max-width: 767.98px) {
+@media (max-width: 767.98px) {
     .badge-new-arrival {
         top: 15px;
         left: 20px;
