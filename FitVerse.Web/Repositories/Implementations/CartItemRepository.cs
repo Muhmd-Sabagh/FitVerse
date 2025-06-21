@@ -30,7 +30,7 @@ namespace FitVerse.Web.Repositories.Implementations
             List<CartItem> cartItems = _context.CartItems.Where(c => c.UserId == userId).ToList();
             _context.CartItems.RemoveRange(cartItems);
         }
-        public bool AddToCart(int PId, string userId)
+        public bool AddToCart(int PId, string userId, int quantity = 1)
         {
             CartItem cartitem = GetCartItemByProdId(PId, userId);
             Product prod = _context.Products.Where(c => c.Id == PId).FirstOrDefault();
@@ -39,7 +39,7 @@ namespace FitVerse.Web.Repositories.Implementations
                 cartitem = new CartItem();
                 cartitem.ProductId = PId;
                 cartitem.UserId = userId;
-                cartitem.Quantity = 1;
+                cartitem.Quantity = quantity;
                 _context.CartItems.Add(cartitem);
             }
             else

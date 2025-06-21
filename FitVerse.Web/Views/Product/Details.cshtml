@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-@section Styles{
+@section Styles {
     <link rel="stylesheet" type="text/css" href="/css/ProductDetails.css" />
 }
 
@@ -25,13 +25,13 @@
         align-items: center;
         justify-content: center;
     }
+
     .product-card {
         background: white;
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         overflow: hidden;
         transition: transform 0.3s ease;
-
     }
 
     .product-image-section {
@@ -313,15 +313,15 @@
     }
 
     .badge-new-arrival {
-        background-color: var(--secondary-color); 
+        background-color: var(--secondary-color);
         color: white;
         padding: 5px 10px;
         border-radius: 8px;
         font-size: 0.8rem;
         font-weight: 600;
-        position: absolute; 
+        position: absolute;
         top: 20px;
-        left: 160px; 
+        left: 160px;
         z-index: 10;
     }
 
@@ -336,9 +336,9 @@
         left: 20px;
         z-index: 10;
     }
-   
+
     .product-badge {
-        background: var(--accent-color); 
+        background: var(--accent-color);
         color: white;
         padding: 5px 15px;
         border-radius: 20px;
@@ -452,20 +452,60 @@
                                 <h4 class="add-to-cart-title">Add to Cart</h4>
                                 @if (Model.StockQuantity > 0)
                                 {
-                                    <form asp-controller="ProductDetails" asp-action="AddToCart" method="post">
-                                        <input type="hidden" asp-for="Id" name="productId" />
+                                    // build the URL we want the user to return to after login:
+                                    // this points at your ProductDetailsController.AddToCart action,
+                                    // including the current product ID
+                                    var addToCartUrl = Url.Action(
+                                    action: "AddToCartAction",
+                                    controller: "CartItem",
+                                    values: new { id = Model.Id }
+                                    );
 
-                                        <div class="quantity-selector">
-                                            <button type="button" class="quantity-btn minus" onclick="decrementQuantity()">-</button>
-                                            <input type="text" asp-for="SelectedQuantity" class="form-control quantity-input"
-                                                   min="1" max="@Model.StockQuantity" value="1" id="quantityInput" />
-                                            <button type="button" class="quantity-btn plus" onclick="incrementQuantity()">+</button>
-                                        </div>
+                                    @if (User.Identity?.IsAuthenticated ?? false)
+                                    {
+                                        <form asp-controller="CartItem"
+                                              asp-action="AddToCartAction"
+                                              method="post">
 
-                                        <button type="submit" class="btn btn-add-to-cart">
-                                            <i class="fas fa-shopping-cart"></i> Add to Cart - EGP @Model.EffectivePrice.ToString()
-                                        </button>
-                                    </form>
+                                            <input type="hidden" asp-for="Id" name="PId" />
+
+                                            <div class="quantity-selector">
+                                                <button type="button" class="quantity-btn minus" onclick="decrementQuantity(); updatePrice();">-</button>
+                                                <input type="text"
+                                                       asp-for="SelectedQuantity"
+                                                       class="form-control quantity-input"
+                                                       min="1"
+                                                       max="@Model.StockQuantity"
+                                                       value="1"
+                                                       id="quantityInput"
+                                                       data-base-price="@Model.EffectivePrice"
+                                                       data-max="@Model.StockQuantity" />
+                                                <button type="button" class="quantity-btn plus" onclick="incrementQuantity(); updatePrice();">+</button>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-add-to-cart">
+                                                <i class="fas fa-shopping-cart"></i>
+                                                <span id="effectivePrice">
+                                                    EGP @Model.EffectivePrice.ToString("F2")
+                                                </span>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <!-- user is anonymous: send them to Login, with a ReturnUrl pointing back to AddToCart -->
+                                        <a asp-controller="Account"
+                                           asp-action="Login"
+                                           asp-route-returnUrl="@addToCartUrl"
+                                           class="btn btn-add-to-cart">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            EGP
+                                            <span id="effectivePrice">
+                                                @Model.EffectivePrice.ToString("F2")
+                                            </span>
+                                        </a>
+                                    }
+
                                 }
                                 else
                                 {
@@ -494,34 +534,53 @@
     }
 
     <script>
+        // Declare these variables in global scope
+        let basePrice;
+        let maxQuantity;
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const qtyInput = document.getElementById('quantityInput');
+          const priceSpan = document.getElementById('effectivePrice');
+
+          // Initialize global variables
+          basePrice = parseFloat(qtyInput.dataset.basePrice);
+          maxQuantity = parseInt(qtyInput.dataset.max, 10);
+
+          // Initialize price display
+          updatePrice();
+        });
+
+        // Now these functions can access the global variables
         function incrementQuantity() {
             const input = document.getElementById('quantityInput');
-            const max = parseInt(input.max);
-            let value = parseInt(input.value);
-            if (value < max) {
+            let value = parseInt(input.value) || 1;
+            if (value < maxQuantity) {
                 input.value = value + 1;
+                updatePrice();
             }
         }
 
         function decrementQuantity() {
             const input = document.getElementById('quantityInput');
-            let value = parseInt(input.value);
+            let value = parseInt(input.value) || 1;
             if (value > 1) {
                 input.value = value - 1;
+                updatePrice();
             }
         }
 
-        // Validate quantity input
-        document.getElementById('quantityInput').addEventListener('change', function() {
-            let value = parseInt(this.value);
-            const max = parseInt(this.max);
-            const min = parseInt(this.min);
+        function updatePrice() {
+            const quantity = parseInt(document.getElementById('quantityInput').value) || 1;
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            document.getElementById('effectivePrice').innerText = 'EGP ' + totalPrice;
+        }
 
-            if (isNaN(value) || value < min) {
-                this.value = min;
-            } else if (value > max) {
-                this.value = max;
-            }
+        // Add input event listener
+        document.getElementById('quantityInput').addEventListener('input', function() {
+            let value = parseInt(this.value) || 1;
+            if (value < 1) this.value = 1;
+            if (value > maxQuantity) this.value = maxQuantity;
+            updatePrice();
         });
     </script>
 }

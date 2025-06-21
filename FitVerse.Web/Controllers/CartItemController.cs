@@ -57,13 +57,24 @@ namespace FitVerse.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult AddToCartAction(int PId)
+        public IActionResult AddToCartAction(int PId, int SelectedQuantity = 1)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _unit.CartItemRepository.AddToCart(PId, userId);
+            _unit.CartItemRepository.AddToCart(PId, userId, SelectedQuantity);
             _unit.Save();
             return RedirectToAction("Index");
         }
+
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult AddToCartActionDetails(int PId, int quantity = 1)
+        //{
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    _unit.CartItemRepository.AddToCart(PId, userId, quantity);
+        //    _unit.Save();
+        //    return RedirectToAction("Index");
+        //}
+
 
         [Authorize]
         public IActionResult Decrement(int PId)
