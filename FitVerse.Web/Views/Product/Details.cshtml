@@ -398,8 +398,8 @@
                         <div class="product-info-section">
                             <nav aria-label="breadcrumb" class="breadcrumb-custom">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">@Model.ParentCategoryName</a></li>
-                                    <li class="breadcrumb-item"><a href="#">@Model.CategoryName</a></li>
+                                    <li class="breadcrumb-item"><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="@Model.ParentCategoryName">@Model.ParentCategoryName</a></li>
+                                    <li class="breadcrumb-item"><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="@Model.ParentCategoryName" asp-route-category="@Model.CategoryName">@Model.CategoryName</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
                                 </ol>
                             </nav>

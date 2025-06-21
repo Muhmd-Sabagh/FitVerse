@@ -9,12 +9,16 @@
   <ItemGroup>
     <Compile Remove="Views\Cart\**" />
     <Compile Remove="Views\Order\**" />
+    <Compile Remove="Views\ProductDetails\**" />
     <Content Remove="Views\Cart\**" />
     <Content Remove="Views\Order\**" />
+    <Content Remove="Views\ProductDetails\**" />
     <EmbeddedResource Remove="Views\Cart\**" />
     <EmbeddedResource Remove="Views\Order\**" />
+    <EmbeddedResource Remove="Views\ProductDetails\**" />
     <None Remove="Views\Cart\**" />
     <None Remove="Views\Order\**" />
+    <None Remove="Views\ProductDetails\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,11 +3,9 @@
 @model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
-
 }
 
-
-<section id="billboard" class="bg-light py-5">
+<section id="billboard" class="bg-light py-5 mt-3">
     <div class="container">
         <div class="row justify-content-center">
             <h1 class="section-title text-center mt-4" data-aos="fade-up">New Collections</h1>
@@ -113,13 +111,13 @@
                 <div class="col-md-4">
                     <div class="cat-item image-zoom-effect">
                         <div class="image-holder">
-                            <a href="index.html">
+                            <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men">
                                 <img src="images/categories/men/slider.jpg" alt="categories" class="product-image img-fluid">
                             </a>
                         </div>
                         <div class="category-content">
                             <div class="product-button">
-                                <a href="index.html" class="btn btn-common text-uppercase">Shop for Men</a>
+                                <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" class="btn btn-common text-uppercase">Shop for Men</a>
                             </div>
                         </div>
                     </div>
@@ -127,13 +125,13 @@
                 <div class="col-md-4">
                     <div class="cat-item image-zoom-effect">
                         <div class="image-holder">
-                            <a href="index.html">
+                            <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women">
                                 <img src="images/categories/women/banner-image-5.jpg" alt="categories" class="product-image img-fluid">
                             </a>
                         </div>
                         <div class="category-content">
                             <div class="product-button">
-                                <a href="index.html" class="btn btn-common text-uppercase">Shop for women</a>
+                                <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" class="btn btn-common text-uppercase">Shop for women</a>
                             </div>
                         </div>
                     </div>
@@ -141,13 +139,13 @@
                 <div class="col-md-4">
                     <div class="cat-item image-zoom-effect">
                         <div class="image-holder">
-                            <a href="index.html">
+                            <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Accessories">
                                 <img src="images/categories/accessories/acc.jpg" alt="categories" class="product-image img-fluid">
                             </a>
                         </div>
                         <div class="category-content">
                             <div class="product-button">
-                                <a href="index.html" class="btn btn-common text-uppercase">Shop Accessories</a>
+                                <a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Accessories" class="btn btn-common text-uppercase">Shop Accessories</a>
                             </div>
                         </div>
                     </div>
