@@ -1,66 +1,737 @@
-﻿
-@model IEnumerable<CartItem_ViewModel>
-
+﻿@model IEnumerable<CartItem_ViewModel>
 @{
     Layout = "MainLayout";
-    ViewData["Title"] = "Index";
-    
+    ViewData["Title"] = "Shopping Cart";
 }
+
 @section Styles {
+<style>
+    :root {
+        --primary-dark: #212529;
+        --accent-sage: #8c907e;
+        --pure-white: #ffffff;
+        --light-sage: rgba(140, 144, 126, 0.1);
+        --sage-border: rgba(140, 144, 126, 0.2);
+        --dark-transparent: rgba(33, 37, 41, 0.9);
+        --shadow-soft: 0 8px 32px rgba(33, 37, 41, 0.15);
+        --shadow-hover: 0 20px 60px rgba(33, 37, 41, 0.25);
+        --text-light: #ffffff;
+        --text-dark: #212529;
+        --sage-gradient: linear-gradient(135deg, #8c907e 0%, #a5a995 100%);
+        --dark-gradient: linear-gradient(135deg, #212529 0%, #2a2e32 100%);
+        --success-color: #28a745;
+        --warning-color: #ffc107;
+        --danger-color: #dc3545;
+        --gray-text: #6c757d;
+    }
 
+    body {
+        background: var(--sage-gradient);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), 
+                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), 
+                    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+        animation: particleFloat 20s ease-in-out infinite;
+        z-index: -1;
+    }
+
+    @@keyframes particleFloat {
+        0% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-30px) rotate(120deg); }
+        66% { transform: translateY(20px) rotate(240deg); }
+        100% { transform: translateY(0px) rotate(360deg); }
+    }
+
+    .cart-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        animation: fadeInUp 0.8s ease-out both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .cart-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: slideInDown 0.8s ease-out both;
+    }
+
+    @@keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .cart-title {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 900;
+        background: var(--dark-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .cart-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--sage-gradient);
+        border-radius: 2px;
+        animation: expandWidth 1s ease-out 0.5s both;
+    }
+
+    @@keyframes expandWidth {
+        from { width: 0; }
+        to { width: 100px; }
+    }
+
+    .cart-items-container {
+        background: var(--pure-white);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 2rem;
+        animation: slideInUp 0.8s ease-out 0.3s both;
+        position: relative;
+    }
+
+    .cart-items-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--sage-gradient);
+        z-index: 1;
+    }
+
+    @@keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .table thead tr {
+        background: linear-gradient(135deg, var(--light-sage) 0%, rgba(248, 249, 250, 0.8) 100%);
+    }
+
+    .table th {
+        padding: 1.5rem;
+        text-align: left;
+        font-weight: 700;
+        color: var(--text-dark);
+        font-size: 1.1rem;
+        border-bottom: 2px solid var(--sage-border);
+        border-top: none;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+        animation: fadeInRow 0.8s ease-out both;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background: rgba(248, 249, 250, 0.3);
+    }
+
+    .table tbody tr:hover {
+        background: var(--light-sage);
+        transform: scale(1.01);
+        box-shadow: 0 4px 15px rgba(140, 144, 126, 0.2);
+    }
+
+    @@keyframes fadeInRow {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .table td {
+        padding: 2rem 1.5rem;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(140, 144, 126, 0.1);
+        border-top: none;
+    }
+
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(33, 37, 41, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .product-image:hover {
+        transform: scale(1.1) rotate(2deg);
+    }
+
+    .product-name {
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: var(--sage-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .product-quantity {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        background: var(--light-sage);
+        padding: 0.8rem 1.2rem;
+        border-radius: 20px;
+        display: inline-block;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        min-width: 80px;
+    }
+
+    .btn-primary {
+        background: var(--sage-gradient);
+        color: white;
+        box-shadow: 0 4px 15px rgba(140, 144, 126, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(140, 144, 126, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, var(--warning-color) 0%, #e0a800 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+
+    .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, var(--danger-color) 0%, #c82333 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .cart-summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        animation: slideInUp 0.8s ease-out 0.5s both;
+    }
+
+    .total-section {
+        background: var(--pure-white);
+        padding: 2.5rem;
+        border-radius: 24px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid var(--sage-border);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .total-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.8s ease;
+    }
+
+    .total-section:hover::before {
+        left: 100%;
+    }
+
+    .total-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .total-amount {
+        font-size: 3rem;
+        font-weight: 900;
+        background: var(--sage-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-align: center;
+        margin-bottom: 2rem;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .checkout-btn {
+        background: var(--sage-gradient);
+        color: white;
+        border: none;
+        padding: 1.2rem 2rem;
+        border-radius: 25px;
+        font-weight: 700;
+        font-size: 1.3rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(140, 144, 126, 0.3);
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .checkout-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .checkout-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(140, 144, 126, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .checkout-btn:hover::before {
+        left: 100%;
+    }
+
+    .clear-cart-btn {
+        background: linear-gradient(135deg, var(--gray-text) 0%, #5a6268 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .clear-cart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--gray-text);
+        animation: fadeIn 0.8s ease-out both;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .empty-cart-icon {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        color: var(--accent-sage);
+    }
+
+    .empty-cart-text {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    /* Action separators */
+    .action-separator {
+        color: var(--gray-text);
+        margin: 0 0.3rem;
+        font-weight: 300;
+    }
+
+    /* Floating Elements */
+    .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .floating-shape {
+        position: absolute;
+        opacity: 0.1;
+        animation: float 20s infinite linear;
+    }
+
+    .floating-shape:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        width: 60px;
+        height: 60px;
+        background: var(--sage-gradient);
+        border-radius: 50%;
+        animation-delay: 0s;
+    }
+
+    .floating-shape:nth-child(2) {
+        top: 60%;
+        right: 15%;
+        width: 40px;
+        height: 40px;
+        background: rgba(33, 37, 41, 0.1);
+        border-radius: 50%;
+        animation-delay: 5s;
+    }
+
+    .floating-shape:nth-child(3) {
+        top: 80%;
+        left: 70%;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(45deg, #8c907e, #a5a995);
+        border-radius: 50%;
+        animation-delay: 10s;
+    }
+
+    @@keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-20px) rotate(120deg); }
+        66% { transform: translateY(10px) rotate(240deg); }
+        100% { transform: translateY(0px) rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 1024px) {
+        .cart-summary {
+            grid-template-columns: 1fr;
+        }
+        
+        .table {
+            font-size: 0.9rem;
+        }
+        
+        .table td {
+            padding: 1.5rem 1rem;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .cart-container {
+            margin: 1rem auto;
+            padding: 1rem;
+        }
+        
+        .cart-title {
+            font-size: 2.5rem;
+        }
+        
+        .table-responsive {
+            border-radius: 20px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 1rem 0.5rem;
+            min-width: 120px;
+        }
+        
+        .product-image {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .total-section {
+            padding: 2rem;
+        }
+        
+        .total-amount {
+            font-size: 2.5rem;
+        }
+        
+        .action-buttons {
+            gap: 0.3rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.8rem;
+            min-width: 60px;
+        }
+    }
+</style>
 }
-<h1>Cart Items</h1>
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prod_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EffectivePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    <img src="@item.ImageUrl" style="width:50px" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prod_Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EffectivePrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    <a asp-route-PId="@item.Prod_Id" asp-action="Increment"  class="btn btn-primary">+</a> |
-                    <a asp-route-PId="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">-</a> |
-                    <a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        } 
-    </tbody>
-</table>
-<div>Total Cost: @ViewBag.TotalCost</div>
-<div>
-    <a asp-controller="CheckOut" asp-action="Index"> Check Out</a>
+<!-- Floating Elements -->
+<div class="floating-elements">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
 </div>
-<div><a asp-action="DeleteAll" class="btn btn-danger">Clear Cart</a></div>
+
+<div class="cart-container">
+    <div class="cart-header">
+        <h1 class="cart-title">
+            <i class="fas fa-shopping-cart"></i>
+            Cart Items
+        </h1>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="cart-items-container">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <i class="fas fa-image"></i>
+                                @Html.DisplayNameFor(model => model.ImageUrl)
+                            </th>
+                            <th>
+                                <i class="fas fa-box"></i>
+                                @Html.DisplayNameFor(model => model.Prod_Name)
+                            </th>
+                            <th>
+                                <i class="fas fa-dollar-sign"></i>
+                                @Html.DisplayNameFor(model => model.EffectivePrice)
+                            </th>
+                            <th>
+                                <i class="fas fa-sort-numeric-up"></i>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                <i class="fas fa-cogs"></i>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int index = 0;}
+                        @foreach (var item in Model)
+                        {
+                            <tr style="animation-delay: @(index * 0.1)s">
+                                <td>
+                                    <img src="@item.ImageUrl" alt="@item.Prod_Name" class="product-image" />
+                                </td>
+                                <td>
+                                    <div class="product-name">
+                                        @Html.DisplayFor(modelItem => item.Prod_Name)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-price">
+                                        $@Html.DisplayFor(modelItem => item.EffectivePrice)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-quantity">
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a asp-route-PId="@item.Prod_Id" asp-action="Increment" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <a asp-route-PId="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">
+                                            <i class="fas fa-minus"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="cart-summary">
+            <div class="total-section">
+                <h2 class="total-title">
+                    <i class="fas fa-calculator"></i>
+                    Order Summary
+                </h2>
+                <div class="total-amount">$@ViewBag.TotalCost</div>
+                <a asp-controller="CheckOut" asp-action="Index" class="checkout-btn">
+                    <i class="fas fa-credit-card"></i>
+                    Check Out
+                </a>
+            </div>
+            
+            <div class="total-section">
+                <h2 class="total-title">
+                    <i class="fas fa-tools"></i>
+                    Cart Actions
+                </h2>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <i class="fas fa-shopping-cart" style="font-size: 3rem; color: var(--accent-sage); margin-bottom: 1rem;"></i>
+                </div>
+                <a asp-action="DeleteAll" class="clear-cart-btn">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear Cart
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="cart-items-container">
+            <div class="empty-cart">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="empty-cart-text">Your cart is empty</div>
+                <div style="margin-top: 2rem;">
+                    <a asp-controller="Home" asp-action="Index" class="checkout-btn" style="display: inline-block; width: auto; padding: 1rem 2rem;">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }}
+    <script>
+        // Add confirmation for delete actions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confirm individual item deletion
+            const deleteButtons = document.querySelectorAll('a[asp-action="Delete"]');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!confirm('Are you sure you want to remove this item from your cart?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // Confirm clear cart
+            const clearCartButton = document.querySelector('a[asp-action="DeleteAll"]');
+            if (clearCartButton) {
+                clearCartButton.addEventListener('click', function(e) {
+                    if (!confirm('Are you sure you want to clear your entire cart?')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
+}
