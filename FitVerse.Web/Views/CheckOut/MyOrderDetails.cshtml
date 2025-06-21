@@ -1,8 +1,8 @@
-﻿
-@model Order 
+﻿@model FitVerse.Web.Models.Order
 
 @{
     ViewData["Title"] = "Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure correct layout is used
 }
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -13,87 +13,120 @@
         font-family: 'Inter', sans-serif;
         background-color: #f3f4f6; /* Light gray background */
     }
+
+    .order-details-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+    }
+
+    .product-item {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+    .product-image-placeholder {
+        width: 100px;
+        height: 100px;
+        background-color: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: #9ca3af;
+    }
 </style>
 
 <div class="container mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-2xl">
+    <div class="order-details-card w-full max-w-3xl">
         @* Increased max-w for better product display *@
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Order Details</h1>
         <hr class="mb-6 border-gray-200">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mb-8">
             @* Grid for general order info *@
-            
+
             <div>
                 <p class="text-sm font-medium text-gray-700">Order Date</p>
-                <p class="mt-1 text-gray-900">@Model.OrderDate.ToString("MMMM dd, yyyy h:mm tt")</p>
+                <p class="mt-1 text-gray-900">@Model.OrderDate.ToShortDateString()</p>
             </div>
-        
             <div>
+                <p class="text-sm font-medium text-gray-700">Order #</p>
+                <p class="mt-1 text-gray-900 font-semibold">@Model.Id</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-700">Status</p>
+                <p class="mt-1 text-gray-900">@Model.Status</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-700">Total Amount</p>
+                <p class="mt-1 text-gray-900 font-bold text-xl">@Model.TotalAmount.ToString("C")</p>
+            </div>
+            <div class="col-span-1 md:col-span-2">
+                <p class="text-sm font-medium text-gray-700">Shipping Address</p>
+                <p class="mt-1 text-gray-900">@Model.ShippingAddress</p>
+            </div>
+            <div class="col-span-1 md:col-span-2">
                 <p class="text-sm font-medium text-gray-700">Customer Name</p>
                 <p class="mt-1 text-gray-900">@Model.CustomerName</p>
             </div>
-            <div>
+            <div class="col-span-1 md:col-span-2">
                 <p class="text-sm font-medium text-gray-700">Customer Email</p>
                 <p class="mt-1 text-gray-900">@Model.CustomerEmail</p>
             </div>
-            <div>
+            <div class="col-span-1 md:col-span-2">
                 <p class="text-sm font-medium text-gray-700">Customer Phone</p>
                 <p class="mt-1 text-gray-900">@Model.CustomerPhone</p>
             </div>
-            <div class="md:col-span-2">
-               
-                <p class="block text-sm font-medium text-gray-700">Shipping Address</p>
-                <p class="mt-1 text-gray-900">@Model.ShippingAddress</p>
-            </div>
-            <div class="md:col-span-2 text-right">
-                <p class="text-lg font-bold text-gray-800">Total Amount: @Model.TotalAmount.ToString("C")</p>
-            </div>
         </div>
 
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Order Items</h2>
-        <hr class="mb-6 border-gray-200">
-
-        @if (Model.OrderItems != null && Model.OrderItems.Any())
-        {
-            <div class="space-y-4">
-                @foreach (var item in Model.OrderItems)
-                {
-                    <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg shadow-sm">
-                        @if (!string.IsNullOrEmpty(item.Product?.ImageUrl)) // Null check for Product and ImageUrl
-                        {
-                            <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-md border border-gray-200">
-                                <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="w-full h-full object-cover object-center" />
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Items in this Order</h2>
+        <div class="border-t border-gray-200 pt-4">
+            @if (Model.OrderItems != null && Model.OrderItems.Any())
+            {
+                <div class="space-y-4">
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <div class="product-item">
+                            @if (!string.IsNullOrEmpty(item.Product?.ImageUrl))
+                            {
+                                <img src="@Url.Content(item.Product.ImageUrl)" alt="@item.Product.Name" class="w-24 h-24 object-cover rounded-lg shadow-sm">
+                            }
+                            else
+                            {
+                                <div class="product-image-placeholder w-24 h-24 rounded-lg border border-gray-200 text-gray-400 text-xs text-center">
+                                    No Image
+                                </div>
+                            }
+                            <div class="flex-grow">
+                                <h3 class="text-lg font-medium text-gray-900">@item.Product?.Name</h3>
+                                <p class="text-sm text-gray-500">Quantity: @item.Quantity</p>
+                                <p class="text-sm font-semibold text-gray-600">Unit Price: @item.UnitPrice.ToString("C")</p>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-gray-100 rounded-md border border-gray-200 text-gray-400 text-xs text-center">
-                                No Image
+                            <div class="flex-shrink-0 text-right">
+                                <p class="text-base font-semibold text-gray-900">Total: @((item.Quantity * item.UnitPrice).ToString("C"))</p>
                             </div>
-                        }
-                        <div class="flex-grow">
-                            <h3 class="text-lg font-medium text-gray-900">@item.Product?.Name</h3>
-                            <p class="text-sm text-gray-500">Quantity: @item.Quantity</p>
-                            <p class="text-sm text-gray-500">Unit Price: @item.Product.EffectivePrice.ToString("C")</p>
                         </div>
-                        <div class="flex-shrink-0 text-right">
-                            <p class="text-base font-semibold text-gray-900">Total: @((item. Quantity * item.Product.EffectivePrice).ToString("C"))</p>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-        else
-        {
-            <p class="text-gray-600 text-center">No products found in this order.</p>
-        }
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-gray-600 text-center">No products found in this order.</p>
+            }
+        </div>
 
         <div class="mt-8 text-center">
-            @* Use asp-controller and asp-action for correct MVC linking *@
-            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">Back to Orders</a>
-            @* Or if you want back to a list of orders (e.g., MyOrders action) *@
-            @* <a asp-controller="Order" asp-action="MyOrders" class="text-indigo-600 hover:text-indigo-800 text-sm">Back to My Orders</a> *@
+            <a asp-action="AllOrders" class="text-indigo-600 hover:text-indigo-800 text-base font-medium">Back to All Orders</a>
         </div>
     </div>
 </div>

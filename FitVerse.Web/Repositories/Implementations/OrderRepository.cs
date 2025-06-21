@@ -1,31 +1,37 @@
-﻿using System;
-using FitVerse.Web.Models;
+﻿using FitVerse.Web.Models;
+using FitVerse.Web.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
-    public class OrderRepository : GenericRepository<Order>
+    public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
-        FitVerseContext _context;
         public OrderRepository(FitVerseContext context) : base(context)
         {
-            _context = context;
         }
 
-        public List<string> GetAllProductsNamesfromOrder(int UId)
+        public async Task<List<string>> GetAllProductNamesFromOrderAsync(int orderId)
         {
-            Order order = GetById(UId);
-            List<OrderItem> orderItems = _context.OrderItems.Where(o=>o.Id == order.Id).ToList();
-            List<string> productNames = new List<string>();
-            foreach (OrderItem item in orderItems)
+            var order = await _dbSet
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
             {
-                string productName = item.Product.Name;
-                productNames.Add(productName);
+                return new List<string>();
             }
-            return  productNames;
-        }
-        
 
+            return order.OrderItems.Select(item => item.Product?.Name ?? "Unknown Product").ToList();
         }
 
+        public async Task<Order?> GetOrderWithItemsAndProductsAsync(int orderId)
+        {
+            return await _dbSet
+                .Where(o => o.Id == orderId)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(item => item.Product)
+                .FirstOrDefaultAsync();
+        }
     }
-
+}

@@ -1,34 +1,43 @@
-﻿using FitVerse.Web.Interfaces;
-using FitVerse.Web.Models;
+﻿using FitVerse.Web.Models;
+using FitVerse.Web.UnitOfWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace FitVerse.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminBannersController : Controller
     {
-        private readonly IBannerRepository _bannerRepository; // Assuming you create this repository
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<AdminBannersController> _logger;
 
-        public AdminBannersController(IBannerRepository bannerRepository)
+        public AdminBannersController(IUnitOfWork unitOfWork, ILogger<AdminBannersController> logger)
         {
-            _bannerRepository = bannerRepository;
+            _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         // GET: AdminBanners
         public async Task<IActionResult> Index()
         {
-            return View(await _bannerRepository.GetAllBannersAsync());
+            var banners = await _unitOfWork.Banners.GetAllAsync();
+            _logger.LogInformation("Admin accessed banner index.");
+            return View(banners);
         }
 
         // GET: AdminBanners/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            var banner = await _bannerRepository.GetBannerByIdAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var banner = await _unitOfWork.Banners.GetByIdAsync(id.Value);
             if (banner == null)
             {
+                _logger.LogWarning($"Banner with ID {id} not found for details.");
                 return NotFound();
             }
             return View(banner);
@@ -43,22 +52,33 @@ namespace FitVerse.Web.Controllers
         // POST: AdminBanners/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,ImageUrl,LinkUrl,DisplayOrder")] Banner banner)
+        public async Task<IActionResult> Create([Bind("Title,Description,ImageUrl,IsActive")] Banner banner)
         {
             if (ModelState.IsValid)
             {
-                await _bannerRepository.AddBannerAsync(banner);
+                banner.CreatedAt = DateTime.UtcNow;
+                banner.UpdatedAt = DateTime.UtcNow;
+                await _unitOfWork.Banners.AddAsync(banner);
+                await _unitOfWork.CompleteAsync(); // Use CompleteAsync for saving changes
+                _logger.LogInformation($"Banner '{banner.Title}' created successfully.");
                 return RedirectToAction(nameof(Index));
             }
+            _logger.LogWarning("Banner creation failed due to invalid model state.");
             return View(banner);
         }
 
         // GET: AdminBanners/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var banner = await _bannerRepository.GetBannerByIdAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var banner = await _unitOfWork.Banners.GetByIdAsync(id.Value);
             if (banner == null)
             {
+                _logger.LogWarning($"Banner with ID {id} not found for editing.");
                 return NotFound();
             }
             return View(banner);
@@ -67,10 +87,11 @@ namespace FitVerse.Web.Controllers
         // POST: AdminBanners/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ImageUrl,LinkUrl,DisplayOrder,CreatedAt,UpdatedAt")] Banner banner)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ImageUrl,IsActive,CreatedAt")] Banner banner)
         {
             if (id != banner.Id)
             {
+                _logger.LogError($"Banner ID mismatch: route ID {id}, model ID {banner.Id}.");
                 return NotFound();
             }
 
@@ -78,11 +99,16 @@ namespace FitVerse.Web.Controllers
             {
                 try
                 {
-                    await _bannerRepository.UpdateBannerAsync(banner);
+                    banner.UpdatedAt = DateTime.UtcNow;
+                    _unitOfWork.Banners.Update(banner);
+                    await _unitOfWork.CompleteAsync();
+                    _logger.LogInformation($"Banner '{banner.Title}' (ID: {banner.Id}) updated successfully.");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (await _bannerRepository.GetBannerByIdAsync(banner.Id) == null)
+                    _logger.LogError(ex, $"Concurrency error updating banner with ID {banner.Id}.");
+                    // Check if the banner still exists before throwing
+                    if (await _unitOfWork.Banners.GetByIdAsync(banner.Id) == null)
                     {
                         return NotFound();
                     }
@@ -91,17 +117,29 @@ namespace FitVerse.Web.Controllers
                         throw;
                     }
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error updating banner with ID {banner.Id}.");
+                    throw;
+                }
                 return RedirectToAction(nameof(Index));
             }
+            _logger.LogWarning($"Banner (ID: {banner.Id}) edit failed due to invalid model state.");
             return View(banner);
         }
 
         // GET: AdminBanners/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            var banner = await _bannerRepository.GetBannerByIdAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var banner = await _unitOfWork.Banners.GetByIdAsync(id.Value);
             if (banner == null)
             {
+                _logger.LogWarning($"Banner with ID {id} not found for deletion confirmation.");
                 return NotFound();
             }
             return View(banner);
@@ -112,7 +150,16 @@ namespace FitVerse.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _bannerRepository.DeleteBannerAsync(id);
+            var banner = await _unitOfWork.Banners.GetByIdAsync(id);
+            if (banner == null)
+            {
+                _logger.LogWarning($"Banner with ID {id} not found for confirmed deletion.");
+                return NotFound();
+            }
+
+            await _unitOfWork.Banners.DeleteAsync(id);
+            await _unitOfWork.CompleteAsync();
+            _logger.LogInformation($"Banner '{banner.Title}' (ID: {id}) deleted successfully.");
             return RedirectToAction(nameof(Index));
         }
     }

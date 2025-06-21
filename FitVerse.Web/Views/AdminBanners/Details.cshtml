@@ -1,0 +1,167 @@
+﻿@model FitVerse.Web.Models.Banner
+
+@{
+    ViewData["Title"] = "Banner Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure correct layout is used
+}
+
+<style>
+    /* Basic styling for detail pages */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+    }
+
+    .details-container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .dl-horizontal dt {
+        float: left;
+        clear: left;
+        width: 180px; /* Adjusted width for more space */
+        text-align: right;
+        padding-right: 20px; /* Increased padding */
+        margin-bottom: 15px; /* Increased margin */
+        font-weight: 600;
+        color: #555;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 200px; /* Adjusted margin to align with dt */
+        margin-bottom: 15px; /* Increased margin */
+        text-align: left;
+        color: #777;
+    }
+
+    .btn-edit {
+        background-color: #3a86ff; /* Primary color */
+        border-color: #3a86ff;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        color: #fff; /* Text color for edit button */
+        text-decoration: none;
+    }
+
+        .btn-edit:hover {
+            background-color: #2a6ae0;
+            border-color: #2a6ae0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(58, 134, 255, 0.3);
+            color: #fff;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: #fff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+            color: #fff;
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px; /* Space between buttons */
+        margin-top: 30px;
+    }
+
+    .image-preview {
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-top: 10px;
+        border: 1px solid #eee;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 details-container">
+            <h1>Banner Details</h1>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </dt>
+                <dd>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" alt="Banner Image" class="image-preview" />
+                    }
+                    else
+                    {
+                        <span>No Image Available</span>
+                    }
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedAt)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedAt)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatedAt)
+                </dd>
+            </dl>
+            <div class="button-group">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-edit">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

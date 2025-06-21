@@ -1,12 +1,14 @@
 
 namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IGenericRepository<TEntity>
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
-        List<TEntity> GetAll(int pageNumber = 1);
-        TEntity GetById(int id);
-        void Add(TEntity obj);
-        void Edit(TEntity obj);
-        void Delete(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+        Task<(IEnumerable<TEntity> entities, int totalCount)> GetPaginatedAsync(int pageNumber, int pageSize);
+        Task<TEntity?> GetByIdAsync(int id);
+        Task AddAsync(TEntity obj);
+        void Update(TEntity obj);
+        void Delete(TEntity obj);
+        Task DeleteAsync(int id);
     }
 }

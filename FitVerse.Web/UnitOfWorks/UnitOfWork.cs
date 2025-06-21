@@ -6,67 +6,35 @@ namespace FitVerse.Web.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
-        FitVerseContext _context;
-        CartItemRepository cartItemRepository;
-        ProductRepository productRepository;
-        CategoryRepository categoryRepository;
-        OrderItemRepository orderItemRepository;
-        OrderRepository order;
+        private readonly FitVerseContext _context;
+
+        private IProductRepository? _productRepository;
+        private ICategoryRepository? _categoryRepository;
+        private IBannerRepository? _bannerRepository;
+        private ICartItemRepository? _cartItemRepository;
+        private IOrderRepository? _orderRepository;
+        private IOrderItemRepository? _orderItemRepository;
 
         public UnitOfWork(FitVerseContext context)
         {
             _context = context;
         }
-        public CartItemRepository CartItemRepository
+
+        public IProductRepository Products => _productRepository ??= new ProductRepository(_context);
+        public ICategoryRepository Categories => _categoryRepository ??= new CategoryRepository(_context);
+        public IBannerRepository Banners => _bannerRepository ??= new BannerRepository(_context);
+        public ICartItemRepository CartItems => _cartItemRepository ??= new CartItemRepository(_context);
+        public IOrderRepository Orders => _orderRepository ??= new OrderRepository(_context);
+        public IOrderItemRepository OrderItems => _orderItemRepository ??= new OrderItemRepository(_context);
+
+        public async Task<int> CompleteAsync()
         {
-            get
-            {
-                if (cartItemRepository == null)
-                    cartItemRepository = new CartItemRepository(_context);
-                return cartItemRepository;
-            }
+            return await _context.SaveChangesAsync();
         }
 
-        public IProductRepository ProductRepository
+        public void Dispose()
         {
-            get
-            {
-                if (productRepository == null)
-                    productRepository = new ProductRepository(_context);
-                return productRepository;
-            }
-        }
-        public OrderItemRepository OrderItem
-        {
-            get
-            {
-                if (orderItemRepository == null)
-                    orderItemRepository = new OrderItemRepository(_context);
-                return orderItemRepository;
-            }
-        }
-        public OrderRepository Order
-        {
-            get
-            {
-                if (order == null)
-                    order = new OrderRepository(_context);
-                return order;
-            }
-        }
-        public ICategoryRepository CategoryRepository
-        {
-            get
-            {
-                if (categoryRepository == null)
-                    categoryRepository = new CategoryRepository(_context);
-                return categoryRepository;
-            }
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
+            _context.Dispose();
         }
     }
 }

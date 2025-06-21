@@ -1,19 +1,21 @@
 ﻿using FitVerse.Web.Models;
-
+using FitVerse.Web.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
-    public class OrderItemRepository : GenericRepository<OrderItem>
+    public class OrderItemRepository : GenericRepository<OrderItem>, IOrderItemRepository
     {
-        FitVerseContext _context;
         public OrderItemRepository(FitVerseContext context) : base(context)
         {
-            _context = context;
-        }
-        public List<CartItem> GetUserCartItems(string UId)
-        {
-            return _context.CartItems.Where(c=> c.UserId == UId).ToList();
         }
 
+        public async Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId)
+        {
+            return await _dbSet
+                .Where(oi => oi.OrderId == orderId)
+                .Include(oi => oi.Product) // Eager load product details for order items
+                .ToListAsync();
+        }
     }
 }

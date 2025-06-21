@@ -1,21 +1,27 @@
 ﻿using FitVerse.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitVerse.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<RoleController> _logger;
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, ILogger<RoleController> logger)
         {
-            this.roleManager = roleManager;
+            _roleManager = roleManager;
+            _logger = logger;
         }
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(RoleViewModel roleFromReq)
         {
@@ -24,21 +30,25 @@ namespace FitVerse.Web.Controllers
                 IdentityRole role = new IdentityRole()
                 {
                     Name = roleFromReq.RoleName,
+                    NormalizedName = roleFromReq.RoleName.ToUpper()
                 };
-                IdentityResult result = await roleManager.CreateAsync(role);
+
+                IdentityResult result = await _roleManager.CreateAsync(role);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "Home");
+                    _logger.LogInformation($"Role '{role.Name}' created successfully.");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     foreach (var item in result.Errors)
                     {
-                        ModelState.AddModelError("", item.Description);
+                        ModelState.AddModelError(string.Empty, item.Description);
                     }
+                    _logger.LogWarning($"Role creation failed for '{roleFromReq.RoleName}': {string.Join(", ", result.Errors.Select(e => e.Description))}");
                 }
             }
-            return View();
+            return View(roleFromReq);
         }
     }
 }

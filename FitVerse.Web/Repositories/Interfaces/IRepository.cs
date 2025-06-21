@@ -1,12 +1,17 @@
 ﻿namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<T> where T : class
     {
-        List<TEntity> GetAll();
-        TEntity GetById(int id);
-        void Add(TEntity obj);
-        void Edit(TEntity obj);
+        List<T> GetAll();
+
+        T GetById(int id);
+
+        void Add(T entity);
+
+        void Update(T entity);
+
         void Delete(int id);
-        void Save();
+
+        bool Exists(int id);
     }
 }

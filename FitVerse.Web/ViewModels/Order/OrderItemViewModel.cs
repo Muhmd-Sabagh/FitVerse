@@ -6,23 +6,27 @@ namespace FitVerse.Web.ViewModels.Order
     [NotMapped]
     public class OrderItemViewModel
     {
-   
-        //public int OrderId { get; set; }
-
         public int ProductId { get; set; }
 
         public int Quantity { get; set; }
+
+        [Display(Name = "Unit Price")]
+        [DataType(DataType.Currency)]
         public decimal UnitPrice { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime CreatedAt { get; set; } = new DateTime(2025, 01, 01);        
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Total price for this specific order item (calculated property)
+        [Display(Name = "Total Price")]
+        [DataType(DataType.Currency)]
         public decimal TotalPrice => UnitPrice * Quantity;
 
-        // from product
-
+        // From the product for display
+        [Display(Name = "Product Name")]
         public string Prod_Name { get; set; }
-        public string ImageUrl { get; set; }
-        
 
+        [Display(Name = "Product Image")]
+        public string ImageUrl { get; set; }
     }
 }

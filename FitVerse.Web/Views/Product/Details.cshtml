@@ -2,490 +2,360 @@
 
 @{
     ViewData["Title"] = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure correct layout is used
 }
+
 @section Styles{
-    <link rel="stylesheet" type="text/css" href="/css/ProductDetails.css" />
-}
-
-<style>
-    :root {
-        --primary-color: #3a86ff;
-        --secondary-color: #8338ec;
-        --accent-color: #ff006e;
-        --light-bg: #f8f9fa;
-        --dark-text: #212529;
-        --gray-text: #6c757d;
-        --success-color: #28a745;
-        --warning-color: #ffc107;
-        --danger-color: #dc3545;
-    }
-
-    .product-details-container {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .product-card {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-
-    }
-
-    .product-image-section {
-        position: relative;
-        padding: 70px;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 100%;
-    }
-
-        .product-image-section img {
-            max-width: 100%;
-            max-height: 500px;
-            object-fit: contain;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
+    <link rel="stylesheet" type="text/css" href="~/css/ProductDetails.css" />
+    <style>
+        /* Define variables if not already in ProductDetails.css or site.css */
+        :root {
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --accent-color: #ff006e;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --gray-text: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
         }
 
-        .product-image-section:hover img {
-            transform: scale(1.03);
-        }
-
-    .product-badge {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background: var(--accent-color);
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-info-section {
-        padding: 40px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .breadcrumb-custom {
-        background-color: transparent;
-        padding: 0;
-        margin-bottom: 20px;
-    }
-
-    .breadcrumb-item a {
-        color: var(--gray-text);
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-
-        .breadcrumb-item a:hover {
-            color: var(--primary-color);
-        }
-
-    .breadcrumb-item.active {
-        color: var(--primary-color);
-        font-weight: 500;
-    }
-
-    .product-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: var(--dark-text);
-        line-height: 1.2;
-    }
-
-    .product-meta {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-
-
-    .product-material {
-        color: var(--gray-text);
-        font-size: 0.95rem;
-    }
-
-    .price-section {
-        margin: 20px 0;
-    }
-
-    .current-price {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        display: inline-block;
-        margin-right: 15px;
-    }
-
-    .original-price {
-        font-size: 1.5rem;
-        color: var(--gray-text);
-        text-decoration: line-through;
-        display: inline-block;
-    }
-
-    .discount-badge {
-        background: linear-gradient(45deg, var(--accent-color), #fb5607);
-        color: white;
-        padding: 4px 12px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-left: 15px;
-        display: inline-block;
-    }
-
-    .product-description {
-        margin: 25px 0;
-        color: var(--dark-text);
-        line-height: 1.8;
-        font-size: 1.05rem;
-    }
-
-    .stock-info {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 15px;
-        border-radius: 8px;
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
-
-        .stock-info.available {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-color);
-        }
-
-        .stock-info.low {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--warning-color);
-        }
-
-        .stock-info.out-of-stock {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: var(--danger-color);
-        }
-
-        .stock-info i {
-            margin-right: 8px;
-        }
-
-    .add-to-cart-card {
-        background: var(--light-bg);
-        border-radius: 12px;
-        padding: 25px;
-        margin-top: 30px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .add-to-cart-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        color: var(--dark-text);
-    }
-
-    .quantity-selector {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .quantity-btn {
-        width: 40px;
-        height: 40px;
-        border: 1px solid #dee2e6;
-        background: white;
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-        .quantity-btn:hover {
-            background: #e9ecef;
-        }
-
-        .quantity-btn:first-child {
-            border-radius: 8px 0 0 8px;
-        }
-
-        .quantity-btn:last-child {
-            border-radius: 0 8px 8px 0;
-        }
-
-    .quantity-input {
-        width: 60px;
-        height: 40px;
-        text-align: center;
-        border-top: 1px solid #dee2e6;
-        border-bottom: 1px solid #dee2e6;
-        border-left: none;
-        border-right: none;
-        font-weight: 500;
-    }
-
-    .btn-add-to-cart {
-        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-        .btn-add-to-cart:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
-        }
-
-        .btn-add-to-cart:disabled {
-            background: #e9ecef;
-            color: #adb5bd;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-    .product-features {
-        margin-top: 30px;
-    }
-
-    .feature-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 12px;
-    }
-
-    .feature-icon {
-        width: 24px;
-        height: 24px;
-        background: rgba(58, 134, 255, 0.1);
-        color: var(--primary-color);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
-        font-size: 0.8rem;
-    }
-
-    .feature-text {
-        color: var(--dark-text);
-    }
-
-    /* Responsive adjustments */
-    @@media (max-width: 768px) {
         .product-details-container {
-            padding: 20px 0;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            align-items: flex-start; /* Align items to the top */
+            justify-content: center;
+            gap: 40px; /* Space between sections */
+            padding: 40px 0;
         }
 
-        .product-image-section, .product-info-section {
-            padding: 20px;
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            width: 100%; /* Full width on small screens */
+            max-width: 1000px; /* Max width for the entire card container */
+            display: flex; /* Flex container for image and info sections */
+            flex-direction: row; /* Default to row layout */
+        }
+
+        .product-image-section {
+            position: relative;
+            padding: 30px; /* Reduced padding */
+            background: #f8f9fa; /* Light background for image section */
+            flex: 1; /* Take available space */
+            min-width: 300px; /* Minimum width for image section */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .product-image-section img {
+                max-width: 100%;
+                max-height: 400px; /* Max height for image */
+                object-fit: contain; /* Ensure image fits without cropping */
+                border-radius: 12px;
+            }
+
+        .product-info-section {
+            flex: 1; /* Take available space */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content to the top */
+            min-width: 350px; /* Minimum width for info section */
         }
 
         .product-title {
-            font-size: 2rem;
-        }
-    }
-
-    .badge-new-arrival {
-        background-color: var(--secondary-color); 
-        color: white;
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        position: absolute; 
-        top: 20px;
-        left: 160px; 
-        z-index: 10;
-    }
-
-    .badge-on-sale {
-        background-color: var(--success-color);
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        position: absolute;
-        top: 55px;
-        left: 20px;
-        z-index: 10;
-    }
-   
-    .product-badge {
-        background: var(--accent-color); 
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 10;
-    }
-
-
-    @@media (max-width: 767.98px) {
-        .badge-new-arrival {
-            top: 15px;
-            left: 20px;
-            font-size: 0.75rem;
-            padding: 4px 8px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 10px;
         }
 
-        .product-badge, .badge-on-sale {
-            top: 15px;
-            left: 15px;
-            font-size: 0.8rem;
-            padding: 4px 10px;
+        .product-category {
+            font-size: 1.1rem;
+            color: var(--gray-text);
+            margin-bottom: 20px;
         }
 
-            .badge-on-sale:not(.product-badge) {
-                top: 45px;
+        .product-price-section {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .original-price {
+            font-size: 1.5rem;
+            color: var(--gray-text);
+            text-decoration: line-through;
+        }
+
+        .effective-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            color: var(--dark-text);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .meta-item {
+            font-size: 0.95rem;
+            color: var(--gray-text);
+            background-color: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+            .quantity-control label {
+                font-weight: 600;
+                color: var(--dark-text);
+                margin-right: 5px;
             }
-    }
-</style>
 
-<main>
+            .quantity-control button {
+                background-color: var(--secondary-color);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background-color 0.2s ease, transform 0.2s ease;
+            }
 
-    <div class="container product-details-container">
-
-        <div class="product-card h-100 p-3">
-            <div class="product-image-section">
-                @if (Model.IsNewArrival)
-                {
-                    <span class="badge-new-arrival">NEW ARRIVAL</span>
+                .quantity-control button:hover {
+                    background-color: #6a2dc4;
+                    transform: translateY(-2px);
                 }
-                @if (Model.IsOnSale && !(Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0))
-                {
-                    <span class="badge-on-sale">ON SALE!</span>
-                }
-                @if (Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0)
-                {
-                    <span class="product-badge">@Model.DiscountPercentage.Value% OFF</span>
-                }
-                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" />
 
-                <div class="col-lg-6">
-                    <div class="product-card h-100">
-                        <div class="product-info-section">
-                            <nav aria-label="breadcrumb" class="breadcrumb-custom">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">@Model.ParentCategoryName</a></li>
-                                    <li class="breadcrumb-item"><a href="#">@Model.CategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
-                                </ol>
-                            </nav>
+            .quantity-control input {
+                width: 70px;
+                text-align: center;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 8px;
+                font-size: 1.1rem;
+            }
 
-                            <h1 class="product-title">@Model.Name</h1>
+        .add-to-cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%; /* Full width button */
+            box-shadow: 0 8px 20px rgba(58, 134, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
+            .add-to-cart-btn:hover {
+                background-color: #2a6ae0;
+                transform: translateY(-3px);
+                box-shadow: 0 12px 25px rgba(58, 134, 255, 0.3);
+            }
 
+            .add-to-cart-btn i {
+                font-size: 1.5rem;
+            }
 
-                            <div class="price-section">
-                                <span class="current-price">EGP @Model.EffectivePrice.ToString()</span>
-                                @if (Model.DiscountPercentage.HasValue && Model.DiscountPercentage.Value > 0)
-                                {
-                                    <span class="original-price">Was EGP @Model.Price.ToString()</span>
-                                    <span class="discount-badge">Save EGP @((Model.Price - Model.EffectivePrice).ToString())</span>
-                                }
-                            </div>
+        .out-of-stock-btn {
+            background-color: #dc3545; /* Danger color */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: not-allowed;
+            opacity: 0.7;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-                            <div class="product-description">
-                                @Html.Raw(Model.Description)
-                            </div>
+        .badge-new-arrival {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: absolute;
+            top: 20px;
+            left: 20px; /* Adjusted position */
+            z-index: 10;
+        }
 
-                            <div class="stock-info @(Model.StockQuantity > 3 ? "available" : (Model.StockQuantity <= 3 ? "low" : "out-of-stock"))">
-                                <i class="fas @(Model.StockQuantity > 3 ? "fa-check-circle" : (Model.StockQuantity <=3 ? "fa-exclamation-triangle" : "fa-times-circle"))"></i>
-                                @(Model.StockQuantity > 0 ? $"{Model.StockQuantity} items available" : "Out of Stock")
-                            </div>
+        .badge-on-sale {
+            background-color: var(--success-color);
+            color: white; /* Changed text color to white for better contrast */
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Adjusted position */
+            z-index: 10;
+        }
 
-                            <div class="product-features">
-                                <div class="feature-item">
-                                    <span class="feature-icon">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </span>
-                                    <span class="feature-text">Premium @Model.Material material for durability</span>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </span>
-                                    <span class="feature-text">Designed for optimal performance</span>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </span>
-                                    <span class="feature-text">Free shipping on orders over EGP50</span>
-                                </div>
+        /* Responsive adjustments */
+        @@media (max-width: 992px) {
+            .product-card {
+                flex-direction: column; /* Stack sections on medium and small screens */
+            }
+            .product-image-section, .product-info-section {
+                min-width: unset;
+                width: 100%;
+            }
+            .product-image-section {
+                padding: 20px;
+            }
+            .product-info-section {
+                padding: 30px;
+            }
+            .product-title {
+                font-size: 2rem;
+            }
+            .effective-price {
+                font-size: 1.8rem;
+            }
+        }
+        @@media (max-width: 576px) {
+            .product-details-container {
+                padding: 20px 0;
+            }
+            .product-info-section {
+                padding: 20px;
+            }
+            .product-title {
+                font-size: 1.8rem;
+            }
+            .original-price {
+                font-size: 1.2rem;
+            }
+            .effective-price {
+                font-size: 1.5rem;
+            }
+            .add-to-cart-btn {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            .quantity-control input {
+                width: 60px;
+                padding: 6px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+}
 
-                            </div>
-
-                            <div class="add-to-cart-card">
-                                <h4 class="add-to-cart-title">Add to Cart</h4>
-                                @if (Model.StockQuantity > 0)
-                                {
-                                    <form asp-controller="ProductDetails" asp-action="AddToCart" method="post">
-                                        <input type="hidden" asp-for="Id" name="productId" />
-
-                                        <div class="quantity-selector">
-                                            <button type="button" class="quantity-btn minus" onclick="decrementQuantity()">-</button>
-                                            <input type="text" asp-for="SelectedQuantity" class="form-control quantity-input"
-                                                   min="1" max="@Model.StockQuantity" value="1" id="quantityInput" />
-                                            <button type="button" class="quantity-btn plus" onclick="incrementQuantity()">+</button>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-add-to-cart">
-                                            <i class="fas fa-shopping-cart"></i> Add to Cart - EGP @Model.EffectivePrice.ToString()
-                                        </button>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <div class="alert alert-warning" role="alert">
-                                        <i class="fas fa-exclamation-circle me-2"></i> This product is currently out of stock.
-                                    </div>
-                                    <button type="button" class="btn btn-add-to-cart" disabled>
-                                        <i class="fas fa-bell"></i> Notify Me When Available
-                                    </button>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<main class="container product-details-container py-5">
+    <div class="product-card">
+        <div class="product-image-section">
+            @if (Model.IsNewArrival)
+            {
+                <span class="badge-new-arrival">New Arrival</span>
+            }
+            @if (Model.IsOnSale)
+            {
+                <span class="badge-on-sale">On Sale!</span>
+            }
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name" class="img-fluid">
+            }
+            else
+            {
+                <img src="https://placehold.co/400x400/cccccc/333333?text=No+Image" alt="No Image" class="img-fluid" />
+            }
         </div>
 
+        <div class="product-info-section">
+            <h1 class="product-title">@Model.Name</h1>
+            <p class="product-category">Category: @Model.CategoryName @if (!string.IsNullOrEmpty(Model.ParentCategoryName)) {<text>(@Model.ParentCategoryName)</text>}</p>
+
+            <div class="product-price-section">
+                @if (Model.DiscountPercentage.HasValue && Model.DiscountPercentage > 0)
+                {
+                    <span class="original-price">@Model.Price.ToString("C")</span>
+                }
+                <span class="effective-price">@Model.EffectivePrice.ToString("C")</span>
+            </div>
+
+            <p class="product-description">@Model.Description</p>
+
+            <div class="product-meta">
+                <span class="meta-item">Material: @(string.IsNullOrEmpty(Model.Material) ? "N/A" : Model.Material)</span>
+                <span class="meta-item">In Stock: @Model.StockQuantity</span>
+            </div>
+
+            @if (Model.StockQuantity > 0)
+            {
+                <div class="quantity-control">
+                    <label for="quantityInput">Quantity:</label>
+                    <button type="button" onclick="decrementQuantity()"><i class="fas fa-minus"></i></button>
+                    <input type="number" id="quantityInput" value="@Model.SelectedQuantity" min="1" max="@Model.StockQuantity">
+                    <button type="button" onclick="incrementQuantity()"><i class="fas fa-plus"></i></button>
+                </div>
+
+                <form asp-controller="CartItem" asp-action="Increment" method="get">
+                    <input type="hidden" name="PId" value="@Model.Id" />
+                    <input type="hidden" name="quantity" id="hiddenQuantityInput" value="1" /> @* Value will be updated by JS *@
+                    <button type="submit" class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </form>
+            }
+            else
+            {
+                <button type="button" class="out-of-stock-btn" disabled>
+                    <i class="fas fa-exclamation-circle"></i> Out of Stock
+                </button>
+                <button type="button" class="add-to-cart-btn mt-3" style="background-color: #ffc107;" onclick="alert('You can enable a "Notify Me" feature here to be alerted when the product is back in stock.')">
+                   <i class="fas fa-bell"></i> Notify Me When Available
+                </button>
+            }
+        </div>
     </div>
-
-
 </main>
 
 @section Scripts {
@@ -494,6 +364,14 @@
     }
 
     <script>
+        function updateHiddenQuantity() {
+            const quantityInput = document.getElementById('quantityInput');
+            const hiddenQuantityInput = document.getElementById('hiddenQuantityInput');
+            if (quantityInput && hiddenQuantityInput) {
+                hiddenQuantityInput.value = quantityInput.value;
+            }
+        }
+
         function incrementQuantity() {
             const input = document.getElementById('quantityInput');
             const max = parseInt(input.max);
@@ -501,6 +379,7 @@
             if (value < max) {
                 input.value = value + 1;
             }
+            updateHiddenQuantity();
         }
 
         function decrementQuantity() {
@@ -509,9 +388,10 @@
             if (value > 1) {
                 input.value = value - 1;
             }
+            updateHiddenQuantity();
         }
 
-        // Validate quantity input
+        // Validate quantity input on change
         document.getElementById('quantityInput').addEventListener('change', function() {
             let value = parseInt(this.value);
             const max = parseInt(this.max);
@@ -522,6 +402,10 @@
             } else if (value > max) {
                 this.value = max;
             }
+            updateHiddenQuantity(); // Update hidden input after validation
         });
+
+        // Initialize hidden quantity on page load
+        document.addEventListener('DOMContentLoaded', updateHiddenQuantity);
     </script>
 }

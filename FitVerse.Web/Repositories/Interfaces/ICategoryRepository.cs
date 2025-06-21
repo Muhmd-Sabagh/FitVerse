@@ -1,15 +1,13 @@
 using FitVerse.Web.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IGenericRepository<Category>
     {
-        Task<Category> GetCategoryByIdAsync(int id);
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
-        Task AddCategoryAsync(Category category);
-        Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int id);
-        List<Category> GetParentCategories();
-        List<Category> GetChildCategories(int parentCategoryId);
+        Task<IEnumerable<Category>> GetParentCategoriesAsync();
+        Task<Category?> GetCategoryWithSubcategoriesAsync(int categoryId);
+        Task<string?> GetParentCategoryNameByChildProductIdAsync(int productId);
     }
 }

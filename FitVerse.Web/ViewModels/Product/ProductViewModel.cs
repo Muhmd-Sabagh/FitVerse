@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace FitVerse.Web.ViewModels.Product
+﻿namespace FitVerse.Web.ViewModels.Product
 {
     public class ProductViewModel
     {
@@ -27,9 +24,9 @@ namespace FitVerse.Web.ViewModels.Product
 
         public int CategoryId { get; set; }
 
-        public DateTime CreatedAt { get; set; } 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public DateTime UpdatedAt { get; set; }
-
+        // public CategoryViewModel Category { get; set; }
     }
 }

@@ -1,13 +1,14 @@
-﻿@model FitVerse.Web.ViewModels.LoginViewModel
+﻿@model FitVerse.Web.ViewModels.Account.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
     body {
         background: linear-gradient(135deg, #f8f9fa, #ffffff);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Inter', sans-serif;
         color: #333;
     }
 
@@ -37,37 +38,54 @@
         }
 
     .btn-primary {
-        background-color: #ff6f61;
-        border: none;
-        padding: 0.75rem;
-        font-weight: bold;
+        background-color: #3a86ff;
+        border-color: #3a86ff;
         border-radius: 8px;
-        transition: background-color 0.3s ease;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(58, 134, 255, 0.2);
     }
 
         .btn-primary:hover {
-            background-color: #e85c50;
+            background-color: #2a6ae0;
+            border-color: #2a6ae0;
+            box-shadow: 0 6px 15px rgba(58, 134, 255, 0.3);
+            transform: translateY(-2px);
         }
 
-    a {
-        color: #ff6f61;
-        font-weight: 500;
+    .form-check-input {
+        width: 1.25em;
+        height: 1.25em;
+        margin-top: 0.25em;
+        vertical-align: top;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px solid rgba(0, 0, 0, .25);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        border-radius: .25rem;
+        transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
 
-        a:hover {
-            text-decoration: underline;
+        .form-check-input[type=checkbox]:checked {
+            background-color: #3a86ff;
+            border-color: #3a86ff;
         }
 
-    h2 {
-        color: #444;
-        font-weight: bold;
-    }
 </style>
 
 <div class="container d-flex justify-content-center pb-5">
     <div class="col-md-6 form-container">
         <h2 class="text-center mb-4">Login</h2>
-        <form asp-action="Login">
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="mb-3">
@@ -94,7 +112,7 @@
 
         <div class="mt-3 text-center">
             <span>Don't have an account? </span>
-            <a asp-action="Register" class="fs-5">Register here</a>
+            <a asp-action="Register" class="text-primary fw-bold">Register here</a>
         </div>
     </div>
 </div>

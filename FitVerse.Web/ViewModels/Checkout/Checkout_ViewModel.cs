@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FitVerse.Web.ViewModels.Cart;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FitVerse.Web.Models;
-using FitVerse.Web.Models;
-using FitVerse.Web.ViewModels.Cart;
-using Microsoft.AspNetCore.Http;
 
 namespace FitVerse.Web.ViewModels.Checkout
 {
@@ -13,24 +10,33 @@ namespace FitVerse.Web.ViewModels.Checkout
         public Checkout_ViewModel()
         {
             CartItemsViewModels = new List<CartItem_ViewModel>();
+            Prod_Names = new List<string>();
+            EffectivePrice = new List<decimal>();
+            ImageUrl = new List<string>();
         }
         public int UserId { get; set; }
-        //public User User { get; set; }
         public DateTime OrderDate { get; set; }
-        //public int TotalAmount { get; set; }
-        public string Status { get; set; }
-        public string ShippingAddress { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerEmail { get; set; }
-        public string CustomerPhone { get; set; }
-        public int UnitPrice { get; set; }
+        public string Status { get; set; } = "Pending";
 
-        // from CartItems
+        [Required(ErrorMessage = "Shipping Address is required.")]
+        public string ShippingAddress { get; set; }
+
+        [Required(ErrorMessage = "Customer Name is required.")]
+        public string CustomerName { get; set; }
+
+        [Required(ErrorMessage = "Customer Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        public string CustomerEmail { get; set; }
+
+        [Required(ErrorMessage = "Customer Phone is required.")]
+        [Phone(ErrorMessage = "Invalid Phone Number.")]
+        public string CustomerPhone { get; set; }
+        public decimal UnitPrice { get; set; }
+
+        // from CartItems - list of cart items to be checked out
         public List<CartItem_ViewModel> CartItemsViewModels { get; set; }
         public List<string> Prod_Names { get; set; }
-        public List<int> EffectivePrice { get; set; }
+        public List<decimal> EffectivePrice { get; set; }
         public List<string> ImageUrl { get; set; }
-
-
     }
 }

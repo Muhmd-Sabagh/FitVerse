@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\Cart\" />
-    <Folder Include="ViewModels\Account\" />
-    <Folder Include="ViewModels\Order\" />
-    <Folder Include="ViewModels\Home\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Order\" />
-    <Folder Include="Views\Product\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

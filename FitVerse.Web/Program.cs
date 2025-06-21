@@ -3,20 +3,18 @@ using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.UnitOfWorks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-//using AutoMapper;
-//using FitVerse.Web.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Configure Entity Framework Core with FitVerseContext
+// Configure DbContext with SQL Server
 builder.Services.AddDbContext<FitVerseContext>(options =>
-options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseLazyLoadingProxies()
+    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // --- Configure ASP.NET Core Identity ---
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -33,52 +31,38 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
 })
     .AddEntityFrameworkStores<FitVerseContext>()
-    .AddDefaultTokenProviders(); // Used for password resets, email confirmations etc.
+    .AddDefaultTokenProviders();
 
-// Add Authentication (Cookie-based authentication)
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-   .AddCookie(options =>
-   {
-       options.LoginPath = "/Account/Login"; // Path to your login action
-       options.LogoutPath = "/Account/Logout"; // Path to your logout action
-       options.AccessDeniedPath = "/Account/AccessDenied"; // Path if user tries to access unauthorized resource
-       options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
-       options.SlidingExpiration = true; // Renew cookie if half the expire time has passed
-   });
-                            
+// Configure Identity redirect paths
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.AccessDeniedPath = "/Account/AccessDenied"; // <-- your view
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
 });
 
-// Add Session services
-builder.Services.AddSession(options =>
-{
-   options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
-   options.Cookie.HttpOnly = true;
-   options.Cookie.IsEssential = true; // Make the session cookie essential
-});
-
-//// Register Repositories with Dependency Injection
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IBannerRepository, BannerRepository>();
-builder.Services.AddScoped<IProduct, DetailsRepository>();
-builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
-//builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<OrderRepository, OrderRepository>();
-builder.Services.AddScoped<OrderItemRepository, OrderItemRepository>();
-//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-//builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
-builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
-//builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
-
-
-//// Configure AutoMapper
-//// Scans the assembly for profiles and adds them.
+// --- Configure AutoMapper ---
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+// Register Generic Repository first
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+// Register your repositories as scoped services
+builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBannerRepository, BannerRepository>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+// Register UnitOfWork
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 var app = builder.Build();
 
@@ -94,29 +78,38 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // Must be before UseAuthentication/UseAuthorization
-
-app.UseAuthentication(); // Must be before UseAuthorization
+// Authentication and Authorization middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Apply migrations on application startup
+// app.UseSession();
+
+// Custom route for Admin controllers
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
+
+// Default route for other controllers
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+// Apply database migrations on application startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<FitVerseContext>();
-        context.Database.Migrate(); // This will apply schema migrations (pending migrations) only.
+        context.Database.Migrate(); // This will apply pending migrations only
+        Console.WriteLine("Database migrations applied successfully on application startup.");
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating the database.");
+        logger.LogError(ex, "An error occurred while migrating the database on application startup.");
     }
 }
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

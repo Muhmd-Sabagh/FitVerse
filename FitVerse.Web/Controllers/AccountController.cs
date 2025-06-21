@@ -1,108 +1,124 @@
 ﻿using FitVerse.Web.Models;
-using FitVerse.Web.ViewModels;
+using FitVerse.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace FitVerse.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
-        //Ctor
-        public AccountController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
-        #region Register 
+        #region Register
         public IActionResult Register()
-        { 
+        {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken] ///deny any req from out our domain or out our website
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel userFromReq)
         {
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser()
-                { 
-                    FullName= userFromReq.FullName,
-                    Email= userFromReq.Email,
-                    UserName=userFromReq.Email
+                {
+                    FullName = userFromReq.FullName,
+                    Email = userFromReq.Email,
+                    UserName = userFromReq.Email,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
 
-                //Save using userManager
-                IdentityResult result = await userManager.CreateAsync(user,userFromReq.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, userFromReq.Password);
+
                 if (result.Succeeded)
                 {
-                    //Create Cookie
-                     await signInManager.SignInAsync(user,false); //take data from user and save it in cookie -- ispresistent :false = session
-                    //redirect any action need to authorized
-                    return RedirectToAction("login", "Account");    
+                    _logger.LogInformation($"User {user.UserName} created successfully.");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError("password", error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    _logger.LogWarning($"User registration failed for {userFromReq.Email}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
                 }
-
             }
             return View(userFromReq);
         }
-
-
         #endregion
 
         #region Login
-
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel userFromReq)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel userFromReq, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
-                // check -- create cookie
-               ApplicationUser userFromDb= await userManager.FindByEmailAsync(userFromReq.Email);
-                if (userFromDb != null)
+                var result = await _signInManager.PasswordSignInAsync(userFromReq.Email, userFromReq.Password, userFromReq.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
                 {
-                    bool found =await userManager.CheckPasswordAsync(userFromDb, userFromReq.Password);
-                    if (found)
+                    _logger.LogInformation($"User {userFromReq.Email} logged in successfully.");
+                    var user = await _userManager.FindByEmailAsync(userFromReq.Email);
+                    if (user != null)
                     {
-                        // Create the FullName claim
                         var claims = new List<Claim>
-                            {
-                                new Claim("FullName", userFromDb.FullName ?? userFromDb.UserName)
-                            };
-                        // Sign in with claims
-                        await signInManager.SignInWithClaimsAsync(userFromDb, userFromReq.RememberMe, claims);
-                        //create cookie 
-                       // await signInManager.SignInAsync(userFromDb,userFromReq.RememberMe); //create cookie and data can get from 'User.Identity'
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id),
+                            new Claim(ClaimTypes.Name, user.FullName ?? user.Email),
+                            new Claim(ClaimTypes.Email, user.Email)
+                        };
+                        await _signInManager.SignInWithClaimsAsync(user, userFromReq.RememberMe, claims);
+                    }
+
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError("", "Invalid Account");
-            
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt. Please check your email and password.");
+                    _logger.LogWarning($"Failed login attempt for email: {userFromReq.Email}");
+                }
             }
             return View(userFromReq);
         }
         #endregion
 
         #region Logout
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
             return RedirectToAction("Login");
         }
         #endregion
@@ -111,23 +127,18 @@ namespace FitVerse.Web.Controllers
         {
             return View();
         }
-        // this controller if U want to great Welcome (user name)
-        #region Welcome
 
+        #region Welcome
         public IActionResult Welcome()
         {
-            if (User.Identity.IsAuthenticated == true)
-            { 
+            if (User.Identity.IsAuthenticated)
+            {
                 string name = User.Identity.Name;
-                // this step for U 'Mark' ==> get id from claims
-                Claim idClaim=User.Claims.FirstOrDefault(c=>c.Type==ClaimTypes.NameIdentifier);
-                return Content($"Welcome : {name} \t id={idClaim}");
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                return Content($"Welcome : {name} \t id={userId}");
             }
-            //Guest
             return Content("Welcome Guest");
         }
-
         #endregion
-
     }
 }

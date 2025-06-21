@@ -15,5 +15,23 @@ namespace FitVerse.Web.ViewModels.Product
 
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public decimal Price { get; set; }
+
+        public decimal? DiscountPercentage { get; set; }
+
+        [NotMapped]
+        public bool IsOnSale => DiscountPercentage.HasValue && DiscountPercentage > 0;
+
+        [NotMapped]
+        public decimal EffectivePrice
+        {
+            get
+            {
+                if (DiscountPercentage.HasValue && DiscountPercentage > 0)
+                {
+                    return Price * (1 - (DiscountPercentage.Value / 100M));
+                }
+                return Price;
+            }
+        }
     }
 }

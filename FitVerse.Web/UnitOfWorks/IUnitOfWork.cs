@@ -4,8 +4,13 @@ namespace FitVerse.Web.UnitOfWorks
 {
     public interface IUnitOfWork
     {
-        IProductRepository ProductRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
-        void Save();
+        IProductRepository Products { get; }
+        ICategoryRepository Categories { get; }
+        IBannerRepository Banners { get; }
+        ICartItemRepository CartItems { get; }
+        IOrderRepository Orders { get; }
+        IOrderItemRepository OrderItems { get; }
+
+        Task<int> CompleteAsync();
     }
 }

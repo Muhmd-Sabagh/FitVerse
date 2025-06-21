@@ -1,102 +1,165 @@
-﻿@* Views/Shared/_Layout.cshtml *@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FitVerse.Web</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>FitVerse</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="FitVerse Team">
+    <meta name="keywords" content="ecommerce,fitness,sports,store,clothing,supplements">
+    <meta name="description" content="FitVerse - Your ultimate destination for fitness and sports gear.">
+
+    @* Importmap is not needed here unless you're using ES modules directly *
+    @* <script type="importmap"></script> *@
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          xintegrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+          crossorigin="anonymous">
+
+    <!-- Swiper CSS (if used for sliders/carousels) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="~/css/normalize.css" /> @* From your provided files *@
+    <link rel="stylesheet" href="~/css/vendor.css" /> @* From your provided files *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FitVerse.Web.styles.css" asp-append-version="true" />
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #121212;
-            color: #f0f0f0;
-        }
+    <link rel="stylesheet" href="~/FitVerse.Web.styles.css" asp-append-version="true" /> @* This is likely for scoped CSS *@
 
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        main {
-            flex: 1;
-            padding-top: 2rem;
-        }
-
-        .navbar, .footer {
-            background-color: #1e1e1e !important;
-        }
-
-        .navbar-brand, .nav-link {
-            color: #f0f0f0 !important;
-        }
-
-        .navbar .nav-link:hover {
-            color: #00bcd4 !important;
-        }
-
-        a {
-            color: #00bcd4;
-        }
-
-            a:hover {
-                color: #0097a7;
-            }
-
-        .footer {
-            padding: 1rem 0;
-            border-top: 1px solid #333;
-            text-align: center;
-            color: #ccc;
-            position:fixed!important;
-            line-height:initial!important;
-        }
-    </style>
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <div class="page-wrapper">
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-dark border-bottom shadow-sm mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitVerse</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="https://placehold.co/40x40/3a86ff/ffffff?text=FV" alt="FitVerse Logo" class="me-2 rounded-circle">
+                    <span class="fw-bold text-primary fs-4">FitVerse</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="All">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CartItem" asp-action="Index">
+                                <i class="fas fa-shopping-cart me-1"></i> Cart
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i> Account
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="dropdown-item-text">Hello, @User.Identity.Name!</li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Checkout" asp-action="AllOrders">My Orders</a></li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
 
-        <main role="main" class="container pb-3">
+    <div class="container-fluid px-0"> @* Use container-fluid and remove padding to allow full width for content if needed *@
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
-
-        <footer class="footer">
-            <div class="container">
-                &copy; 2025 - FitVerse.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <footer class="border-top footer text-muted bg-dark py-4 text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-primary fw-bold">FitVerse</h5>
+                    <p class="small text-white-50">Your journey to fitness starts here. Discover quality gear and apparel.</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-primary fw-bold">Quick Links</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#" class="text-decoration-none text-white-50">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50">Contact</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-white-50">Privacy Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-primary fw-bold">Connect With Us</h5>
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 border-secondary" />
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="payment-option mb-2">
+                        <span class="me-2">Payment Options:</span>
+                        <img src="https://placehold.co/50x30/000000/ffffff?text=VISA" alt="Visa Card" class="mx-1" style="height:30px; border-radius: 4px;">
+                        <img src="https://placehold.co/50x30/000000/ffffff?text=PayPal" alt="Paypal Card" class="mx-1" style="height:30px; border-radius: 4px;">
+                        <img src="https://placehold.co/50x30/000000/ffffff?text=Master" alt="Master Card" class="mx-1" style="height:30px; border-radius: 4px;">
+                    </div>
+                    <p class="mb-0 text-white-50">
+                        © Copyright @DateTime.Now.Year FitVerse. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery (if still needed, though modern JS often replaces it) -->
+    <script src="~/js/jquery.min.js"></script> @* From your provided files *@
+    <!-- Plugins (if they rely on jQuery, otherwise consider modernizing) -->
+    <script src="~/js/plugins.js"></script> @* From your provided files *@
+    <!-- SmoothScroll (if still desired) -->
+    <script src="~/js/SmoothScroll.js"></script> @* From your provided files *@
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            xintegrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+
+    <!-- Swiper JS (if used for sliders/carousels) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Custom site-specific JavaScript (if any) -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -2,11 +2,12 @@
 
 namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IProductRepository: IGenericRepository<Product>
+    public interface IProductRepository : IGenericRepository<Product>
     {
-        List<Product> GetByCategory(int pageNumber = 1, string categoryName="");
-        List<Product> GetByParentCategory(string parentName, int pageNumber = 1, string childCategoryName = "");
-        List<Product> SearchByName(int pageNumber = 1, string ProductName = "", string categoryName="");
-        List<Product> Filter(int pageNumber = 1, decimal price = 0, string parentName = "", string categoryName = "", string ProductName = "");
+        Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName, int pageNumber = 1, int pageSize = 10);
+        Task<IEnumerable<Product>> GetByParentCategoryAsync(string parentCategoryName, int pageNumber = 1, int pageSize = 10, string? childCategoryName = null);
+        Task<IEnumerable<Product>> SearchByNameAsync(string productName, int pageNumber = 1, int pageSize = 10, string? categoryName = null);
+        Task<IEnumerable<Product>> FilterAsync(decimal? maxPrice = null, string? parentCategoryName = null, string? categoryName = null, string? productName = null, int pageNumber = 1, int pageSize = 10);
+        Task<IEnumerable<Product>> GetNewArrivalProductsAsync(int count = 5);
     }
 }

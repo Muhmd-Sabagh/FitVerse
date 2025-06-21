@@ -2,12 +2,8 @@
 
 namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface IBannerRepository
+    public interface IBannerRepository : IGenericRepository<Banner>
     {
-        Task<Banner> GetBannerByIdAsync(int id);
-        Task<IEnumerable<Banner>> GetAllBannersAsync();
-        Task AddBannerAsync(Banner banner);
-        Task UpdateBannerAsync(Banner banner);
-        Task DeleteBannerAsync(int id);
+        // Add specific methods for Banner if needed beyond generic CRUD
     }
 }

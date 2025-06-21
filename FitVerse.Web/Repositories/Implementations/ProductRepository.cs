@@ -4,150 +4,137 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        FitVerseContext db;
-        int pageSize = 20;
-        public ProductRepository(FitVerseContext _db)
+        public ProductRepository(FitVerseContext context) : base(context)
         {
-            db = _db;
         }
 
-        public void Add(Product obj)
+        public new async Task<IEnumerable<Product>> GetAllAsync(int pageNumber = 1, int pageSize = DefaultPageSize)
         {
-            db.Products.Add(obj);
-        }
-
-        public void Delete(int id)
-        {
-            var product = GetById(id);
-            if (product != null)
-                db.Products.Remove(product);
-        }
-
-        public void Edit(Product obj)
-        {
-            db.Entry(obj).State = EntityState.Modified;
-        }
-
-        public List<Product> GetAll(int pageNumber = 1)
-        {
-            return db.Products
-                      .Include(p => p.Category)
-                      .ThenInclude(c => c.ParentCategory)
-                      .OrderBy(p => p.Id)
-                      .Skip((pageNumber - 1) * pageSize)
-                      .Take(pageSize)
-                      .ToList();
-        }
-
-        public List<Product> GetByCategory(int pageNumber = 1, string categoryName = "")
-        {
-            var query = db.Products
+            return await _dbSet
                 .Include(p => p.Category)
-                  .ThenInclude(c => c.ParentCategory)
-                .AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(categoryName))
-            {
-                var lowerCat = categoryName.ToLower();
-                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
-            }
-
-            return query
+                    .ThenInclude(c => c.ParentCategory)
                 .OrderBy(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Product GetById(int id)
+        public new async Task<(IEnumerable<Product> entities, int totalCount)> GetPaginatedAsync(int pageNumber, int pageSize)
         {
-            return db.Products
-                 .Include(p => p.Category)
-                   .ThenInclude(c => c.ParentCategory)
-                 .SingleOrDefault(p => p.Id == id);
-        }
-
-        public List<Product> GetByParentCategory(
-            string parentName,
-            int pageNumber = 1,
-            string childCategoryName = "")
-        {
-            var query = db.Products
+            var totalCount = await _dbSet.CountAsync();
+            var entities = await _dbSet
                 .Include(p => p.Category)
-                  .ThenInclude(c => c.ParentCategory)
-                .Where(p => p.Category.ParentCategory.Name == parentName);
-
-            if (!string.IsNullOrWhiteSpace(childCategoryName))
-            {
-                var lowerChild = childCategoryName.ToLower();
-                query = query.Where(p => p.Category.Name.ToLower() == lowerChild);
-            }
-
-            return query
+                    .ThenInclude(c => c.ParentCategory)
                 .OrderBy(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
+            return (entities, totalCount);
         }
 
-        public List<Product> SearchByName(int pageNumber = 1, string ProductName = "",string categoryName = "")
+        public new async Task<Product?> GetByIdAsync(int id)
         {
-            var query = db.Products
+            return await _dbSet
                 .Include(p => p.Category)
-                  .ThenInclude(c => c.ParentCategory)
-                .AsQueryable();
+                    .ThenInclude(c => c.ParentCategory)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
 
-            if (!string.IsNullOrWhiteSpace(ProductName))
-            {
-                var lowerName = ProductName.ToLower();
-                query = query.Where(p => p.Name.ToLower().Contains(lowerName));
-            }
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName, int pageNumber = 1, int pageSize = DefaultPageSize)
+        {
+            var query = _dbSet
+                .Include(p => p.Category)
+                    .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.Category != null && p.Category.Name.ToLower() == categoryName.ToLower());
 
-            if (!string.IsNullOrWhiteSpace(categoryName))
-            {
-                var lowerCat = categoryName.ToLower();
-                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
-            }
-
-            return query
+            return await query
                 .OrderBy(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Product> Filter(int pageNumber = 1, decimal maxPrice = 0, string parentName = "", string categoryName = "", string ProductName = "")
+        public async Task<IEnumerable<Product>> GetByParentCategoryAsync(string parentCategoryName, int pageNumber = 1, int pageSize = DefaultPageSize, string? childCategoryName = null)
         {
-            var query = db.Products
+            var query = _dbSet
                 .Include(p => p.Category)
-                  .ThenInclude(c => c.ParentCategory)
+                    .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.Category != null && p.Category.ParentCategory != null && p.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower());
+
+            if (!string.IsNullOrEmpty(childCategoryName))
+            {
+                query = query.Where(p => p.Category.Name.ToLower() == childCategoryName.ToLower());
+            }
+
+            return await query
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> SearchByNameAsync(string productName, int pageNumber = 1, int pageSize = DefaultPageSize, string? categoryName = null)
+        {
+            var query = _dbSet
+                .Include(p => p.Category)
+                    .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.Name.ToLower().Contains(productName.ToLower()));
+
+            if (!string.IsNullOrEmpty(categoryName))
+            {
+                query = query.Where(p => p.Category != null && p.Category.Name.ToLower() == categoryName.ToLower());
+            }
+
+            return await query
+                .OrderBy(p => p.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> FilterAsync(decimal? maxPrice = null, string? parentCategoryName = null, string? categoryName = null, string? productName = null, int pageNumber = 1, int pageSize = DefaultPageSize)
+        {
+            var query = _dbSet
+                .Include(p => p.Category)
+                    .ThenInclude(c => c.ParentCategory)
                 .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(parentName))
+            if (maxPrice.HasValue && maxPrice.Value > 0)
             {
-                var lowerParentCat = parentName.ToLower();
-                query = query.Where(p => p.Category.ParentCategory != null && p.Category.ParentCategory.Name.ToLower() == lowerParentCat);
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parentCategoryName))
+            {
+                query = query.Where(p => p.Category != null && p.Category.ParentCategory != null && p.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower());
             }
 
             if (!string.IsNullOrWhiteSpace(categoryName))
             {
-                var lowerCat = categoryName.ToLower();
-                query = query.Where(p => p.Category.Name.ToLower() == lowerCat);
+                query = query.Where(p => p.Category != null && p.Category.Name.ToLower() == categoryName.ToLower());
             }
 
-            if (!string.IsNullOrWhiteSpace(ProductName))
+            if (!string.IsNullOrWhiteSpace(productName))
             {
-                var lowerName = ProductName.ToLower();
-                query = query.Where(p => p.Name.ToLower().Contains(lowerName));
+                query = query.Where(p => p.Name.ToLower().Contains(productName.ToLower()));
             }
-            return query
-                .Where(p=> p.Price <= maxPrice)
+
+            return await query
                 .OrderBy(p => p.Price)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetNewArrivalProductsAsync(int count = 5)
+        {
+            return await _dbSet
+                .Where(p => p.IsNewArrival)
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(count)
+                .ToListAsync();
         }
     }
 }

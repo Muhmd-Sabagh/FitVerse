@@ -1,0 +1,209 @@
+﻿@model FitVerse.Web.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure correct layout is used
+}
+
+<style>
+    /* Basic styling for confirmation pages */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+    }
+
+    .delete-container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #dc3545; /* Danger color */
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .dl-horizontal dt {
+        float: left;
+        clear: left;
+        width: 180px; /* Adjusted width for more space */
+        text-align: right;
+        padding-right: 20px; /* Increased padding */
+        margin-bottom: 15px; /* Increased margin */
+        font-weight: 600;
+        color: #555;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 200px; /* Adjusted margin to align with dt */
+        margin-bottom: 15px; /* Increased margin */
+        text-align: left;
+        color: #777;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px; /* Space between buttons */
+        margin-top: 30px;
+    }
+
+    .image-preview {
+        max-width: 200px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-top: 10px;
+        border: 1px solid #eee;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 delete-container">
+            <h1>Delete Product</h1>
+            <h3>Are you sure you want to delete this product?</h3>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Material)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Material)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DiscountPercentage)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DiscountPercentage)%
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EffectivePrice)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EffectivePrice)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsNewArrival)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsNewArrival)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </dt>
+                <dd>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" alt="Product Image" class="image-preview" />
+                    }
+                    else
+                    {
+                        <span>No Image Available</span>
+                    }
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StockQuantity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StockQuantity)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Category.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedAt)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedAt)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatedAt)
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <div class="button-group">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <a asp-action="All" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

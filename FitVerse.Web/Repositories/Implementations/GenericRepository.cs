@@ -4,69 +4,65 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly FitVerseContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly DbSet<TEntity> _dbSet;
+        protected const int DefaultPageSize = 10;
 
         public GenericRepository(FitVerseContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
+            _dbSet = _context.Set<TEntity>();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(int pageNumber = 1, int pageSize = DefaultPageSize)
         {
-            await _dbSet.AddAsync(entity);
+            // Simple GetAll with pagination
+            return await _dbSet
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
-        public void Delete(T entity)
+        public async Task<(IEnumerable<TEntity> entities, int totalCount)> GetPaginatedAsync(int pageNumber, int pageSize)
         {
-            _dbSet.Remove(entity);
+            var totalCount = await _dbSet.CountAsync();
+            var entities = await _dbSet
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            return (entities, totalCount);
         }
 
-        //public async Task<IEnumerable<T>> GetAllAsync(int pageNumber = 1)
-        //{
-            
-        //}
-        //public void Edit(TEntity entity)
-        //{
-        //    Db.Set<TEntity>().Update(entity);
-        //}
-
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<TEntity?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public void Update(T entity)
+        public async Task AddAsync(TEntity obj)
         {
-            _dbSet.Update(entity);
+            await _dbSet.AddAsync(obj);
         }
 
-        public List<T> GetAll(int pageNumber = 1)
+        public void Update(TEntity obj)
         {
-            throw new NotImplementedException();
+            _dbSet.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
         }
 
-        public T GetById(int id)
+        public void Delete(TEntity obj)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(obj);
         }
 
-        public void Add(T obj)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Edit(T obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+            var entity = await GetByIdAsync(id);
+            if (entity != null)
+            {
+                Delete(entity);
+            }
         }
     }
 }

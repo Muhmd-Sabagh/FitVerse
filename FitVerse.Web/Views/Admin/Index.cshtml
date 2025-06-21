@@ -1,16 +1,93 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Admin Dashboard";
-    Layout = "~/Views/Shared/MainLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure correct layout is used, assuming MainLayout is now _Layout.cshtml
 }
 
-<h1>Admin Dashboard</h1>
+<style>
+    Q
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f0f2f5; /* Light gray background */
+        color: #333;
+    }
 
-<p>Welcome to the Admin Dashboard. From here you can manage products, categories, and banners.</p>
+    .admin-dashboard-container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        margin-top: 50px;
+        text-align: center;
+    }
 
-<div class="list-group">
-    <a asp-controller="AdminProducts" asp-action="Index" class="list-group-item list-group-item-action">Manage Products</a>
-    <a asp-controller="AdminCategories" asp-action="Index" class="list-group-item list-group-item-action">Manage Categories</a>
-    <a asp-controller="AdminBanners" asp-action="Index" class="list-group-item list-group-item-action">Manage Banners</a>
-    <!-- Add other admin links here -->
+    h1 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    p {
+        color: #555;
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .list-group {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .list-group-item {
+        background-color: #e9ecef;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 18px 25px;
+        font-size: 1.1em;
+        font-weight: 500;
+        color: #34495e;
+        transition: all 0.3s ease;
+        text-decoration: none; /* Ensure links are not underlined by default */
+        display: block; /* Make the whole item clickable */
+        text-align: left;
+    }
+
+        .list-group-item:hover {
+            background-color: #cfe2ff; /* Light blue from primary color palette */
+            color: #0056b3; /* Darker blue */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(58, 134, 255, 0.15);
+        }
+
+        .list-group-item i {
+            margin-right: 15px;
+            color: #3a86ff; /* Primary color */
+        }
+</style>
+
+<div class="container py-5">
+    <div class="admin-dashboard-container">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the Admin Dashboard. From here you can manage products, categories, and banners, and other administrative tasks.</p>
+
+        <div class="list-group">
+            <a asp-controller="AdminProducts" asp-action="Index" class="list-group-item list-group-item-action">
+                <i class="fas fa-box"></i> Manage Products
+            </a>
+            <a asp-controller="AdminCategories" asp-action="Index" class="list-group-item list-group-item-action">
+                <i class="fas fa-list-alt"></i> Manage Categories
+            </a>
+            <a asp-controller="AdminBanners" asp-action="Index" class="list-group-item list-group-item-action">
+                <i class="fas fa-image"></i> Manage Banners
+            </a>
+            <a asp-controller="Checkout" asp-action="AllOrders" class="list-group-item list-group-item-action">
+                <i class="fas fa-shopping-bag"></i> View All Orders
+            </a>
+            <a asp-controller="Role" asp-action="Create" class="list-group-item list-group-item-action">
+                <i class="fas fa-user-tag"></i> Create New Role
+            </a>
+            <!-- Add other admin links here -->
+        </div>
+    </div>
 </div>

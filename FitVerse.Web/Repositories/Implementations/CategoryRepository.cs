@@ -1,63 +1,54 @@
-using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.Models;
+using FitVerse.Web.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitVerse.Web.Repositories.Implementations
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        private readonly FitVerseContext _context;
-
-        public CategoryRepository(FitVerseContext context)
+        public CategoryRepository(FitVerseContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<IEnumerable<Category>> GetParentCategoriesAsync()
         {
-            return await _context.Categories.Include(c => c.ParentCategory).FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
-        {
-            // Include ParentCategory to avoid lazy loading issues if used
-            return await _context.Categories.Include(c => c.ParentCategory).OrderBy(c => c.Name).ToListAsync();
-        }
-
-        public async Task AddCategoryAsync(Category category)
-        {
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateCategoryAsync(Category category)
-        {
-            _context.Categories.Update(category);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteCategoryAsync(int id)
-        {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public List<Category> GetParentCategories()
-        {
-            return _context.Categories.Where(c => c.ParentCategory == null)
+            return await _dbSet
+                .Where(c => c.ParentCategoryId == null)
                 .Include(c => c.SubCategories)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Category> GetChildCategories(int parentCategoryId)
+        public async Task<Category?> GetCategoryWithSubcategoriesAsync(int categoryId)
         {
-            return _context.Categories.Where(c => c.ParentCategoryId == parentCategoryId)
+            return await _dbSet
+                .Where(c => c.Id == categoryId)
+                .Include(c => c.SubCategories)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<string?> GetParentCategoryNameByChildProductIdAsync(int productId)
+        {
+            // Find the product and then its category and parent category
+            var product = await _context.Products
+                .Include(p => p.Category)
+                    .ThenInclude(c => c.ParentCategory)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product?.Category?.ParentCategory != null)
+            {
+                return product.Category.ParentCategory.Name;
+            }
+            return null;
+        }
+
+        public new async Task<IEnumerable<Category>> GetAllAsync(int pageNumber = 1, int pageSize = DefaultPageSize)
+        {
+            return await _dbSet
                 .Include(c => c.ParentCategory)
-                .ToList();
+                .OrderBy(c => c.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
     }
 }

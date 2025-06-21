@@ -1,15 +1,15 @@
 ﻿using FitVerse.Web.Models;
 
-namespace FitVerse.Web.Interfaces
+namespace FitVerse.Web.Repositories.Interfaces
 {
-    public interface ICartItemRepository
+    public interface ICartItemRepository : IGenericRepository<CartItem>
     {
-        Task<CartItem> GetCartItemByIdAsync(int id);
-        Task<IEnumerable<CartItem>> GetCartItemsByUserIdAsync(string userId);
-        Task<CartItem> GetCartItemByProductIdAndUserIdAsync(int productId, string userId); // For updating quantity
-        Task AddCartItemAsync(CartItem cartItem);
-        Task UpdateCartItemAsync(CartItem cartItem);
-        Task DeleteCartItemAsync(int id);
-        Task DeleteCartItemsByUserIdAsync(string userId);
+        Task<List<CartItem>> GetUserCartItemsAsync(string userId);
+        Task<CartItem?> GetCartItemByProdIdAsync(string userId, int productId);
+        Task DeleteByProdIdAsync(string userId, int productId);
+        Task RemoveAllAsync(string userId);
+        Task<bool> AddToCartAsync(string userId, int productId, int quantity = 1);
+        Task DecrementFromCartAsync(string userId, int productId);
+        Task<decimal> GetCartCostAsync(string userId);
     }
 }
