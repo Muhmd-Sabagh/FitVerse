@@ -1,4 +1,4 @@
-﻿using FitVerse.Web.Interfaces;
+﻿using FitVerse.Web.Repositories.Interfaces;
 using FitVerse.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -10,28 +10,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitVerse.Web.Controllers
 {
-    [Authorize(Roles ="admin")]
+    //[Authorize(Roles ="Admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public UnitOfWork Unit { get; }
+        public IUnitOfWork Unit { get; }
         public IMapper Mapper { get; }
 
-        public HomeController(ILogger<HomeController> logger,UnitOfWork unit ,IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unit ,IMapper mapper)
         {
             _logger = logger;
             Unit = unit;
             Mapper = mapper;
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             var vm = new HomeViewModel();
            var products = Unit.ProductRepository.GetAll();
             vm.Products =Mapper.Map<List<ProductViewModel>>(products);
-            vm.Categories = Mapper.Map<List<CategoryViewModel>>(Unit.CategoryRepo.getall());
-            vm.Banners = Mapper.Map<List< BannarHomeViewModel >>(Unit.Banner.getall());
+            vm.Categories = Mapper.Map<List<CategoryViewModel>>(await Unit.CategoryRepository.GetAllCategoriesAsync());
+            vm.Banners = Mapper.Map<List< BannarHomeViewModel >>(await Unit.Banner.GetAllBannersAsync());
 
             //{
             //    //cat = Unit.

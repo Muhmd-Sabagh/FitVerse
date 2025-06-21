@@ -61,18 +61,19 @@ builder.Services.AddSession(options =>
 
 //// Register Repositories with Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Register Generic Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
-builder.Services.AddScoped<IProduct, DetailsRepository>();
-builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
+//builder.Services.AddScoped<IProduct, DetailsRepository>();
+//builder.Services.AddScoped<CartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<OrderRepository, OrderRepository>();
 builder.Services.AddScoped<OrderItemRepository, OrderItemRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
-builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
+//builder.Services.AddScoped<DetailsRepository, DetailsRepository>();
 //builder.Services.AddScoped<IBannerRepository, BannerRepository>(); // Register Banner Repository
 
 

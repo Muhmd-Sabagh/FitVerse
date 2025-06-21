@@ -10,9 +10,9 @@ namespace FitVerse.Web.Controllers
 {
     public class CartItemController : Controller
     {
-        UnitOfWork _unit;
+        IUnitOfWork _unit;
         IMapper _map;
-        public CartItemController(UnitOfWork unit, IMapper map)
+        public CartItemController(IUnitOfWork unit, IMapper map)
         {
             _map = map;
             _unit = unit;

@@ -91,7 +91,31 @@ namespace FitVerse.Web.Repositories.Implementations
                 .Take(pageSize)
                 .ToList();
         }
+        public List<Product> GetByParentCategoryId(int parentId)
+        {
+            var query = db.Products
+                .Include(p => p.Category)
+                  .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.Category.ParentCategory != null && p.Category.ParentCategory.Id == parentId);
 
+            return query
+                .OrderBy(p => p.Id)
+                .ToList();
+        }
+
+        public List<Product> GetNewArrivalProducts(int pageNumber = 1)
+        {
+            var query = db.Products
+                .Include(p => p.Category)
+                  .ThenInclude(c => c.ParentCategory)
+                .Where(p => p.IsNewArrival == true);
+
+            return query
+                .OrderBy(p => p.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
         public List<Product> SearchByName(int pageNumber = 1, string ProductName = "",string categoryName = "")
         {
             var query = db.Products

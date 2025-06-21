@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.ViewModels.Cart;
+using FitVerse.Web.ViewModels.Category;
 using FitVerse.Web.ViewModels.Checkout;
+using FitVerse.Web.ViewModels.Home;
 using FitVerse.Web.ViewModels.Product;
 
 
@@ -42,11 +44,17 @@ namespace FitVerse.Web.MapperConfig
             //.ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems)); ;
 
             CreateMap<Product, ProductCardViewModel>().ReverseMap();
+            
+            CreateMap<Product, ProductViewModel>().ReverseMap();
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Banner, BannarHomeViewModel>().ReverseMap();
+
             CreateMap<Product, ProductDetailsViewModel>().AfterMap((src, dest) =>
             {
                 dest.ParentCategoryName = src.Category.ParentCategory.Name;
                 dest.CategoryName = src.Category.Name;
             });
+
             CreateMap<ProductFormAddData, Product>().ReverseMap();
             CreateMap<ProductFormEditData, Product>().ReverseMap();
         }

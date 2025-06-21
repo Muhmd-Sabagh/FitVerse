@@ -8,5 +8,7 @@ namespace FitVerse.Web.Repositories.Interfaces
         List<Product> GetByParentCategory(string parentName, int pageNumber = 1, string childCategoryName = "");
         List<Product> SearchByName(int pageNumber = 1, string ProductName = "", string categoryName="");
         List<Product> Filter(int pageNumber = 1, decimal price = 0, string parentName = "", string categoryName = "", string ProductName = "");
+        List<Product> GetByParentCategoryId(int parentId);
+        List<Product> GetNewArrivalProducts(int pageNumber = 1);
     }
 }

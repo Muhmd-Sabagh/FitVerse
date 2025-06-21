@@ -1,4 +1,6 @@
-﻿using FitVerse.Web.Repositories.Interfaces;
+﻿using FitVerse.Web.Interfaces;
+using FitVerse.Web.Repositories.Implementations;
+using FitVerse.Web.Repositories.Interfaces;
 
 namespace FitVerse.Web.UnitOfWorks
 {
@@ -6,6 +8,8 @@ namespace FitVerse.Web.UnitOfWorks
     {
         IProductRepository ProductRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+        IBannerRepository Banner { get; }
+        CartItemRepository CartItemRepository { get; }
         void Save();
     }
 }
