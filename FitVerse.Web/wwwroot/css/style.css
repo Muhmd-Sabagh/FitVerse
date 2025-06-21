@@ -1117,6 +1117,8 @@ a {
 .instagram .insta-item {
   position: relative;
   margin-bottom: 20px;
+  width:200px;
+  height:200px;
 }
 
 .instagram .insta-item a:after {
@@ -1130,7 +1132,9 @@ a {
   opacity: 0;
   transition: 0.6s ease-out;
 }
-
+.insta-image{
+   
+}
 /* Link Effect
  - Place anywhere you want your link to animate
  - Add data-after="Any text" to the link within the class
