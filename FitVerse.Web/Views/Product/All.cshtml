@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<FitVerse.Web.ViewModels.Product.ProductCardViewModel>
 @{
     ViewData["Title"] = "All Products";
+    int page = ViewBag.page ?? 1;
+    bool hasItems = Model.Count() > 0;
 }
 
 @section Styles {
@@ -46,6 +48,9 @@
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
                                 View Details
                             </a>
+                            <a asp-action="AddToCartAction" asp-controller="CartItem" asp-route-PId="@item.Id" class="btn btn-outline-secondary">
+                                Add To Cart
+                            </a>
                             @if (User?.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">
@@ -60,6 +65,26 @@
                 </div>
             }
         </div>
+
+        <div class="container m-5">
+            <a asp-action="ParentCategory"
+               asp-route-parentCategory="@(Model.FirstOrDefault()?.parentCategory ?? "")"
+               asp-route-category="@(Model.FirstOrDefault()?.category ?? "")"
+               asp-route-page="@(page - 1)"
+               class="btn btn-dark @(page <= 1 ? "disabled" : "")">
+                Prev Page
+            </a>
+
+            @* Next *@
+            <a asp-action="ParentCategory"
+               asp-route-parentCategory="@(Model.FirstOrDefault()?.parentCategory ?? "")"
+               asp-route-category="@(Model.FirstOrDefault()?.category ?? "")"
+               asp-route-page="@(page + 1)"
+               class="btn btn-dark @(hasItems && Model.Count() > 20 ? "" : "disabled")">
+                Next Page
+            </a>
+        </div>
+
     }
     else
     {

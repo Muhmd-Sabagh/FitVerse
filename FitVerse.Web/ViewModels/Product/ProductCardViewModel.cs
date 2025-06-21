@@ -15,5 +15,7 @@ namespace FitVerse.Web.ViewModels.Product
 
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public decimal Price { get; set; }
+        public string parentCategory { get; set; }
+        public string category { get; set; }
     }
 }

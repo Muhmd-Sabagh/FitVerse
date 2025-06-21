@@ -37,14 +37,18 @@ namespace FitVerse.Web.MapperConfig
             .ForMember(dest => dest.Id, opt => opt.Ignore())            ;
             CreateMap<Order_ViewModel, Order>()
                 .ReverseMap();
-        
+
             ////CreateMap<OrderItemRepository,OrderItem>().ReverseMap();
             //CreateMap<OrderViewModel, Order>().ReverseMap()
             //    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)) // Ensure Id is mapped if it exists on Order entity
             //.ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems)); ;
 
-            CreateMap<Product, ProductCardViewModel>().ReverseMap();
-            
+            CreateMap<Product, ProductCardViewModel>().AfterMap((src, dest) =>
+            {
+                dest.parentCategory = src.Category.ParentCategory.Name;
+                dest.category = src.Category.Name;
+            });
+
             CreateMap<Product, ProductViewModel>().ReverseMap();
             CreateMap<Category, CategoryViewModel>().ReverseMap();
             CreateMap<Banner, BannarHomeViewModel>().ReverseMap();
