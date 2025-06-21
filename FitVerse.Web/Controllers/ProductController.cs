@@ -49,6 +49,13 @@ namespace FitVerse.Web.Controllers
 
         }
 
+        public IActionResult GetNew(int page = 1)
+        {
+            List<Product> products = unitOfWork.ProductRepository.GetNewArrivalProducts(page);
+            List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            return View("All", productsVM);
+        }
+
         public IActionResult Search(string name, string category = "", int page = 1)
         {
             List<Product> products = unitOfWork.ProductRepository.SearchByName(page, name, category);

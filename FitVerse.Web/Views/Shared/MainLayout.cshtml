@@ -164,14 +164,10 @@
 
     <div class="search-popup">
         <div class="search-popup-container">
-            @if (User.IsInRole("admin"))
-            {
-                <p class="text-success">You are an Admin</p>
-            }
 
-            <form role="search" method="get" class="form-group" action="">
+            <form asp-action="Search" asp-controller="Product" role="search" method="get" class="form-group">
                 <input type="search" id="search-form" class="form-control border-0 border-bottom"
-                       placeholder="Type and press enter" value="" name="s" />
+                       placeholder="Type and press enter" value="" name="name" />
                 <button type="submit" class="search-submit border-0 position-absolute bg-white"
                         style="top: 15px;right: 15px;">
                     <svg class="search" width="24" height="24">
@@ -182,13 +178,13 @@
 
             <h5 class="cat-list-title">Browse Categories</h5>
             <ul class="cat-list">
-                <li class="cat-list-item"><a href="#" title="Jackets">Jackets</a></li>
-                <li class="cat-list-item"><a href="#" title="T-shirts">T-shirts</a></li>
-                <li class="cat-list-item"><a href="#" title="Handbags">Handbags</a></li>
-                <li class="cat-list-item"><a href="#" title="Accessories">Accessories</a></li>
-                <li class="cat-list-item"><a href="#" title="Cosmetics">Cosmetics</a></li>
-                <li class="cat-list-item"><a href="#" title="Dresses">Dresses</a></li>
-                <li class="cat-list-item"><a href="#" title="Jumpsuits">Jumpsuits</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="Jackets" title="Jackets">Jackets</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="T-shirts" title="T-shirts">T-shirts</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="Handbags" title="Handbags">Handbags</a></li>
+                <li class="cat-list-item"><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Accessories" title="Accessories">Accessories</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="Cosmetics" title="Cosmetics">Cosmetics</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="Dresses" title="Dresses">Dresses</a></li>
+                <li class="cat-list-item"><a asp-action="Category" asp-controller="Product" asp-route-category="Jumpsuits" title="Jumpsuits">Jumpsuits</a></li>
             </ul>
         </div>
     </div>
@@ -406,6 +402,7 @@
                                class="form-control form-control-lg">
                         <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
                     </form>
+                </div>
                 </div>
             </div>
         </div>
