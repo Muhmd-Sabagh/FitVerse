@@ -48,7 +48,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                             
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.AccessDeniedPath = "/Account/AccessDenied"; // <-- your view
+    options.AccessDeniedPath = "/Account/Login"; // <-- your view
 });
 
 // Add Session services

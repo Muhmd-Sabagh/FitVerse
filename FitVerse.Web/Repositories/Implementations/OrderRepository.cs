@@ -23,9 +23,13 @@ namespace FitVerse.Web.Repositories.Implementations
             }
             return  productNames;
         }
-        
 
+        public List<Order> GetUserOrders(string userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId).ToList();
         }
+
+    }
 
     }
 

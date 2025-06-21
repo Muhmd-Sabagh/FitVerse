@@ -20,9 +20,28 @@
                     <h5 class="element-title text-uppercase fs-5 mt-3">
                         <a href="index.html">@product.Name</a>
                     </h5>
-                    <a href="#" class="text-decoration-none" data-after="Add to cart">
-                        <span>$@product.Price</span>
-                    </a>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <!-- Authenticated: go straight to AddToCart -->
+                        <a asp-controller="CartItem"
+                           asp-action="AddToCartAction"
+                           asp-route-PId="@product.Id"
+                           class="text-decoration-none"
+                           data-after="Add to cart">
+                            <span>$@product.Price</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <!-- Not authenticated: send to Login, with ReturnUrl pointing back to this AddToCart call -->
+                        <a asp-controller="Account"
+                           asp-action="Login"
+                           asp-route-returnUrl="@Url.Action("AddToCartAction", "CartItem", new { PId = product.Id })"
+                           class="text-decoration-none"
+                           data-after="Add to cart">
+                            <span>$@product.Price</span>
+                        </a>
+                    }
                 </div>
             </div>
         </div>

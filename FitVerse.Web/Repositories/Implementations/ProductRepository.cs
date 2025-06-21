@@ -111,7 +111,7 @@ namespace FitVerse.Web.Repositories.Implementations
                 .Where(p => p.IsNewArrival == true);
 
             return query
-                .OrderBy(p => p.Id)
+                .OrderByDescending(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();

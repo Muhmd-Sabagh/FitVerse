@@ -10,6 +10,7 @@ namespace FitVerse.Web.UnitOfWorks
         ICategoryRepository CategoryRepository { get; }
         IBannerRepository Banner { get; }
         CartItemRepository CartItemRepository { get; }
+        OrderRepository Order { get; }
         void Save();
     }
 }

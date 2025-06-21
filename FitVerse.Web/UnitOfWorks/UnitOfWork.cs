@@ -1,3 +1,4 @@
+using FitVerse.Web.Interfaces;
 using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
@@ -12,6 +13,7 @@ namespace FitVerse.Web.UnitOfWorks
         CategoryRepository categoryRepository;
         OrderItemRepository orderItemRepository;
         OrderRepository order;
+        BannerRepository banner;
 
         public UnitOfWork(FitVerseContext context)
         {
@@ -61,6 +63,16 @@ namespace FitVerse.Web.UnitOfWorks
                 if (categoryRepository == null)
                     categoryRepository = new CategoryRepository(_context);
                 return categoryRepository;
+            }
+        }
+
+        public IBannerRepository Banner
+        {
+            get
+            {
+                if (banner == null)
+                    banner = new BannerRepository(_context);
+                return banner;
             }
         }
 

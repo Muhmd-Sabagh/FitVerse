@@ -17,7 +17,7 @@ namespace FitVerse.Web.ViewModels.Checkout
         //public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime OrderDate { get; set; } = new DateTime(2025, 01, 01);

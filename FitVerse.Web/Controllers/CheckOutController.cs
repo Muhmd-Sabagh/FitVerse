@@ -3,39 +3,45 @@ using FitVerse.Web.Models;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
 using FitVerse.Web.ViewModels.Checkout;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FitVerse.Web.Controllers
 {
     public class CheckoutController : Controller
     {
-        string userId = "1";
-        UnitOfWork _unit;
+        IUnitOfWork _unit;
         IMapper _map;
         FitVerseContext _context;
-        public CheckoutController(UnitOfWork unit, IMapper map, FitVerseContext context)
+        public CheckoutController(IUnitOfWork unit, IMapper map, FitVerseContext context)
         {
             _context = context;
             _map = map;
             _unit = unit;
         }
+
+        [Authorize]
         public IActionResult Index()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Checkout_ViewModel checkout_ViewModel = new Checkout_ViewModel();
-            List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
+            List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems(userId);
             List<CartItem_ViewModel> cartItemVMs = _map.Map<List<CartItem_ViewModel>>(cartItems);
 
             //checkout_ViewModel.CartItemsViewModel.AddRange(cartItems);
             return View(checkout_ViewModel);
         }
         [HttpPost]
-        public IActionResult SaveOrder([FromBody] Checkout_ViewModel checkoutVM)
+        [Authorize]
+        public async Task<IActionResult> SaveOrderAsync([FromBody] Checkout_ViewModel checkoutVM)
         {
-            List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<CartItem> cartItems = _unit.CartItemRepository.GetUserCartItems(userId);
             List<OrderItem> orderItems = _map.Map<List<OrderItem>>(cartItems);
 
-            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost();
+            var totalPricefromCartItems = _unit.CartItemRepository.getCartCost(userId);
 
 
             Order order = new Order();
@@ -47,7 +53,8 @@ namespace FitVerse.Web.Controllers
             order.OrderItems = orderItems;
             order.UserId = userId;
             order.TotalAmount = totalPricefromCartItems;
-            _unit.Order.Add(order);
+            await _unit.Order.AddAsync(order);
+            _unit.CartItemRepository.RemoveAll(userId);
             _unit.Save();
             Order_ViewModel orderVM = _map.Map<Order_ViewModel>(order);
             return Ok(new
@@ -56,8 +63,11 @@ namespace FitVerse.Web.Controllers
                 redirectUrl = Url.Action("OrderDetails", new { id = order.Id })
             });
         }
+
+        [Authorize]
         public async Task<IActionResult> OrderDetails(int id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Order order = await _context.Orders.Where(o => o.Id == id)
                 .Include(o => o.OrderItems)
                 .ThenInclude(item => item.Product)
@@ -70,9 +80,11 @@ namespace FitVerse.Web.Controllers
                 return View("MyOrderDetails", order);
             else return RedirectToAction("Index");
         }
+        [Authorize]
         public IActionResult AllOrders()
         {
-            List<Order> orders = _unit.Order.GetAll();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Order> orders = _unit.Order.GetUserOrders(userId);
             if (orders == null) RedirectToAction("Index");
             return View("AllOrdersView", orders);
         }

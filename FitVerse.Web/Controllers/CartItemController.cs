@@ -3,7 +3,9 @@ using AutoMapper;
 using FitVerse.Web.Models;
 using FitVerse.Web.UnitOfWorks;
 using FitVerse.Web.ViewModels.Cart;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 
 namespace FitVerse.Web.Controllers
@@ -17,11 +19,13 @@ namespace FitVerse.Web.Controllers
             _map = map;
             _unit = unit;
         }
+
+        [Authorize]
          public IActionResult Index()
          {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewBag.TotalCost = 0;
-            List<Product> userProductsDB = _unit.ProductRepository.GetAll();
-            List<CartItem> userCartItemsDB = _unit.CartItemRepository.GetUserCartItems();
+            List<CartItem> userCartItemsDB = _unit.CartItemRepository.GetUserCartItems(userId);
             List<CartItem_ViewModel> cartVM= _map.Map<List<CartItem_ViewModel>>(userCartItemsDB); // Mapping
             for (int i = 0; i < cartVM.Count; i++)
             {
@@ -34,9 +38,12 @@ namespace FitVerse.Web.Controllers
             }
             return View(cartVM);
          }
+
+        [Authorize]
         public IActionResult Increment(int PId)
         {
-            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId, userId);
             if (cartProduct == null)
             {
                 TempData["ErrorMessage"] = "Product not found in cart";
@@ -44,28 +51,49 @@ namespace FitVerse.Web.Controllers
             }
             //cartProduct.Quantity++;
             //_unit.CartItemRepository.Update(cartProduct);
-            _unit.CartItemRepository.AddToCart(PId);
+            _unit.CartItemRepository.AddToCart(PId, userId);
             _unit.Save();
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+        public IActionResult AddToCartAction(int PId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _unit.CartItemRepository.AddToCart(PId, userId);
+            _unit.Save();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
         public IActionResult Decrement(int PId)
         {
-            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            CartItem cartProduct = _unit.CartItemRepository.GetCartItemByProdId(PId, userId);
             //cartProduct.Quantity--;
             //_unit.CartItemRepository.Update(cartProduct);
-            _unit.CartItemRepository.DecrementFromCart(PId);
+            _unit.CartItemRepository.DecrementFromCart(PId, userId);
             _unit.Save();
             return RedirectToAction("Index");
         }
+
+        [Authorize]
         public IActionResult Delete(int PId)
         {
-            _unit.CartItemRepository.DeleteByProdId(PId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _unit.CartItemRepository.DeleteByProdId(PId, userId);
             _unit.Save();
             return RedirectToAction("Index");
         }
+
+        [Authorize]
         public IActionResult DeleteAll()
         {
-            _unit.CartItemRepository.RemoveAll();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _unit.CartItemRepository.RemoveAll(userId);
             _unit.Save();
             return RedirectToAction("Index");
         }

@@ -46,7 +46,7 @@ namespace FitVerse.Web.Repositories.Implementations
 
         public List<T> GetAll(int pageNumber = 1)
         {
-            throw new NotImplementedException();
+            return _dbSet.ToList();
         }
 
         public T GetById(int id)
