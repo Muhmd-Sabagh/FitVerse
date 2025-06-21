@@ -21,6 +21,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.GetAll(page);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
 
         }
@@ -37,6 +38,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.GetByCategory(page, category);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
 
         }
@@ -45,6 +47,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.GetByParentCategory(parentCategory, page, category);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
 
         }
@@ -53,6 +56,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.GetNewArrivalProducts(page);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
         }
 
@@ -60,6 +64,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.SearchByName(page, name, category);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
 
         }
@@ -67,6 +72,7 @@ namespace FitVerse.Web.Controllers
         {
             List<Product> products = unitOfWork.ProductRepository.Filter(page, price, parentCategory, category, name);
             List<ProductCardViewModel> productsVM = map.Map<List<ProductCardViewModel>>(products);
+            ViewBag.page = page;
             return View("All", productsVM);
 
         }
