@@ -241,148 +241,138 @@
         <div class="container-fluid">
             <div class="row justify-content-between align-items-center w-100">
 
+                <!-- Logo Section -->
                 <div class="col-auto">
                     <a class="navbar-brand text-white" href="index.html">
                         <img src="/images/logoo1.svg" alt="Alternate Text" />
                     </a>
                 </div>
 
-                <div class="col-auto">
+                <!-- Mobile Menu Toggle -->
+                <div class="col-auto d-lg-none">
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                         aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                    aria-label="Close"></button>
-                        </div>
-
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
-                                </li>
-
-                                <!-- Fixed Men dropdown -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownMen" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">Men</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMen">
-                                        <li><a href="index.html" class="dropdown-item">T-Shirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Jackets</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Sweatshirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Shirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Pullovers</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Pants</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Shorts</a></li>
-                                    </ul>
-                                </li>
-
-                                <!-- Fixed Women dropdown -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownWomen" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">Women</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownWomen">
-                                        <li><a href="index.html" class="dropdown-item">T-Shirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Jackets</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Sweatshirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Shirts & Blouses</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Cardigans</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Sets & Dresses</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Pants</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Skirts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Home-Wear</a></li>
-                                    </ul>
-                                </li>
-
-                                <!-- Fixed Kids dropdown -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownKids" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">Kids</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownKids">
-                                        <li><a href="index.html" class="dropdown-item">Boys</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Girls</a></li>
-                                    </ul>
-                                </li>
-
-                                <!-- Fixed Accessories dropdown -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownAccessories" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">Accessories</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownAccessories">
-                                        <li><a href="index.html" class="dropdown-item">Belts</a></li>
-                                        <li><a href="index.html" class="dropdown-item">Bags</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-
-                                <!-- Fixed Account dropdown -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownAccount" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">Account</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
-                                        @if (User.Identity != null && User.Identity.IsAuthenticated)
-                                        {
-                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign Out</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
-                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Sign Up</a></li>
-                                        }
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
 
-                @* @if (User.Identity != null && User.Identity.IsAuthenticated) *@
-                @* { *@
-                @*     var currentUser = await UserManager.GetUserAsync(User); *@
-                @*     var displayName = currentUser?.FullName ?? User.Identity.Name ?? "User"; *@
-                @*     <div class="col-auto d-none d-md-block"> *@
-                @*         <span class="text-dark fw-normal fs-6">Welcome, @displayName</span> *@
-                @*     </div> *@
-                @* } *@
-
-                <div class="col-3 col-lg-auto">
-                    <ul class="list-unstyled d-flex m-0">
-                        <li class="d-none d-lg-block">
-                            <a asp-action="" asp-controller="cartitem" class="text-uppercase mx-3">
-                                <i class="bi bi-cart fs-1"></i>
-                            </a>
+                <!-- Main Navigation Menu (Desktop) -->
+                <div class="col-auto d-none d-lg-block">
+                    <ul class="navbar-nav d-flex flex-row gap-4">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="" asp-controller="Home">Home</a>
                         </li>
-                        <li class="d-lg-none">
-                            <a href="#" class="mx-2">
+
+                        <!-- Men dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" id="dropdownMen" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Men</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMen">
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="T-Shirts" class="dropdown-item">T-Shirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Jackets" class="dropdown-item">Jackets</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Sweatshirts" class="dropdown-item">Sweatshirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Shirts" class="dropdown-item">Shirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Pullovers" class="dropdown-item">Pullovers</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Pants" class="dropdown-item">Pants</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Men" asp-route-category="Shorts" class="dropdown-item">Shorts</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Women dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownWomen" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Women</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownWomen">
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="T-Shirts" class="dropdown-item">T-Shirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Jackets" class="dropdown-item">Jackets</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Sweatshirts" class="dropdown-item">Sweatshirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Shirts & Blouses" class="dropdown-item">Shirts & Blouses</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Cardigans" class="dropdown-item">Cardigans</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Sets & Dresses" class="dropdown-item">Sets & Dresses</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Pants" class="dropdown-item">Pants</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Skirts" class="dropdown-item">Skirts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Women" asp-route-category="Home-Wear" class="dropdown-item">Home-Wear</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Kids dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownKids" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Kids</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownKids">
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Kids" asp-route-category="Boys" class="dropdown-item">Boys</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Kids" asp-route-category="Girls" class="dropdown-item">Girls</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Accessories dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownAccessories" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Accessories</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownAccessories">
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Accessories" asp-route-category="Belts" class="dropdown-item">Belts</a></li>
+                                <li><a asp-action="ParentCategory" asp-controller="Product" asp-route-parentCategory="Accessories" asp-route-category="Bags" class="dropdown-item">Bags</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Account dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownAccount" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
+                                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign Out</a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Sign Up</a></li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Side: Welcome Message + Icons -->
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Welcome Message -->
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            var currentUser = await UserManager.GetUserAsync(User);
+                            var displayName = currentUser?.FullName ?? User.Identity.Name ?? "User";
+                            <span class="text-dark fw-normal fs-6 text-nowrap">Welcome, @displayName</span>
+                        }
+
+                        <!-- Action Icons -->
+                        <div class="d-flex align-items-center">
+                            <!-- Desktop Cart -->
+                            <a asp-action="" asp-controller="cartitem" class="text-uppercase mx-2 d-none d-lg-block">
+                                <i class="bi bi-cart fs-4"></i>
+                            </a>
+
+                            <!-- Mobile Icons -->
+                            <a href="#" class="mx-2 d-lg-none">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#heart"></use>
                                 </svg>
                             </a>
-                        </li>
-                        <li class="d-lg-none">
-                            <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+                            <a href="#" class="mx-2 d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                                aria-controls="offcanvasCart">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#cart"></use>
                                 </svg>
                             </a>
-                        </li>
-                        <li class="search-box mx-2">
-                            <a href="#search" class="search-button">
+
+                            <!-- Search Icon -->
+                            <a href="#search" class="search-button mx-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#search"></use>
                                 </svg>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -532,7 +522,7 @@
                         <h5 class="widget-title text-uppercase mb-4">Quick Links</h5>
                         <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                             <li class="menu-item">
-                                <a href="index.html" class="item-anchor">Home</a>
+                                <a href="home/index" class="item-anchor">Home</a>
                             </li>
                             <li class="menu-item">
                                 <a href="index.html" class="item-anchor">About</a>
