@@ -7,7 +7,7 @@ namespace FitVerse.Web.Repositories.Implementations
     public class ProductRepository : IProductRepository
     {
         FitVerseContext db;
-        int pageSize = 20;
+        int pageSize = 21;
         public ProductRepository(FitVerseContext _db)
         {
             db = _db;
