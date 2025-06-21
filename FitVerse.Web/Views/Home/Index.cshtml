@@ -19,8 +19,8 @@
             </div>
 
         </div>
-        <div class="row">
-            <div class="swiper main-swiper py-4" data-aos="fade-up" data-aos-delay="600">
+        <div class="row position-relative">
+            <div class="swiper main-swiper py-4 px-3" data-aos="fade-up" data-aos-delay="600">
                 <div class="swiper-wrapper d-flex border-animation-left">
                     @foreach (var slider in Model.Banners)
                     {
@@ -42,11 +42,11 @@
                                 </div>
                             </div>
                         </div>
-
                     }
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
+
             <div class="icon-arrow icon-arrow-left">
                 <svg width="50" height="50" viewBox="0 0 24 24">
                     <use xlink:href="#arrow-left"></use>
@@ -69,8 +69,8 @@
                     <svg width="38" height="38" viewBox="0 0 24 24">
                         <use xlink:href="#calendar"></use>
                     </svg>
-                    <h4 class="element-title text-capitalize my-3">Book An Appointment</h4>
-                    <p>Schedule your visit online and choose the time that suits you best.</p>
+                    <h4 class="element-title text-capitalize my-3">Styling Session</h4>
+                    <p>Book a one-on-one appointment with our fashion experts to find your perfect look.</p>
                 </div>
             </div>
             <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="300">
@@ -289,6 +289,75 @@
             <svg width="50" height="50" viewBox="0 0 24 24">
                 <use xlink:href="#arrow-right"></use>
             </svg>
+        </div>
+    </div>
+</section>
+
+@* Newsletter *@
+<section class="newsletter bg-light" style="background: url(images/pattern-bg.png) no-repeat;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 py-5 my-5">
+                <div class="subscribe-header text-center pb-3">
+                    <h3 class="section-title text-uppercase">Sign Up for our newsletter</h3>
+                </div>
+                <form id="form" class="d-flex flex-wrap gap-2">
+                    <input type="text" name="email" placeholder="Your Email Addresss"
+                           class="form-control form-control-lg">
+                    <button class="btn btn-dark btn-lg text-uppercase w-100">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* Instagram *@
+<section class="instagram position-relative">
+    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
+        <a href="https://www.instagram.com/" class="btn btn-dark px-5">Follow us on Instagram</a>
+    </div>
+    <div class="row g-0">
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="insta-item">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="~/images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid">
+                </a>
+            </div>
         </div>
     </div>
 </section>

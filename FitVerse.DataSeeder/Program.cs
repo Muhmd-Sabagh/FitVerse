@@ -316,8 +316,12 @@ namespace FitVerse.DataSeeder
                 // 3. Banners
                 var bannersToSeed = new List<Banner>
                 {
-                    new Banner { Title = "Summer Sale!", Description = "Up to 50% off on all summer collections.", ImageUrl = "https://placehold.co/1920x600/e9ecef/6c757d?text=Summer+Sale+Banner", LinkUrl = "/Products?IsOnSale=true", DisplayOrder = 1, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
-                    new Banner { Title = "New Arrivals", Description = "Check out our latest fashion items.", ImageUrl = "https://placehold.co/1920x600/e9ecef/6c757d?text=New+Arrivals+Banner", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 2, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase }
+                    new Banner { Title = "Express Your Fashion", Description = "Discover the latest trends and express your unique style.", ImageUrl = "/images/banners/banner-1.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 1, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
+                    new Banner { Title = "Fresh Arrivals", Description = "Explore our new collection for the season.", ImageUrl = "/images/banners/banner-2.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 2, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
+                    new Banner { Title = "Design Spotlight", Description = "Handpicked designs for the modern wardrobe.", ImageUrl = "/images/banners/banner-3.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 3, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
+                    new Banner { Title = "Accessories Edit", Description = "Complete your look with our latest accessories.", ImageUrl = "/images/banners/banner-4.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 4, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
+                    new Banner { Title = "Seasonal Sale", Description = "Save big on selected items this season.", ImageUrl = "/images/banners/banner-5.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 5, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase },
+                    new Banner { Title = "Shop the Look", Description = "Get inspired by our curated outfits and shop the complete look.", ImageUrl = "/images/banners/banner-6.jpg", LinkUrl = "/Products?IsNewArrival=true", DisplayOrder = 6, CreatedAt = fixedUtcDateBase, UpdatedAt = fixedUtcDateBase }
                 };
                 if (!await context.Banners.AnyAsync())
                 {
@@ -326,7 +330,6 @@ namespace FitVerse.DataSeeder
                     await context.SaveChangesAsync();
                     Console.WriteLine("Banners seeded.");
                 }
-
 
                 // --- DYNAMIC PRODUCT DATA SEEDING & DISCOUNT APPLICATION ---
                 List<Product> allImportedProducts = new List<Product>();
