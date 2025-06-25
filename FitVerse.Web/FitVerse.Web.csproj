@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -7,15 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Account\**" />
     <Compile Remove="Views\Cart\**" />
     <Compile Remove="Views\Order\**" />
     <Compile Remove="Views\ProductDetails\**" />
+    <Content Remove="ViewModels\Account\**" />
     <Content Remove="Views\Cart\**" />
     <Content Remove="Views\Order\**" />
     <Content Remove="Views\ProductDetails\**" />
+    <EmbeddedResource Remove="ViewModels\Account\**" />
     <EmbeddedResource Remove="Views\Cart\**" />
     <EmbeddedResource Remove="Views\Order\**" />
     <EmbeddedResource Remove="Views\ProductDetails\**" />
+    <None Remove="ViewModels\Account\**" />
     <None Remove="Views\Cart\**" />
     <None Remove="Views\Order\**" />
     <None Remove="Views\ProductDetails\**" />
@@ -23,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\Cart\" />
-    <Folder Include="ViewModels\Account\" />
     <Folder Include="ViewModels\Order\" />
     <Folder Include="ViewModels\Home\" />
     <Folder Include="Views\Product\" />

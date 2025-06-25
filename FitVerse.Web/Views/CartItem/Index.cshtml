@@ -10,162 +10,208 @@
 
 <!-- Floating Elements -->
 <div class="floating-elements">
-    <div class="floating-shape"></div>
-    <div class="floating-shape"></div>
-    <div class="floating-shape"></div>
+	<div class="floating-shape"></div>
+	<div class="floating-shape"></div>
+	<div class="floating-shape"></div>
 </div>
 
 <div class="cart-container">
-    <div class="cart-header">
-        <h1 class="cart-title">
-            <i class="fas fa-shopping-cart"></i>
-            Cart Items
-        </h1>
-    </div>
+	<div class="cart-header">
+		<h1 class="cart-title">
+			<i class="fas fa-shopping-cart"></i>
+			Cart Items
+		</h1>
+	</div>
 
-    @if (Model != null && Model.Any())
-    {
-        <div class="cart-items-container">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <i class="fas fa-image"></i>
-                                @Html.DisplayNameFor(model => model.ImageUrl)
-                            </th>
-                            <th>
-                                <i class="fas fa-box"></i>
-                                @Html.DisplayNameFor(model => model.Prod_Name)
-                            </th>
-                            <th>
-                                <i class="fas fa-dollar-sign"></i>
-                                @Html.DisplayNameFor(model => model.EffectivePrice)
-                            </th>
-                            <th>
-                                <i class="fas fa-sort-numeric-up"></i>
-                                @Html.DisplayNameFor(model => model.Quantity)
-                            </th>
-                            <th>
-                                <i class="fas fa-cogs"></i>
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int index = 0;}
-                        @foreach (var item in Model)
-                        {
-                            <tr style="animation-delay: @(index * 0.1)s">
-                                <td>
-                                    <img src="@item.ImageUrl" alt="@item.Prod_Name" class="product-image" />
-                                </td>
-                                <td>
-                                    <div class="product-name">
-                                        @Html.DisplayFor(modelItem => item.Prod_Name)
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="product-price">
-                                        $@Html.DisplayFor(modelItem => item.EffectivePrice)
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="product-quantity">
-                                        @Html.DisplayFor(modelItem => item.Quantity)
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <a asp-route-PId="@item.Prod_Id" asp-action="Increment" class="btn btn-primary">
-                                            <i class="fas fa-plus"></i>
-                                        </a>
-                                        <a asp-route-PId="@item.Prod_Id" asp-action="Decrement" class="btn btn-warning">
-                                            <i class="fas fa-minus"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            index++;
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+	@if (Model != null && Model.Any())
+	{
+		<div class="cart-items-container">
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+								<i class="fas fa-image"></i>
+								@Html.DisplayNameFor(model => model.ImageUrl)
+							</th>
+							<th>
+								<i class="fas fa-box"></i>
+								@Html.DisplayNameFor(model => model.Prod_Name)
+							</th>
+							<th>
+								<i class="fas fa-dollar-sign"></i>
+								@Html.DisplayNameFor(model => model.EffectivePrice)
+							</th>
+							<th>
+								<i class="fas fa-sort-numeric-up"></i>
+								@Html.DisplayNameFor(model => model.Quantity)
+							</th>
+							<th>
+								<i class="fas fa-cogs"></i>
+								Actions
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						@{
+							int index = 0;
+						}
+						@foreach (var item in Model)
+						{
+							<tr style="animation-delay: @(index * 0.1)s">
+								<td>
+									<img src="@item.ImageUrl" alt="@item.Prod_Name" class="product-image" />
+								</td>
+								<td>
+									<div class="product-name">
+										@Html.DisplayFor(modelItem => item.Prod_Name)
+									</div>
+								</td>
+								<td>
+									<div class="product-price" data-price="@item.EffectivePrice">
+										$@Html.DisplayFor(modelItem => item.EffectivePrice)
+									</div>
+								</td>
+								<td>
+									<div class="product-quantity">
+										<span id="quantity_@item.Prod_Id">@Html.DisplayFor(modelItem => item.Quantity)</span>
+									</div>
+								</td>
+								<td>
+									<div class="action-buttons">
+										<a asp-route-PId="@item.Prod_Id" asp-action="Increment"
+										   class="btn btn-primary increment-btn" data-product-id="@item.Prod_Id">
+											<i class="fas fa-plus"></i>
+										</a>
+										<a asp-route-PId="@item.Prod_Id" asp-action="Decrement" data-product-id="@item.Prod_Id" class="btn btn-warning decrement-btn">
+											<i class="fas fa-minus"></i>
+										</a>
+										<a asp-action="Delete" asp-route-PId="@item.Prod_Id" class="btn btn-danger delete-btn" data-product-id="@item.Prod_Id">
+											<i class="fas fa-trash"></i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							index++;
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-        <div class="cart-summary">
-            <div class="total-section">
-                <h2 class="total-title">
-                    <i class="fas fa-calculator"></i>
-                    Order Summary
-                </h2>
-                <div class="total-amount">$@ViewBag.TotalCost</div>
-                <a asp-controller="CheckOut" asp-action="Index" class="checkout-btn">
-                    <i class="fas fa-credit-card"></i>
-                    Check Out
-                </a>
-            </div>
-            
-            <div class="total-section">
-                <h2 class="total-title">
-                    <i class="fas fa-tools"></i>
-                    Cart Actions
-                </h2>
-                <div style="text-align: center; margin: 2rem 0;">
-                    <i class="fas fa-shopping-cart" style="font-size: 3rem; color: var(--accent-sage); margin-bottom: 1rem;"></i>
-                </div>
-                <a asp-action="DeleteAll" class="clear-cart-btn">
-                    <i class="fas fa-trash-alt"></i>
-                    Clear Cart
-                </a>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="cart-items-container">
-            <div class="empty-cart">
-                <div class="empty-cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="empty-cart-text">Your cart is empty</div>
-                <div style="margin-top: 2rem;">
-                    <a asp-controller="Home" asp-action="Index" class="checkout-btn" style="display: inline-block; width: auto; padding: 1rem 2rem;">
-                        <i class="fas fa-shopping-bag"></i>
-                        Continue Shopping
-                    </a>
-                </div>
-            </div>
-        </div>
-    }
+		<div class="cart-summary">
+			<div class="total-section">
+				<h2 class="total-title">
+					<i class="fas fa-calculator"></i>
+					Order Summary
+				</h2>
+				<div class="total-amount" id="total-amount">$@ViewBag.TotalCost</div>
+				<a asp-controller="CheckOut" asp-action="Index" class="checkout-btn">
+					<i class="fas fa-credit-card"></i>
+					Check Out
+				</a>
+			</div>
+
+			<div class="total-section">
+				<h2 class="total-title">
+					<i class="fas fa-tools"></i>
+					Cart Actions
+				</h2>
+				<div style="text-align: center; margin: 2rem 0;">
+					<i class="fas fa-shopping-cart" style="font-size: 3rem; color: var(--accent-sage); margin-bottom: 1rem;"></i>
+				</div>
+				<a asp-action="DeleteAll" class="clear-cart-btn">
+					<i class="fas fa-trash-alt"></i>
+					Clear Cart
+				</a>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="cart-items-container">
+			<div class="empty-cart">
+				<div class="empty-cart-icon">
+					<i class="fas fa-shopping-cart"></i>
+				</div>
+				<div class="empty-cart-text">Your cart is empty</div>
+				<div style="margin-top: 2rem;">
+					<a asp-controller="Home" asp-action="Index" class="checkout-btn" style="display: inline-block; width: auto; padding: 1rem 2rem;">
+						<i class="fas fa-shopping-bag"></i>
+						Continue Shopping
+					</a>
+				</div>
+			</div>
+		</div>
+	}
 </div>
 
 @section Scripts {
-    <script>
-        // Add confirmation for delete actions
-        document.addEventListener('DOMContentLoaded', function() {
-            // Confirm individual item deletion
-            const deleteButtons = document.querySelectorAll('a[asp-action="Delete"]');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    if (!confirm('Are you sure you want to remove this item from your cart?')) {
-                        e.preventDefault();
-                    }
-                });
-            });
-            
-            // Confirm clear cart
-            const clearCartButton = document.querySelector('a[asp-action="DeleteAll"]');
-            if (clearCartButton) {
-                clearCartButton.addEventListener('click', function(e) {
-                    if (!confirm('Are you sure you want to clear your entire cart?')) {
-                        e.preventDefault();
-                    }
-                });
-            }
-        });
-    </script>
+	<script>
+		$(document).ready(function() {
+			// Function to calculate and update total
+			function updateOrderSummary() {
+				let total = 0;
+				$('.product-price').each(function() {
+					const price = parseFloat($(this).data('price'));
+					const productId = $(this).closest('tr').find('.increment-btn').data('product-id');
+					const quantity = parseInt($('#quantity_' + productId).text());
+					total += price * quantity;
+				});
+				$('#total-amount').text('$' + total.toFixed(2));
+			}
+
+			// Function to update cart item quantity
+			function updateCartItemQuantity(buttonElement, actionType) {
+				const productId = $(buttonElement).data('product-id');
+				const quantitySpan = $('#quantity_' + productId);
+
+				// Basic validation
+				if (!productId) {
+					console.error('Product ID not found for ' + actionType + ' button.');
+					alert('Error: Product ID is missing.');
+					return;
+				}
+
+				$.ajax({
+					url: '/CartItem/' + actionType + '?PId=' + productId,
+					type: 'POST', 
+					success: function (response) {
+						if (response.success) {
+							quantitySpan.text(response.newQuantity);
+							updateOrderSummary(); // Update total after quantity change
+							console.log(actionType + ' successful for Product ID:', productId, 'New quantity:', response.newQuantity);
+						} else {
+							const errorMessage = response.message || 'An unknown server error occurred.';
+							alert('Error ' + actionType + 'ing quantity: ' + errorMessage);
+							console.error('Server error for ' + actionType + ' Product ID ' + productId + ':', response.message);
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('AJAX Error during ' + actionType + ' for Product ID ' + productId + ':', status, error, xhr.responseText);
+						alert('A network or server error occurred during ' + actionType + '. Please try again. Status: ' + xhr.status);
+					}
+				});
+			}
+
+			// Increment button click handler
+			$('.increment-btn').on('click', function (e) {
+				e.preventDefault();
+				updateCartItemQuantity(this, 'Increment');
+			});
+
+			// Decrement button click handler
+			$('.decrement-btn').on('click', function (e) {
+				e.preventDefault();
+				updateCartItemQuantity(this, 'Decrement');
+			});
+
+			// Clear cart button click handler
+			$('.clear-cart-btn').on('click', function(e) {
+				if (!confirm('Are you sure you want to clear your entire cart?')) {
+					e.preventDefault();
+				}
+			});
+		});
+	</script>
 }
