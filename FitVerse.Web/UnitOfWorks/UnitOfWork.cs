@@ -1,4 +1,3 @@
-using FitVerse.Web.Interfaces;
 using FitVerse.Web.Models;
 using FitVerse.Web.Repositories.Implementations;
 using FitVerse.Web.Repositories.Interfaces;
